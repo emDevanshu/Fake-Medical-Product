@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-import {Counter} from "./Counter.sol";
+import {MedicalProduct} from "./MedicalProduct.sol";
 import {Test} from "forge-std/Test.sol";
 
 // Solidity tests are compatible with foundry, so they
 // use the same syntax and offer the same functionality.
 
 contract CounterTest is Test {
-  Counter counter;
+  MedicalProduct counter;
 
   function setUp() public {
-    counter = new Counter();
+    counter = new MedicalProduct();
   }
 
   function test_InitialValue() public view {

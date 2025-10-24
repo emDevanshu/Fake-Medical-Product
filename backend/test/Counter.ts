@@ -3,15 +3,15 @@ import { network } from "hardhat";
 
 const { ethers } = await network.connect();
 
-describe("Counter", function () {
+describe("MedicalProduct.sol", function () {
   it("Should emit the Increment event when calling the inc() function", async function () {
-    const counter = await ethers.deployContract("Counter");
+    const counter = await ethers.deployContract("MedicalProduct.sol");
 
     await expect(counter.inc()).to.emit(counter, "Increment").withArgs(1n);
   });
 
   it("The sum of the Increment events should match the current value", async function () {
-    const counter = await ethers.deployContract("Counter");
+    const counter = await ethers.deployContract("MedicalProduct.sol");
     const deploymentBlockNumber = await ethers.provider.getBlockNumber();
 
     // run a series of increments
