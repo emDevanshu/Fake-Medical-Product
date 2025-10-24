@@ -1,7 +1,12 @@
 import type { HardhatUserConfig } from "hardhat/config";
-
+import "@nomicfoundation/hardhat-ethers";
+import "@nomicfoundation/hardhat-ignition";
+import "chai";
 import hardhatToolboxMochaEthersPlugin from "@nomicfoundation/hardhat-toolbox-mocha-ethers";
 import { configVariable } from "hardhat/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const config: HardhatUserConfig = {
   plugins: [hardhatToolboxMochaEthersPlugin],
@@ -36,6 +41,11 @@ const config: HardhatUserConfig = {
       url: configVariable("SEPOLIA_RPC_URL"),
       accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
     },
+    ganache: {
+      type: "http",
+      url: "http://127.0.0.1:7545",
+      accounts: [process.env.GANACHE_PRIVATE_KEY!],
+    }
   },
 };
 
