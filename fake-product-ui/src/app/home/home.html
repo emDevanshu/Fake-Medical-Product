@@ -49,4 +49,11 @@
       <a href="about.html" class="btn btn-outline-primary btn-lg">Learn More About Us</a>
     </div>
   </div>
+
+  <div>
+    <button (click)="connectWallet()" class="btn btn-primary">Connect MetaMask</button>
+    <p >Connected: {{ account }}</p>
+    <p >Balance: {{ balance }} ETH</p>
+  </div>
+
 </section>
