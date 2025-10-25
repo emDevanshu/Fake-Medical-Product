@@ -1,0 +1,14 @@
+<div class="login-container">
+  <h2>{{ title }}</h2>
+
+  <input type="text" [(ngModel)]="username" placeholder="Username"/>
+  <input type="password" [(ngModel)]="password" placeholder="Password"/>
+
+  <!-- MID for manufacturer, SID for seller -->
+  <input *ngIf="userType === 'manufacturer'" type="text" [(ngModel)]="extraId" placeholder="Manufacturer ID"/>
+  <input *ngIf="userType === 'seller'" type="text" [(ngModel)]="extraId" placeholder="Seller ID"/>
+
+  <button (click)="login()">Login</button>
+
+  <p id="message">{{ message }}</p>
+</div>

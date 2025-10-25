@@ -1,9 +1,12 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
 import {Web3Service} from '../services/web3.service';
+import {CommonModule} from '@angular/common';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.html',
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   styleUrl: './home.css',
 })
 export class Home {

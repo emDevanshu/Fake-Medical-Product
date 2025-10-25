@@ -1,0 +1,76 @@
+import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './login.html',
+  styleUrls: ['./login.css']
+})
+export class LoginComponent {
+  userType: 'manufacturer' | 'seller' = 'manufacturer';
+  title = '';
+  username = '';
+  password = '';
+  extraId = '';
+  message = '';
+
+  private readonly manufacturerUsers = [
+    {username: 'user1', password: 'password1', mid: '01'},
+    {username: 'user2', password: 'password2', mid: '02'},
+    {username: 'user3', password: 'password3', mid: '03'}
+  ];
+
+  private readonly sellerUsers = [
+    {username: 'seller1', password: 'pass1', sid: 'S01'},
+    {username: 'seller2', password: 'pass2', sid: 'S02'},
+    {username: 'seller3', password: 'pass3', sid: 'S03'}
+  ];
+
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.route.paramMap.subscribe(params => {
+      const type = params.get('userType');
+      if (type === 'seller' || type === 'manufacturer') {
+        this.userType = type;
+        this.title = `${this.capitalize(type)} Login`;
+      }
+    });
+  }
+
+  login() {
+    if (this.userType === 'manufacturer') {
+      const user = this.manufacturerUsers.find(u =>
+        u.username === this.username &&
+        u.password === this.password &&
+        u.mid === this.extraId
+      );
+
+      if (user) {
+        this.message = '✅ Manufacturer logged in successfully!';
+        setTimeout(() => this.router.navigate(['/manufacturer']), 500);
+      } else {
+        this.message = '❌ Invalid credentials or MID';
+      }
+    } else {
+      const user = this.sellerUsers.find(u =>
+        u.username === this.username &&
+        u.password === this.password &&
+        u.sid === this.extraId
+      );
+
+      if (user) {
+        this.message = '✅ Seller logged in successfully!';
+        setTimeout(() => this.router.navigate(['/seller']), 500);
+      } else {
+        this.message = '❌ Invalid credentials or SID';
+      }
+    }
+  }
+
+  private capitalize(value: string) {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+}
