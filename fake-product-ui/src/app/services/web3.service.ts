@@ -15,24 +15,32 @@ export class Web3Service {
   private signer : ethers.Signer | null = null;
   private account : string | null = null;
 
-  constructor() {}
+  private accountAddress: string | null = null;
+  private accountBalance: string | null = null;
 
-  async connectWallet() : Promise<void> {
-    if(typeof window.ethereum === 'undefined') {
-      alert('MetaMask not found. Please install it first.');
-      return
-    }
+  constructor() {
+    this.checkMetaMask();
+  }
 
-    try {
-      this.provider = new ethers.BrowserProvider(window.ethereum);
-      const accounts = await this.provider.send('eth_requestAccounts', []);
-      this.account = accounts[0];
-      this.signer = await this.provider.getSigner();
-      console.log('Connected account:', this.account);
+  private async checkMetaMask() {
+    if (typeof window !== 'undefined' && (window as any).ethereum) {
+      this.provider = new ethers.BrowserProvider((window as any).ethereum);
+    } else {
+      alert('MetaMask not detected! Please install MetaMask extension.');
     }
-    catch (error) {
-      console.error('Wallet connection failed:', error);
-    }
+  }
+
+  async connectWallet(): Promise<void> {
+    if (!this.provider) return;
+
+    // Request account access
+    await (window as any).ethereum.request({method: 'eth_requestAccounts'});
+
+    const signer = await this.provider.getSigner();
+    this.accountAddress = await signer.getAddress();
+
+    const balance = await this.provider.getBalance(this.accountAddress);
+    this.accountBalance = ethers.formatEther(balance);
   }
 
   async getBalance() : Promise<string | null> {
@@ -42,6 +50,24 @@ export class Web3Service {
   }
 
   getAccount(): string | null {
-    return this.account;
+    return this.accountAddress;
   }
+
+  // async connectWallet() : Promise<void> {
+  //   if(typeof window.ethereum === 'undefined') {
+  //     alert('MetaMask not found. Please install it first.');
+  //     return
+  //   }
+  //
+  //   try {
+  //     this.provider = new ethers.BrowserProvider(window.ethereum);
+  //     const accounts = await this.provider.send('eth_requestAccounts', []);
+  //     this.account = accounts[0];
+  //     this.signer = await this.provider.getSigner();
+  //     console.log('Connected account:', this.account);
+  //   }
+  //   catch (error) {
+  //     console.error('Wallet connection failed:', error);
+  //   }
+  // }
 }

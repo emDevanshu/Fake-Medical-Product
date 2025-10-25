@@ -10,10 +10,17 @@ export class Home {
   account: string | null = null;
   balance: string | null = null;
 
-  constructor(private web3 : Web3Service, private cdr : ChangeDetectorRef) {
+  constructor(public web3 : Web3Service, private cdr : ChangeDetectorRef) {
   }
 
-  async connectWallet() : Promise<void> {
+  // async connectWallet() : Promise<void> {
+  //   await this.web3.connectWallet();
+  //   this.account = this.web3.getAccount();
+  //   this.balance = await this.web3.getBalance();
+  //   this.cdr.detectChanges();
+  // }
+
+  async connectWallet() {
     await this.web3.connectWallet();
     this.account = this.web3.getAccount();
     this.balance = await this.web3.getBalance();
