@@ -1,1 +1,150 @@
-<p>manufacturer works!</p>
+
+<!--<section class="min-h-screen flex flex-col items-center py-10 px-4 relative">-->
+
+<!--  &lt;!&ndash; Optional semi-transparent overlay to let background image show &ndash;&gt;-->
+<!--  <div class="absolute inset-0 bg-black/20 -z-10"></div>-->
+
+<!--  &lt;!&ndash; Welcome Section &ndash;&gt;-->
+<!--  <div class="text-center mb-12 z-10">-->
+<!--    <h1 class="text-4xl font-bold text-white mb-2">Welcome, <span class="text-yellow-200">{{ companyName }}</span></h1>-->
+<!--    <p class="text-gray-200">Choose an action to manage your products and sellers</p>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Action Grid &ndash;&gt;-->
+<!--  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 z-10 w-full max-w-5xl">-->
+
+<!--    &lt;!&ndash; Card 1: Add Product &ndash;&gt;-->
+<!--    <a routerLink="/manufacturer/add-product"-->
+<!--       class="flex flex-col items-center justify-center p-6 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-all duration-300">-->
+<!--      <span class="text-2xl font-bold mb-2">Add Product</span>-->
+<!--      <p class="text-sm text-gray-200 text-center">Add new medical products to your inventory</p>-->
+<!--    </a>-->
+
+<!--    &lt;!&ndash; Card 2: Add Seller &ndash;&gt;-->
+<!--    <a routerLink="/manufacturer/add-seller"-->
+<!--       class="flex flex-col items-center justify-center p-6 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-all duration-300">-->
+<!--      <span class="text-2xl font-bold mb-2">Add Seller</span>-->
+<!--      <p class="text-sm text-gray-200 text-center">Register a new seller under your company</p>-->
+<!--    </a>-->
+
+<!--    &lt;!&ndash; Card 3: Sell Product To Seller &ndash;&gt;-->
+<!--    <a routerLink="/manufacturer/sell-product"-->
+<!--       class="flex flex-col items-center justify-center p-6 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-all duration-300">-->
+<!--      <span class="text-2xl font-bold mb-2">Sell Product</span>-->
+<!--      <p class="text-sm text-gray-200 text-center">Transfer product inventory to a seller</p>-->
+<!--    </a>-->
+
+<!--    &lt;!&ndash; Card 4: Query Seller &ndash;&gt;-->
+<!--    <a routerLink="/manufacturer/query-seller"-->
+<!--       class="flex flex-col items-center justify-center p-6 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-all duration-300">-->
+<!--      <span class="text-2xl font-bold mb-2">Query Seller</span>-->
+<!--      <p class="text-sm text-gray-200 text-center">View seller details and transactions</p>-->
+<!--    </a>-->
+
+<!--    &lt;!&ndash; Card 5: Check Inventory &ndash;&gt;-->
+<!--    <a routerLink="/manufacturer/check-inventory"-->
+<!--       class="flex flex-col items-center justify-center p-6 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-all duration-300">-->
+<!--      <span class="text-2xl font-bold mb-2">Check Inventory</span>-->
+<!--      <p class="text-sm text-gray-200 text-center">Monitor your current product stock</p>-->
+<!--    </a>-->
+
+<!--    &lt;!&ndash; Card 6: Home / Other Actions &ndash;&gt;-->
+<!--    <a routerLink="/home"-->
+<!--       class="flex flex-col items-center justify-center p-6 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-all duration-300">-->
+<!--      <span class="text-2xl font-bold mb-2">Home</span>-->
+<!--      <p class="text-sm text-gray-200 text-center">Return to the main dashboard</p>-->
+<!--    </a>-->
+
+<!--  </div>-->
+
+<!--</section>-->
+
+
+<section class="min-h-screen relative px-6 py-10 bg-transparent">
+
+  <!-- Background Overlay (behind everything) -->
+  <div class="absolute inset-0 bg-black/20 -z-10"></div>
+
+  <!-- Header: Welcome + Profile -->
+  <div class="flex justify-between items-center mb-12 z-10 relative">
+    <!-- Welcome -->
+    <div>
+      <h1 class="text-5xl font-extrabold text-white mb-2">Welcome, <span
+        class="text-yellow-200">{{ companyName }}</span></h1>
+      <p class="text-lg text-gray-300">Manage your products and sellers</p>
+    </div>
+
+    <!-- Profile Dropdown -->
+    <div class="relative" x-data="{ open: false }">
+      <button (click)="toggleDropdown()"
+              class="flex items-center gap-2 bg-[#3E2723]/80 text-white px-4 py-2 rounded-xl hover:bg-[#8B5E34]/80 transition-all duration-300">
+<!--        <img src="assets/profile-icon.png" alt="profile" class="w-8 h-8 rounded-full">-->
+        <span>{{ companyName }}</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+
+      <!-- Dropdown Menu -->
+      <ul *ngIf="dropdownOpen" class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg text-white">
+        <li>
+          <a routerLink="/change-password" class="block px-4 py-2 hover:bg-gray-700 transition">Change Password</a>
+        </li>
+        <li>
+          <button (click)="logout()" class="w-full text-left px-4 py-2 hover:bg-gray-700 transition">Logout</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Action Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 z-10">
+
+    <!-- Card Example -->
+    <a routerLink="/manufacturer/add-product"
+       class="flex flex-col items-center justify-center p-8 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-transform duration-300 transform hover:scale-105">
+      <span class="text-2xl sm:text-3xl font-bold mb-3">Add Product</span>
+      <p class="text-gray-200 text-center">Add new medical products to your inventory</p>
+    </a>
+
+    <a routerLink="/manufacturer/add-seller"
+       class="flex flex-col items-center justify-center p-8 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-transform duration-300 transform hover:scale-105">
+      <span class="text-2xl sm:text-3xl font-bold mb-3">Add Seller</span>
+      <p class="text-gray-200 text-center">Register a new seller under your company</p>
+    </a>
+
+    <a routerLink="/manufacturer/sell-product"
+       class="flex flex-col items-center justify-center p-8 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-transform duration-300 transform hover:scale-105">
+      <span class="text-2xl sm:text-3xl font-bold mb-3">Sell Product</span>
+      <p class="text-gray-200 text-center">Transfer product inventory to a seller</p>
+    </a>
+
+    <a routerLink="/manufacturer/query-seller"
+       class="flex flex-col items-center justify-center p-8 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-transform duration-300 transform hover:scale-105">
+      <span class="text-2xl sm:text-3xl font-bold mb-3">Query Seller</span>
+      <p class="text-gray-200 text-center">View seller details and transactions</p>
+    </a>
+
+    <a routerLink="/manufacturer/check-inventory"
+       class="flex flex-col items-center justify-center p-8 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-transform duration-300 transform hover:scale-105">
+      <span class="text-2xl sm:text-3xl font-bold mb-3">Check Inventory</span>
+      <p class="text-gray-200 text-center">Monitor your current product stock</p>
+    </a>
+
+<!--    <a routerLink="/home"-->
+<!--       class="flex flex-col items-center justify-center p-8 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-transform duration-300 transform hover:scale-105">-->
+<!--      <span class="text-2xl sm:text-3xl font-bold mb-3">Home</span>-->
+<!--      <p class="text-gray-200 text-center">Return to the main dashboard</p>-->
+<!--    </a>-->
+    <div
+      routerLink="/home"
+      class="cursor-pointer flex flex-col items-center justify-center p-8 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-transform duration-300 transform hover:scale-105"
+    >
+      <span class="text-2xl sm:text-3xl font-bold mb-3">Home</span>
+      <p class="text-gray-200 text-center">Return to the main dashboard</p>
+    </div>
+
+  </div>
+
+</section>
