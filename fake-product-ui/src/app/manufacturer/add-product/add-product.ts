@@ -17,7 +17,7 @@ import {AuthService} from '../../services/auth.service';
   styleUrl: './add-product.css',
 })
 export class AddProductComponent implements OnInit{
-  manufacturerID = 'M-001';
+  manufacturerID! : string;
   productName = '';
   productID! : number;
   productBrand = '';

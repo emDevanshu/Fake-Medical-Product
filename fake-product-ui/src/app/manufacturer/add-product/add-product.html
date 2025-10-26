@@ -1,7 +1,22 @@
 <section class="min-h-screen flex flex-col items-center justify-start px-6 py-10 bg-transparent">
 
-  <!-- Heading -->
-  <h2 class="text-4xl font-bold text-shadow-white mb-8">Add Product</h2>
+  <div class="flex items-center mt-6 mb-8 w-full max-w-4xl mx-auto">
+    <div class="flex-1">
+      <button
+        (click)="goBack()"
+        class="px-6 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition-transform duration-200 hover:scale-105">
+        ← Go Back
+      </button>
+    </div>
+
+    <!-- Center: Heading -->
+    <div class="flex-1 text-center">
+      <h2 class="text-4xl font-bold text-shadow-white">Add Product</h2>
+    </div>
+
+    <!-- Right: empty spacer to balance layout -->
+    <div class="flex-1"></div>
+  </div>
 
   <!-- Form Card -->
   <div class="w-full max-w-4xl bg-[#FFFDF7] rounded-2xl shadow-lg p-8">
@@ -99,14 +114,6 @@
         Download QR
       </button>
     </div>
-    <div class="flex mt-6">
-      <button
-        (click)="goBack()"
-        class="px-6 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition-transform duration-200 hover:scale-105">
-        ← Go Back
-      </button>
-    </div>
-
   </div>
 
 </section>

@@ -101,6 +101,7 @@ export class Web3Service {
   ): Promise<void> {
     try {
       if (!this.contract) throw new Error('Contract not loaded.');
+
       const tx = await this.contract['addProduct'](
         ethers.encodeBytes32String(manufacturerId),
         ethers.encodeBytes32String(productName),
@@ -122,6 +123,31 @@ export class Web3Service {
       console.log('✅ Product added successfully!');
     } catch (error) {
       console.error('Error in addProduct:', error);
+    }
+  }
+
+  // ✅ 2. Query Inventory
+  async queryInventory(manufacturerId: string) : Promise<any[]> {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+
+      const encodedId = ethers.encodeBytes32String(manufacturerId);
+
+      const [pids, pnames, pbrand, pcounts, count] = await this.contract['queryInventory'](encodedId);
+
+      const inventory = pids.map((pid: any, i: number) => ({
+        productId: pid.toString(),
+        name: ethers.decodeBytes32String(pnames[i]),
+        brand: ethers.decodeBytes32String(pbrand),
+        units: Number(pcounts[i])
+      }));
+
+      console.log('✅ Inventory fetched:', inventory);
+      return inventory;
+    }
+    catch (error) {
+      console.error('Error querying inventory:', error);
+      return [];
     }
   }
 }
