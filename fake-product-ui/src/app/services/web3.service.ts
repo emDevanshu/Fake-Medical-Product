@@ -12,8 +12,6 @@ declare global {
 })
 export class Web3Service {
   private provider : ethers.BrowserProvider | null = null;
-  private signer : ethers.Signer | null = null;
-  private account : string | null = null;
 
   private accountAddress: string | null = null;
   private accountBalance: string | null = null;
@@ -44,30 +42,13 @@ export class Web3Service {
   }
 
   async getBalance() : Promise<string | null> {
-    if(!this.provider || !this.account) return null;
-    const balance = await this.provider.getBalance(this.account);
+    if(!this.provider || !this.accountAddress) return null;
+
+    const balance = await this.provider.getBalance(this.accountAddress);
     return ethers.formatEther(balance);
   }
 
   getAccount(): string | null {
     return this.accountAddress;
   }
-
-  // async connectWallet() : Promise<void> {
-  //   if(typeof window.ethereum === 'undefined') {
-  //     alert('MetaMask not found. Please install it first.');
-  //     return
-  //   }
-  //
-  //   try {
-  //     this.provider = new ethers.BrowserProvider(window.ethereum);
-  //     const accounts = await this.provider.send('eth_requestAccounts', []);
-  //     this.account = accounts[0];
-  //     this.signer = await this.provider.getSigner();
-  //     console.log('Connected account:', this.account);
-  //   }
-  //   catch (error) {
-  //     console.error('Wallet connection failed:', error);
-  //   }
-  // }
 }
