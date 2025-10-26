@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "compile": "npx hardhat compile",
+    "postcompile": "cp artifacts/contracts/MedicalProduct.sol/MedicalProduct.json ../fake-product-ui/src/assets/contracts/MedicalProduct.json",
+    "deploy": "npx hardhat run scripts/deploy.ts --network ganache && npm run postcompile",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

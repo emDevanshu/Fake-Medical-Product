@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {saveAs} from 'file-saver';
 import {NgIf} from '@angular/common';
 import {RouterModule} from '@angular/router';
+import {Web3Service} from '../../services/web3.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-add-product',
@@ -14,17 +16,25 @@ import {RouterModule} from '@angular/router';
   templateUrl: './add-product.html',
   styleUrl: './add-product.css',
 })
-export class AddProductComponent {
-  manufacturerID = 'M-001'; // auto-filled
+export class AddProductComponent implements OnInit{
+  manufacturerID = 'M-001';
   productName = '';
-  productID = '';
+  productID! : number;
   productBrand = '';
-  productPrice = '';
+  productPrice! : number;
 
   qrValue: string | null = null;
   qrImageSrc: string | null = null;
 
-  addProduct() {
+  constructor(private web3Service : Web3Service, private authService : AuthService) {}
+
+  ngOnInit() {
+    const mid = this.authService.getManufacturerId();
+    if(mid) this.manufacturerID = mid;
+    else alert('Manufacturer ID not found! Please log in again.');
+  }
+
+  async addProduct() {
     // Generate random number for QR
     const randomNo = Math.floor(Math.random() * 1000) + 1;
 
@@ -35,6 +45,8 @@ export class AddProductComponent {
     this.qrImageSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${this.qrValue}`;
 
     console.log('QR Value:', this.qrValue);
+
+    await this.web3Service.addProduct(this.manufacturerID, this.productName, this.qrValue, this.productBrand, this.productPrice, this.productID, new Date().toISOString());
   }
 
   downloadQR() {

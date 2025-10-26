@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ethers} from 'ethers';
+import {HttpClient} from '@angular/common/http';
+import {firstValueFrom} from 'rxjs';
+
 
 declare global {
   interface Window {
@@ -12,11 +15,13 @@ declare global {
 })
 export class Web3Service {
   private provider : ethers.BrowserProvider | null = null;
-
   private accountAddress: string | null = null;
   private accountBalance: string | null = null;
+  private contract: ethers.Contract | null = null;
+  // private readonly CONTRACT_ADDRESS = '0x68deb564C861439EbaD08f3d07eF78D19230071b';
+  private readonly ABI_PATH = 'assets/contracts/MedicalProduct.json';
 
-  constructor() {
+  constructor( private http : HttpClient) {
     this.checkMetaMask();
   }
 
@@ -36,8 +41,10 @@ export class Web3Service {
 
     const signer = await this.provider.getSigner();
     this.accountAddress = await signer.getAddress();
+    console.log("the account address is : " , this.accountAddress);
 
     const balance = await this.provider.getBalance(this.accountAddress);
+    console.log("the balance is : ", balance);
     this.accountBalance = ethers.formatEther(balance);
   }
 
@@ -50,5 +57,71 @@ export class Web3Service {
 
   getAccount(): string | null {
     return this.accountAddress;
+  }
+
+  // -------------------------
+  //  Load smart contract
+  // -------------------------
+
+  async loadContract(): Promise<void> {
+    try {
+      if (!this.provider) throw new Error('Provider not initialized');
+
+      const contractJson = await firstValueFrom(this.http.get<any>(this.ABI_PATH));
+
+      const abi = contractJson.abi;
+      const CONTRACT_ADDRESS = contractJson.address;
+      const signer = await this.provider.getSigner();
+
+      this.contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+      console.log('✅ Contract loaded at:', CONTRACT_ADDRESS);
+    } catch (error) {
+      console.error('Error loading contract:', error);
+    }
+  }
+
+  getContract(): ethers.Contract | null {
+    return this.contract;
+  }
+
+
+  // -------------------------
+  //  Smart contract functions
+  // -------------------------
+
+  // ✅ 1. Add Product
+  async addProduct(
+    manufacturerId: string,
+    productName: string,
+    productSN: string,
+    productBrand: string,
+    productPrice: number,
+    productId: number,
+    productTime: string
+  ): Promise<void> {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+      const tx = await this.contract['addProduct'](
+        ethers.encodeBytes32String(manufacturerId),
+        ethers.encodeBytes32String(productName),
+        ethers.encodeBytes32String(productSN),
+        ethers.encodeBytes32String(productBrand),
+        productPrice,
+        productId,
+        ethers.encodeBytes32String(productTime)
+      );
+      console.log(`🚀 Transaction sent! Hash: ${tx.hash}`);
+
+      // Wait for the transaction to be mined (1 confirmation)
+      const receipt = await tx.wait();
+
+      console.log('✅ Transaction confirmed!');
+      console.log('📄 Receipt:', receipt);
+
+      // await tx.wait();
+      console.log('✅ Product added successfully!');
+    } catch (error) {
+      console.error('Error in addProduct:', error);
+    }
   }
 }

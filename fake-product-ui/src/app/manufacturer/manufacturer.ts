@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgIf} from '@angular/common';
-import {RouterModule} from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
+import {Web3Service} from '../services/web3.service';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-manufacturer',
@@ -10,12 +12,17 @@ import {RouterModule} from '@angular/router';
   templateUrl: './manufacturer.html',
   styleUrl: './manufacturer.css',
 })
-export class ManufacturerComponent {
+export class ManufacturerComponent implements OnInit{
   companyName : string = "Devanshu";
   dropdownOpen = false;
 
-  constructor() {
+  constructor(private router : Router, private web3 : Web3Service, private authService : AuthService) {
     console.log("manufacturer is working !!!");
+  }
+
+  async ngOnInit() {
+    await this.web3.connectWallet();
+    await this.web3.loadContract();
   }
 
   toggleDropdown() {
@@ -24,6 +31,8 @@ export class ManufacturerComponent {
 
   logout() {
     // Your logout logic
+    this.authService.logout();
+    this.router.navigate(['/login/manufacturer']);
     console.log('Logging out...');
   }
 

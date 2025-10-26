@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,7 @@ export class LoginComponent {
     {username: 'seller3', password: 'pass3', sid: 'S03'}
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService) {
     this.route.paramMap.subscribe(params => {
       const type = params.get('userType');
       if (type === 'seller' || type === 'manufacturer') {
@@ -50,6 +51,7 @@ export class LoginComponent {
 
       if (user) {
         this.message = '✅ Manufacturer logged in successfully!';
+        this.authService.setManufacturerId(user.mid);
         setTimeout(() => this.router.navigate(['/manufacturer']), 500);
       } else {
         this.message = '❌ Invalid credentials or MID';
@@ -63,6 +65,7 @@ export class LoginComponent {
 
       if (user) {
         this.message = '✅ Seller logged in successfully!';
+        this.authService.setSellerId(user.sid);
         setTimeout(() => this.router.navigate(['/seller']), 500);
       } else {
         this.message = '❌ Invalid credentials or SID';
