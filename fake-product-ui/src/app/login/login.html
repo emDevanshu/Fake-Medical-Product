@@ -1,14 +1,219 @@
-<div class="login-container">
-  <h2>{{ title }}</h2>
+<!--<div class="login-container">-->
+<!--  <h2>{{ title }}</h2>-->
 
-  <input type="text" [(ngModel)]="username" placeholder="Username"/>
-  <input type="password" [(ngModel)]="password" placeholder="Password"/>
+<!--  <input type="text" [(ngModel)]="username" placeholder="Username"/>-->
+<!--  <input type="password" [(ngModel)]="password" placeholder="Password"/>-->
 
-  <!-- MID for manufacturer, SID for seller -->
-  <input *ngIf="userType === 'manufacturer'" type="text" [(ngModel)]="extraId" placeholder="Manufacturer ID"/>
-  <input *ngIf="userType === 'seller'" type="text" [(ngModel)]="extraId" placeholder="Seller ID"/>
+<!--  &lt;!&ndash; MID for manufacturer, SID for seller &ndash;&gt;-->
+<!--  <input *ngIf="userType === 'manufacturer'" type="text" [(ngModel)]="extraId" placeholder="Manufacturer ID"/>-->
+<!--  <input *ngIf="userType === 'seller'" type="text" [(ngModel)]="extraId" placeholder="Seller ID"/>-->
 
-  <button (click)="login()">Login</button>
+<!--  <button (click)="login()">Login</button>-->
 
-  <p id="message">{{ message }}</p>
-</div>
+<!--  <p id="message">{{ message }}</p>-->
+<!--</div>-->
+
+
+<!--<section class="bg-gray-50 dark:bg-gray-900">-->
+<!--  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">-->
+<!--    <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">-->
+<!--      <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">-->
+<!--      Flowbite-->
+<!--    </a>-->
+<!--    <div-->
+<!--      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">-->
+<!--      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">-->
+<!--        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">-->
+<!--          Sign in to your account-->
+<!--        </h1>-->
+<!--        <form class="space-y-4 md:space-y-6" action="#">-->
+<!--          <div>-->
+<!--            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>-->
+<!--            <input type="email" name="email" id="email"-->
+<!--                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"-->
+<!--                   placeholder="name@company.com" required="">-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>-->
+<!--            <input type="password" name="password" id="password" placeholder="••••••••"-->
+<!--                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"-->
+<!--                   required="">-->
+<!--          </div>-->
+<!--          <div class="flex items-center justify-between">-->
+<!--            <div class="flex items-start">-->
+<!--              <div class="flex items-center h-5">-->
+<!--                <input id="remember" aria-describedby="remember" type="checkbox"-->
+<!--                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"-->
+<!--                       required="">-->
+<!--              </div>-->
+<!--              <div class="ml-3 text-sm">-->
+<!--                <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot-->
+<!--              password?</a>-->
+<!--          </div>-->
+<!--          <button type="submit"-->
+<!--                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">-->
+<!--            Sign in-->
+<!--          </button>-->
+<!--          <p class="text-sm font-light text-gray-500 dark:text-gray-400">-->
+<!--            Don’t have an account yet? <a href="#"-->
+<!--                                          class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign-->
+<!--            up</a>-->
+<!--          </p>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+
+<!--<section-->
+<!--  class="min-h-screen flex flex-col items-center justify-center [background:linear-gradient(to_bottom_right,#fff8e7,#c49e6c)]">-->
+<!--  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">-->
+<!--    <a href="#" class="flex items-center mb-6 text-3xl font-semibold [color:#3E2723]">-->
+<!--      <img class="w-10 h-10 mr-2 rounded" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"-->
+<!--           alt="logo">-->
+<!--      Ganache Portal-->
+<!--    </a>-->
+
+<!--    <div class="w-[600px] md:w-[700px] lg:w-[400px] [background-color:#fffdf7] rounded-2xl shadow-lg border border-[#C49E6C] p-8">-->
+<!--    <div class="p-6 space-y-6 sm:p-8">-->
+<!--        <h1 class="text-2xl font-bold leading-tight tracking-tight [color:#3E2723]">-->
+<!--          Sign in to your account-->
+<!--        </h1>-->
+<!--        <form class="space-y-6" action="#">-->
+<!--          <div>-->
+<!--            <label for="email" class="block mb-2 text-sm font-medium [color:#3E2723]">Username</label>-->
+<!--            <input-->
+<!--              type="email"-->
+<!--              name="email"-->
+<!--              id="email"-->
+<!--              class="[background-color:#FFF8E7] border border-[#C49E6C] [color:#3E2723] rounded-lg focus:ring-[#C49E6C] focus:border-[#C49E6C] block w-full p-2.5"-->
+<!--              placeholder="name@company.com"-->
+<!--              required-->
+<!--            />-->
+<!--          </div>-->
+
+<!--          <div>-->
+<!--            <label for="password" class="block mb-2 text-sm font-medium [color:#3E2723]">Password</label>-->
+<!--            <input-->
+<!--              type="password"-->
+<!--              name="password"-->
+<!--              id="password"-->
+<!--              placeholder="••••••••"-->
+<!--              class="[background-color:#FFF8E7] border border-[#C49E6C] [color:#3E2723] rounded-lg focus:ring-[#C49E6C] focus:border-[#C49E6C] block w-full p-2.5"-->
+<!--              required-->
+<!--            />-->
+<!--          </div>-->
+
+<!--          <div class="flex items-center justify-between">-->
+<!--            <div class="flex items-start">-->
+<!--              <div class="flex items-center h-5">-->
+<!--                <input-->
+<!--                  id="remember"-->
+<!--                  type="checkbox"-->
+<!--                  class="w-4 h-4 border border-[#C49E6C] rounded [background-color:#FFF8E7] focus:ring-[#C49E6C]"-->
+<!--                  required-->
+<!--                />-->
+<!--              </div>-->
+<!--              <label for="remember" class="ml-2 text-sm [color:#3E2723]">Remember me</label>-->
+<!--            </div>-->
+<!--            <a href="#" class="text-sm font-medium [color:#8B5E34] hover:underline">Forgot password?</a>-->
+<!--          </div>-->
+
+<!--          <button-->
+<!--            type="submit"-->
+<!--            class="w-full text-white [background-color:#C49E6C] hover:[background-color:#8B5E34] focus:ring-4 focus:ring-[#C49E6C] font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300"-->
+<!--          >-->
+<!--            Sign in-->
+<!--          </button>-->
+
+<!--          <p class="text-sm font-light [color:rgba(62,39,35,0.8)] text-center">-->
+<!--            Don’t have an account yet?-->
+<!--            <a href="#" class="font-medium [color:#8B5E34] hover:underline">Sign up</a>-->
+<!--          </p>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+
+
+<section
+  class="min-h-screen flex flex-col items-center justify-center [background:linear-gradient(to_bottom_right,#fff8e7,#c49e6c)]">
+  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+    <a href="#" class="flex items-center mb-6 text-3xl font-semibold [color:#3E2723]">
+      <img class="w-10 h-10 mr-2 rounded" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+           alt="logo">
+      {{ title }}
+    </a>
+
+    <div class="w-[600px] md:w-[700px] lg:w-[500px] [background-color:#fffdf7] rounded-2xl shadow-lg border border-[#C49E6C] p-8">
+      <h1 class="text-2xl font-bold leading-tight tracking-tight [color:#3E2723] mb-6">
+        {{ title }}
+      </h1>
+
+      <form class="space-y-6" (ngSubmit)="login()" #loginForm="ngForm">
+        <!-- Username -->
+        <div>
+          <label for="username" class="block mb-2 text-sm font-medium [color:#3E2723]">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            [(ngModel)]="username"
+            placeholder="Enter your username"
+            class="[background-color:#FFF8E7] border border-[#C49E6C] [color:#3E2723] rounded-lg focus:ring-[#C49E6C] focus:border-[#C49E6C] block w-full p-2.5"
+            required
+          />
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="block mb-2 text-sm font-medium [color:#3E2723]">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="Enter your password"
+            class="[background-color:#FFF8E7] border border-[#C49E6C] [color:#3E2723] rounded-lg focus:ring-[#C49E6C] focus:border-[#C49E6C] block w-full p-2.5"
+            required
+          />
+        </div>
+
+        <!-- MID / SID -->
+        <div>
+          <label for="extraId" class="block mb-2 text-sm font-medium [color:#3E2723]">
+            {{ userType === 'manufacturer' ? 'MID' : 'SID' }}
+          </label>
+          <input
+            type="text"
+            id="extraId"
+            name="extraId"
+            [(ngModel)]="extraId"
+            [placeholder]="userType === 'manufacturer' ? 'Enter MID' : 'Enter SID'"
+            class="[background-color:#FFF8E7] border border-[#C49E6C] [color:#3E2723] rounded-lg focus:ring-[#C49E6C] focus:border-[#C49E6C] block w-full p-2.5"
+            required
+          />
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="w-full text-white [background-color:#C49E6C] hover:[background-color:#8B5E34] focus:ring-4 focus:ring-[#C49E6C] font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300">
+          Sign in
+        </button>
+
+        <!-- Message -->
+        <p *ngIf="message" class="text-center text-sm font-medium mt-4"
+           [ngClass]="{'text-green-700': message.startsWith('✅'), 'text-red-600': message.startsWith('❌')}">
+          {{ message }}
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+
