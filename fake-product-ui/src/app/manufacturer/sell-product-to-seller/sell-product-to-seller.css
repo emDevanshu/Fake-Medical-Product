@@ -1,0 +1,51 @@
+/*!* Force QR preview to fill container *!*/
+/*#qr-reader {*/
+/*  width: 100% !important;*/
+/*  height: 100% !important;*/
+/*  position: relative;*/
+/*  overflow: hidden;*/
+/*}*/
+
+/*!* Ensure inner video fills area *!*/
+/*#qr-reader video {*/
+/*  object-fit: cover !important;*/
+/*  width: 100% !important;*/
+/*  height: 100% !important;*/
+/*  border-radius: 0.75rem; !* matches Tailwind rounded-xl *!*/
+/*}*/
+
+
+/* Make QR preview fully fill the box */
+#qr-reader {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 1rem !important; /* match rounded-2xl */
+  overflow: hidden !important;
+}
+
+/* Override internal scan region (this is where the video lives) */
+#qr-reader__scan_region {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Ensure video fully fills the region */
+#qr-reader video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* fills rounded box, crops evenly */
+  border-radius: 1rem !important;
+  display: block !important;
+}
+
+/* Hide dashboard (prevents pushing video downward) */
+#qr-reader__dashboard,
+#qr-reader__dashboard_section_csr,
+#qr-reader__dashboard_section_swaplink,
+#qr-reader__camera_selection {
+  display: none !important;
+}

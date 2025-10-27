@@ -1,0 +1,186 @@
+<section class="min-h-screen flex flex-col items-center justify-start px-6 py-10 bg-transparent">
+
+  <!-- Header: Go Back + Title -->
+  <div class="flex items-center mt-6 mb-8 w-full max-w-4xl mx-auto">
+    <!-- Left: Go Back -->
+    <div class="flex-1">
+      <button
+        (click)="goBack()"
+        class="px-6 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition-transform duration-200 hover:scale-105">
+        ← Go Back
+      </button>
+    </div>
+
+    <!-- Center: Heading -->
+    <div class="flex-1 text-center">
+      <h2 class="text-4xl font-bold text-shadow-white">Sell Product to Seller</h2>
+    </div>
+
+    <!-- Right: empty spacer -->
+    <div class="flex-1"></div>
+  </div>
+
+  <!-- Form Card -->
+  <div class="w-full max-w-4xl bg-[#FFFDF7] rounded-2xl shadow-lg p-8">
+
+    <!-- QR Scanner Section -->
+    <div class="flex flex-col items-center mb-10">
+      <h3 class="text-2xl font-semibold text-[#3E2723] mb-4">Scan Product QR</h3>
+
+      <!-- Scanner Box -->
+      <div
+        class="relative w-72 h-72 border-4 border-dashed border-[#C49E6C] rounded-2xl bg-[#FAF4E8] shadow-inner flex flex-col items-center justify-center p-4 text-center overflow-hidden"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+      >
+        <!-- Default state: show buttons -->
+        <ng-container *ngIf="!cameraRunning && !uploadMode && !previewImage && !qrScanned">
+          <p class="text-[#3E2723] font-medium mb-3">Choose an option to scan QR:</p>
+
+          <div class="flex flex-col gap-3 w-full">
+            <button
+              id="startCameraBtn"
+              (click)="startCameraScan()"
+              class="px-4 py-2 bg-[#C49E6C] hover:bg-[#8B5E34] text-white rounded-lg font-semibold shadow-md transition-all duration-300"
+            >
+              📷 Scan using Camera
+            </button>
+
+            <button
+              (click)="enableUploadMode()"
+              class="px-4 py-2 bg-[#8B5E34] hover:bg-[#3E2723] text-white rounded-lg font-semibold shadow-md transition-all duration-300"
+            >
+              🖼️ Upload QR Image
+            </button>
+          </div>
+        </ng-container>
+
+        <!-- Upload (dropzone) mode -->
+        <ng-container *ngIf="uploadMode && !previewImage">
+          <p class="text-[#3E2723] font-semibold mb-3">Choose or Drop an Image to Scan</p>
+
+          <label
+            for="qrImageInput"
+            class="w-full py-3 bg-[#C49E6C] hover:bg-[#8B5E34] text-white rounded-lg font-semibold shadow-md cursor-pointer transition-all duration-300"
+          >
+            📁 Choose Image
+          </label>
+
+          <input
+            type="file"
+            id="qrImageInput"
+            accept="image/*"
+            class="hidden"
+            (change)="onFileSelected($event)"
+          />
+
+          <button
+            (click)="cancelUploadMode()"
+            class="mt-4 text-sm text-red-600 underline hover:text-red-700 transition"
+          >
+            ✕ Cancel
+          </button>
+        </ng-container>
+
+        <!-- Image Preview -->
+        <div *ngIf="previewImage" class="relative w-full h-full flex items-center justify-center">
+          <img [src]="previewImage" alt="QR Preview" class="max-h-full max-w-full object-contain rounded-lg"/>
+          <button
+            (click)="clearPreview()"
+            class="absolute top-2 right-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs shadow-md hover:bg-red-600 transition-all duration-200"
+          >
+            ✕
+          </button>
+        </div>
+
+        <!-- Camera preview -->
+        <div *ngIf="cameraRunning" class="absolute inset-0 rounded-2xl overflow-hidden">
+          <div id="qr-reader" class="w-full h-full"></div>
+          <button
+            (click)="stopCamera()"
+            class="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 whitespace-nowrap bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold shadow-md transition-all duration-300"
+          >
+            🛑 Stop Scanning
+          </button>
+        </div>
+
+        <!-- Success after scan -->
+        <div *ngIf="qrScanned && !cameraRunning" class="flex flex-col items-center justify-center gap-3">
+          <p class="text-green-700 font-semibold text-lg">✅ QR scan successful!</p>
+          <button
+            (click)="clearPreview()"
+            class="px-4 py-2 bg-[#C49E6C] hover:bg-[#8B5E34] text-white rounded-lg font-semibold shadow-md transition-all duration-300"
+          >
+            🔁 Start Over
+          </button>
+        </div>
+
+        <!-- Result display -->
+        <div
+          *ngIf="productSN"
+          class="absolute bottom-2 left-0 right-0 text-[#3E2723] font-medium text-sm"
+        >
+          ✅ Scanned QR: {{ productSN }}
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Input Fields -->
+    <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="flex flex-col">
+        <label for="productSN" class="mb-2 font-medium text-[#3E2723]">Product SN</label>
+        <input
+          id="productSN"
+          name="productSN"
+          type="text"
+          [value]="productSN"
+          class="p-2 rounded-lg border border-[#C49E6C] bg-gray-100 text-gray-600 cursor-not-allowed"
+          disabled
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <label for="sellerCode" class="mb-2 font-medium text-[#3E2723]">Seller Code</label>
+        <input
+          id="sellerCode"
+          name="sellerCode"
+          type="text"
+          [(ngModel)]="sellerCode"
+          class="p-2 rounded-lg border border-[#C49E6C] focus:ring-[#C49E6C] focus:border-[#C49E6C] text-black placeholder-gray-400"
+          placeholder="Enter seller code"
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <div class="md:col-span-2 flex justify-center mt-4">
+        <button
+          type="submit"
+          id="register"
+          (click)="sellToSeller()"
+          class="px-6 py-3 rounded-xl bg-[#C49E6C] hover:bg-[#8B5E34] text-white font-bold text-lg transition-all duration-300 shadow-md">
+          Sell to Seller
+        </button>
+      </div>
+    </form>
+
+  </div>
+
+  <!-- ✅ Success Popup Modal -->
+  <div
+    *ngIf="showSuccessPopup"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+  >
+    <div class="bg-white rounded-2xl shadow-2xl p-8 text-center max-w-sm w-full">
+      <h3 class="text-2xl font-semibold text-green-700 mb-4">✅ Transaction Successful!</h3>
+      <p class="text-gray-700 mb-6">Product has been sold to the seller.</p>
+      <button
+        (click)="closeSuccessPopup()"
+        class="px-6 py-2 bg-[#C49E6C] hover:bg-[#8B5E34] text-white rounded-lg font-semibold shadow-md transition-all duration-300"
+      >
+        OK
+      </button>
+    </div>
+  </div>
+</section>

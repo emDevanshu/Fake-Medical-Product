@@ -217,5 +217,34 @@ export class Web3Service {
     }
   }
 
+  // ✅ 5. Manufacturer → Sell Product to Seller
+  async manufacturerSellProduct(productSN: string, sellerID: string): Promise<boolean> {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+
+      // Encode inputs to bytes32
+      const encodedProductSN = ethers.encodeBytes32String(productSN);
+      const encodedSellerID = ethers.encodeBytes32String(sellerID);
+      const encodedProductTime = ethers.encodeBytes32String(Date.now().toString());
+
+      // Call the smart contract function
+      const tx = await this.contract['manufacturerSellProduct'](
+          encodedProductSN,
+          encodedSellerID,
+          encodedProductTime
+      );
+
+      console.log('📦 Transaction sent:', tx.hash);
+
+      const receipt = await tx.wait();
+      console.log('✅ Product sold successfully! Tx confirmed:', receipt.transactionHash);
+
+      return true;
+    } catch (error) {
+      console.error('❌ Error selling product to seller:', error);
+      return false;
+    }
+  }
+
 
 }
