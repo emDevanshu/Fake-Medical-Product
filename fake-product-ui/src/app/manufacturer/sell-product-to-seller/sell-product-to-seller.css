@@ -1,20 +1,3 @@
-/*!* Force QR preview to fill container *!*/
-/*#qr-reader {*/
-/*  width: 100% !important;*/
-/*  height: 100% !important;*/
-/*  position: relative;*/
-/*  overflow: hidden;*/
-/*}*/
-
-/*!* Ensure inner video fills area *!*/
-/*#qr-reader video {*/
-/*  object-fit: cover !important;*/
-/*  width: 100% !important;*/
-/*  height: 100% !important;*/
-/*  border-radius: 0.75rem; !* matches Tailwind rounded-xl *!*/
-/*}*/
-
-
 /* Make QR preview fully fill the box */
 #qr-reader {
   position: relative !important;
