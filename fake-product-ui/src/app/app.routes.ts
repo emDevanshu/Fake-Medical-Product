@@ -5,6 +5,7 @@ import {LoginComponent} from './login/login';
 import {SellerComponent} from './seller/seller';
 import {AddProductComponent} from './manufacturer/add-product/add-product';
 import {CheckInventoryComponent} from './manufacturer/check-manufacturer-inventory/check-manufacturer-inventory';
+import {AddSellerComponent} from './manufacturer/add-seller/add-seller';
 
 export const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -13,7 +14,8 @@ export const routes: Routes = [
   {path: 'manufacturer', component: ManufacturerComponent},
   {path: 'seller', component: SellerComponent},
   {path: 'manufacturer/add-product', component: AddProductComponent},
-  {path: 'manufacturer/check-inventory', component: CheckInventoryComponent}
+  {path: 'manufacturer/check-inventory', component: CheckInventoryComponent},
+  {path: 'manufacturer/add-seller', component: AddSellerComponent}
   // {path: 'consumer', component: ConsumerComponent},
   // {path: 'about', component: AboutComponent},
 ];

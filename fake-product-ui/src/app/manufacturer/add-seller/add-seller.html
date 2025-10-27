@@ -1,0 +1,136 @@
+<section class="min-h-screen flex flex-col items-center justify-start px-6 py-10 bg-transparent">
+
+  <!-- Header -->
+  <div class="flex items-center mt-6 mb-8 w-full max-w-4xl mx-auto">
+    <!-- Left: Go Back button -->
+    <div class="flex-1">
+      <button
+        (click)="goBack()"
+        class="px-6 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition-transform duration-200 hover:scale-105">
+        ← Go Back
+      </button>
+    </div>
+
+    <!-- Center: Heading -->
+    <div class="flex-1 text-center">
+      <h2 class="text-4xl font-bold text-shadow-white">Add Seller</h2>
+    </div>
+
+    <!-- Right: empty spacer -->
+    <div class="flex-1"></div>
+  </div>
+
+  <!-- Form Card -->
+  <div class="w-full max-w-4xl bg-[#FFFDF7] rounded-2xl shadow-lg p-8">
+    <form (ngSubmit)="addSeller()" #sellerForm="ngForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Seller Name -->
+      <div class="flex flex-col">
+        <label class="mb-2 font-medium text-[#3E2723]" for="SellerName">Seller Name</label>
+        <input
+          id="SellerName"
+          name="SellerName"
+          type="text"
+          [(ngModel)]="SellerName"
+          placeholder="Enter seller name"
+          class="p-2 rounded-lg border border-[#C49E6C] focus:ring-[#C49E6C] focus:border-[#C49E6C] text-black placeholder-gray-400"
+          required
+        />
+      </div>
+
+      <!-- Seller Brand -->
+      <div class="flex flex-col">
+        <label class="mb-2 font-medium text-[#3E2723]" for="SellerBrand">Seller Brand</label>
+        <input
+          id="SellerBrand"
+          name="SellerBrand"
+          type="text"
+          [(ngModel)]="SellerBrand"
+          placeholder="Enter seller brand"
+          class="p-2 rounded-lg border border-[#C49E6C] focus:ring-[#C49E6C] focus:border-[#C49E6C] text-black placeholder-gray-400"
+          required
+        />
+      </div>
+
+      <!-- Seller ID -->
+      <div class="flex flex-col">
+        <label class="mb-2 font-medium text-[#3E2723]" for="SellerID">Seller ID</label>
+        <input
+          id="SellerID"
+          name="SellerID"
+          type="text"
+          [(ngModel)]="SellerID"
+          placeholder="Enter seller ID"
+          class="p-2 rounded-lg border border-[#C49E6C] focus:ring-[#C49E6C] focus:border-[#C49E6C] text-black placeholder-gray-400"
+          required
+        />
+      </div>
+
+      <!-- Seller Phone Number -->
+      <div class="flex flex-col">
+        <label class="mb-2 font-medium text-[#3E2723]" for="SellerPhoneNumber">Seller Phone Number</label>
+        <input
+          id="SellerPhoneNumber"
+          name="SellerPhoneNumber"
+          type="text"
+          [(ngModel)]="SellerPhoneNumber"
+          placeholder="Enter seller phone number"
+          class="p-2 rounded-lg border border-[#C49E6C] focus:ring-[#C49E6C] focus:border-[#C49E6C] text-black placeholder-gray-400"
+          required
+        />
+      </div>
+
+      <!-- Seller Manager -->
+      <div class="flex flex-col">
+        <label class="mb-2 font-medium text-[#3E2723]" for="SellerManager">Seller Manager</label>
+        <input
+          id="SellerManager"
+          name="SellerManager"
+          type="text"
+          [(ngModel)]="SellerManager"
+          placeholder="Enter seller manager name"
+          class="p-2 rounded-lg border border-[#C49E6C] focus:ring-[#C49E6C] focus:border-[#C49E6C] text-black placeholder-gray-400"
+          required
+        />
+      </div>
+
+      <!-- Seller Address -->
+      <div class="flex flex-col">
+        <label class="mb-2 font-medium text-[#3E2723]" for="SellerAddress">Seller Address</label>
+        <input
+          id="SellerAddress"
+          name="SellerAddress"
+          type="text"
+          [(ngModel)]="SellerAddress"
+          placeholder="Enter seller address"
+          class="p-2 rounded-lg border border-[#C49E6C] focus:ring-[#C49E6C] focus:border-[#C49E6C] text-black placeholder-gray-400"
+          required
+        />
+      </div>
+
+      <!-- Manufacturer ID (Disabled) -->
+      <div class="flex flex-col md:col-span-2">
+        <label class="mb-2 font-medium text-[#3E2723]" for="ManufacturerId">Manufacturer ID</label>
+        <input
+          id="ManufacturerId"
+          name="ManufacturerId"
+          type="text"
+          [(ngModel)]="manufacturerID"
+          disabled
+          class="p-2 rounded-lg border border-[#C49E6C] bg-gray-100 text-gray-600 focus:outline-none"
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <div class="md:col-span-2 flex justify-center mt-4">
+        <button
+          type="submit"
+          id="register"
+          class="px-6 py-3 rounded-xl bg-[#C49E6C] hover:bg-[#8B5E34] text-white font-bold text-lg transition-all duration-300 shadow-md">
+          Add Seller
+        </button>
+      </div>
+
+    </form>
+  </div>
+</section>

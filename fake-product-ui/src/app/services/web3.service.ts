@@ -150,4 +150,45 @@ export class Web3Service {
       return [];
     }
   }
+
+  // ✅ 3. Add Seller
+  async addSeller(
+      manufacturerId: string,
+      sellerName: string,
+      sellerBrand: string,
+      sellerID: string,
+      sellerNum: number,
+      sellerManager: string,
+      sellerAddress: string
+  ): Promise<void> {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+
+      // Encode all string parameters to bytes32 (as required by Solidity)
+      const encodedManufacturerId = ethers.encodeBytes32String(manufacturerId);
+      const encodedSellerName = ethers.encodeBytes32String(sellerName);
+      const encodedSellerBrand = ethers.encodeBytes32String(sellerBrand);
+      const encodedSellerID = ethers.encodeBytes32String(sellerID);
+      const encodedSellerManager = ethers.encodeBytes32String(sellerManager);
+      const encodedSellerAddress = ethers.encodeBytes32String(sellerAddress);
+
+      // Send the transaction
+      const tx = await this.contract['addSeller'](
+          encodedManufacturerId,
+          encodedSellerName,
+          encodedSellerBrand,
+          encodedSellerID,
+          sellerNum,
+          encodedSellerManager,
+          encodedSellerAddress
+      );
+
+      console.log('⏳ Transaction submitted:', tx);
+      await tx.wait();
+      console.log('✅ Seller successfully added!');
+    } catch (error) {
+      console.error('❌ Error adding seller:', error);
+    }
+  }
+
 }
