@@ -191,4 +191,31 @@ export class Web3Service {
     }
   }
 
+  // ✅ 4. Query Sellers
+  async querySellersList(manufacturerId: string): Promise<any[]> {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+
+      const encodedManufacturerId = ethers.encodeBytes32String(manufacturerId);
+
+      const [sellerIds, snames, sbrands, snums, smanagers, saddress] =
+          await this.contract['querySellersList'](encodedManufacturerId);
+
+      const sellers = sellerIds.map((sid: string, i: number) => ({
+        sellerId: ethers.decodeBytes32String(sid),
+        sellerName: ethers.decodeBytes32String(snames[i]),
+        sellerBrand: ethers.decodeBytes32String(sbrands[i]),
+        sellerNum: Number(snums[i]),
+        sellerManager: ethers.decodeBytes32String(smanagers[i]),
+        sellerAddress: ethers.decodeBytes32String(saddress[i])
+      }));
+
+      return sellers;
+    } catch (error) {
+      console.error('❌ Error querying sellers list:', error);
+      return [];
+    }
+  }
+
+
 }

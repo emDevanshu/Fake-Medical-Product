@@ -31,7 +31,6 @@ export class CheckInventoryComponent implements OnInit {
     try {
       this.loading = true;
 
-      // const manufacturerId = this.manufacturerAddress; // or your internal ID
       const inventory = await this.web3.queryInventory(this.manufacturerID);
       this.inventory = inventory;
       this.cdr.detectChanges();

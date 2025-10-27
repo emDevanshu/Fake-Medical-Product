@@ -1,0 +1,83 @@
+<section class="min-h-screen flex flex-col items-center justify-start px-6 py-10 bg-transparent">
+
+  <!-- Header with Back Button + Title -->
+  <div class="flex items-center justify-between relative mt-6 mb-8 w-full max-w-4xl mx-auto">
+    <!-- Left: Go Back -->
+    <button
+      (click)="goBack()"
+      class="px-6 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition-transform duration-200 hover:scale-105"
+    >
+      ← Go Back
+    </button>
+
+    <!-- Center: Title -->
+    <h2 class="absolute left-1/2 transform -translate-x-1/2 text-4xl font-bold text-shadow-white">
+      Query Sellers
+    </h2>
+
+    <!-- Right: Empty Spacer -->
+    <div class="flex-1"></div>
+  </div>
+
+  <!-- Query Form Card -->
+  <div class="w-full max-w-4xl bg-[#FFFDF7] rounded-2xl shadow-lg p-8">
+    <form class="flex flex-col items-center gap-6">
+      <!-- Manufacturer Code -->
+      <div class="w-full md:w-2/3">
+        <label for="manufacturerID" class="block text-[#3E2723] font-medium mb-2">Manufacturer ID</label>
+        <input
+          id="manufacturerID"
+          type="text"
+          class="w-full border border-[#C49E6C] rounded-lg px-4 py-2 bg-gray-100 text-gray-700 focus:outline-none"
+          [value]="manufacturerID"
+          disabled
+        />
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Sellers Table -->
+  <div *ngIf="sellers && sellers.length > 0"
+       class="w-full max-w-6xl mt-12 bg-[#FFFDF7] rounded-2xl shadow-lg p-8 overflow-x-auto">
+    <h3 class="text-2xl font-semibold text-[#3E2723] mb-4 text-center">Registered Sellers</h3>
+    <p class="text-center text-gray-600 mb-6">Following are the sellers registered through Blockchain Network</p>
+
+    <table class="min-w-full border border-[#C49E6C] rounded-lg overflow-hidden">
+      <thead class="bg-[#C49E6C] text-white">
+      <tr>
+        <th class="py-3 px-4 text-left">S. No.</th>
+        <th class="py-3 px-4 text-left">Seller ID</th>
+        <th class="py-3 px-4 text-left">Name</th>
+        <th class="py-3 px-4 text-left">Brand</th>
+        <th class="py-3 px-4 text-left">Number</th>
+        <th class="py-3 px-4 text-left">Manager</th>
+        <th class="py-3 px-4 text-left">Address</th>
+      </tr>
+      </thead>
+      <tbody class="text-black">
+      <tr
+        *ngFor="let seller of sellers; let i = index"
+        class=" hover:bg-[#FAF4E8] transition"
+      >
+        <td class="py-3 px-4">{{ i + 1 }}</td>
+        <td class="py-3 px-4">{{ seller.sellerId }}</td>
+        <td class="py-3 px-4">{{ seller.sellerName }}</td>
+        <td class="py-3 px-4">{{ seller.sellerBrand }}</td>
+        <td class="py-3 px-4">{{ seller.sellerNum }}</td>
+        <td class="py-3 px-4">{{ seller.sellerManager }}</td>
+        <td class="py-3 px-4">{{ seller.sellerAddress }}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="text-center mt-6">
+      <p>Your address is <b class="text-[#8B5E34]">{{ userAddress }}</b></p>
+    </div>
+  </div>
+
+  <!-- No Sellers Found -->
+  <div *ngIf="sellers && sellers.length === 0" class="mt-10 text-shadow-white text-lg">
+    No sellers found for this manufacturer.
+  </div>
+</section>
