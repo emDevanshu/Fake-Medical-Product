@@ -246,5 +246,46 @@ export class Web3Service {
     }
   }
 
+  // ✅ 6. Seller → Sell Product to Consumer
+  async sellerSellProduct(productSN: string, consumerID: string): Promise<boolean> {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+
+      // Encode to bytes32
+      const encodedProductSN = ethers.encodeBytes32String(productSN);
+      const encodedConsumerID = ethers.encodeBytes32String(consumerID);
+
+      // Current timestamp as bytes32
+      const currentTime = Math.floor(Date.now() / 1000).toString(); // seconds
+      const encodedProductTime = ethers.encodeBytes32String(currentTime);
+
+      console.log('🧾 Selling product:', {
+        productSN,
+        consumerID,
+        encodedProductSN,
+        encodedConsumerID,
+        encodedProductTime
+      });
+
+      // Send transaction to blockchain
+      const tx = await this.contract['sellerSellProduct'](
+        encodedProductSN,
+        encodedConsumerID,
+        encodedProductTime
+      );
+
+      console.log('⏳ Transaction sent:', tx.hash);
+
+      // Wait for confirmation
+      const receipt = await tx.wait();
+      console.log('✅ Transaction confirmed:', receipt);
+
+      return true;
+    } catch (error) {
+      console.error('❌ Error selling product to consumer:', error);
+      return false;
+    }
+  }
+
 
 }

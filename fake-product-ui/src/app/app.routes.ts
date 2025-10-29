@@ -8,6 +8,7 @@ import {CheckInventoryComponent} from './manufacturer/check-manufacturer-invento
 import {AddSellerComponent} from './manufacturer/add-seller/add-seller';
 import {QuerySellerComponent} from './manufacturer/query-seller/query-seller';
 import {SellProductToSellerComponent} from './manufacturer/sell-product-to-seller/sell-product-to-seller';
+import {SellProductToConsumerComponent} from './seller/sell-product-to-consumer/sell-product-to-consumer';
 
 export const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -20,6 +21,6 @@ export const routes: Routes = [
   {path: 'manufacturer/add-seller', component: AddSellerComponent},
   {path: 'manufacturer/query-seller', component: QuerySellerComponent},
   {path: 'manufacturer/sell-product', component: SellProductToSellerComponent},
-  // {path: '/seller/seller-product', component: ConsumerComponent},
-  // {path: '/seller/check-inventory', component: AboutComponent},
+  {path: 'seller/sell-product', component: SellProductToConsumerComponent},
+  // {path: 'seller/check-inventory', component: AboutComponent},
 ];
