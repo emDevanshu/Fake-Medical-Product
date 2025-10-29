@@ -19,7 +19,7 @@ export const routes: Routes = [
   {path: 'manufacturer/check-inventory', component: CheckInventoryComponent},
   {path: 'manufacturer/add-seller', component: AddSellerComponent},
   {path: 'manufacturer/query-seller', component: QuerySellerComponent},
-  {path: 'manufacturer/sell-product', component: SellProductToSellerComponent}
-  // {path: 'consumer', component: ConsumerComponent},
-  // {path: 'about', component: AboutComponent},
+  {path: 'manufacturer/sell-product', component: SellProductToSellerComponent},
+  // {path: '/seller/seller-product', component: ConsumerComponent},
+  // {path: '/seller/check-inventory', component: AboutComponent},
 ];
