@@ -1,1 +1,5 @@
-Fake medical product identification using blockchain nad qr code 
+Fake medical product identification using blockchain and qr code 
+
+npm run compile 
+
+npm run deploy
