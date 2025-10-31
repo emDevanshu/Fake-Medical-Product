@@ -26,7 +26,7 @@ export class LoginComponent {
   ];
 
   private readonly sellerUsers = [
-    {username: 'seller1', password: 'pass1', sid: 'S01'},
+    {username: 'seller1', password: 'pass1', sid: '13'},
     {username: 'seller2', password: 'pass2', sid: 'S02'},
     {username: 'seller3', password: 'pass3', sid: 'S03'}
   ];

@@ -126,8 +126,8 @@ export class Web3Service {
     }
   }
 
-  // ✅ 2. Query Inventory
-  async queryInventory(manufacturerId: string) : Promise<any[]> {
+  // ✅ 2. Query Manufacturer Inventory
+  async queryManufacturerInventory(manufacturerId: string) : Promise<any[]> {
     try {
       if (!this.contract) throw new Error('Contract not loaded.');
 
@@ -284,6 +284,36 @@ export class Web3Service {
     } catch (error) {
       console.error('❌ Error selling product to consumer:', error);
       return false;
+    }
+  }
+
+  // ✅ 7. Check seller inventory
+  async querySellerInventory(sellerId: string): Promise<any[]> {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+
+      // Encode seller ID to bytes32
+      const encodedSellerId = ethers.encodeBytes32String(sellerId);
+
+      // Call the smart contract function
+      const [mids, productSNs, pnames, pbrands, pprices, pstatus] =
+        await this.contract['queryProductsList'](encodedSellerId);
+
+      // Map and decode each product entry
+      const products = productSNs.map((sn: any, i: number) => ({
+        manufacturerId: ethers.decodeBytes32String(mids[i]),
+        productSN: ethers.decodeBytes32String(sn),
+        name: ethers.decodeBytes32String(pnames[i]),
+        brand: ethers.decodeBytes32String(pbrands[i]),
+        price: Number(pprices[i]),
+        status: ethers.decodeBytes32String(pstatus[i])
+      }));
+
+      console.log('✅ Products fetched:', products);
+      return products;
+    } catch (error) {
+      console.error('❌ Error querying products list:', error);
+      return [];
     }
   }
 
