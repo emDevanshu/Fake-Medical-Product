@@ -20,7 +20,6 @@ export class ProductVerificationComponent {
   productSN : string = '';
   qrScanned = false;
   cameraRunning: boolean = false;
-  result : string = '';
   actualConsumer = '';
   isVerified = false;
   verificationDone = false;
