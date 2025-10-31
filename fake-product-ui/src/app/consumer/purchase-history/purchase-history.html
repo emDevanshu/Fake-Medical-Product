@@ -1,0 +1,88 @@
+<section class="min-h-screen flex flex-col items-center justify-start px-6 py-10 bg-transparent">
+
+  <!-- Header with Go Back and Centered Heading -->
+  <div class="flex items-center mt-6 mb-8 w-full max-w-5xl mx-auto">
+    <!-- Left: Go Back button -->
+    <div class="flex-1">
+      <button
+        (click)="goBack()"
+        class="px-6 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition-transform duration-200 hover:scale-105">
+        ← Go Back
+      </button>
+    </div>
+
+    <!-- Center: Heading -->
+    <div class="flex-1 text-center">
+      <h2 class="text-4xl font-bold text-shadow-white">Consumer Product History</h2>
+    </div>
+
+    <!-- Right: Spacer -->
+    <div class="flex-1"></div>
+  </div>
+
+  <!-- Consumer ID Input Form -->
+  <div class="w-full max-w-lg bg-[#FFFDF7] rounded-2xl shadow-lg p-8 mb-10">
+    <div class="flex flex-col items-center gap-4">
+      <label for="consumerID" class="text-lg font-semibold text-[#3E2723]">
+        Enter Consumer ID
+      </label>
+
+      <input
+        type="text"
+        id="consumerID"
+        [(ngModel)]="consumerId"
+        placeholder="Enter Consumer ID"
+        class="w-full border border-gray-300 text-black rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-700"
+      />
+
+      <button
+        (click)="getConsumerProducts()"
+        class="mt-2 px-8 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition-transform duration-200 hover:scale-105">
+        Get Products
+      </button>
+    </div>
+  </div>
+
+  <!-- Products Purchased Table -->
+  <div class="w-full max-w-6xl bg-[#FFFDF7] rounded-2xl shadow-lg p-8">
+    <h2 class="text-2xl font-semibold text-[#3E2723] mb-6 text-center">
+      Products Purchased by Consumer
+    </h2>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full border border-gray-200 divide-y divide-gray-200 rounded-lg">
+        <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">S. No.</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Product SN</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Manufacturer ID</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Date of Manufacturing</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Seller ID</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Date Received by Seller</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Date of Purchase</th>
+        </tr>
+        </thead>
+
+        <tbody class="text-black divide-y divide-gray-100">
+        <tr *ngFor="let product of consumerProducts; let i = index" class="hover:bg-gray-50">
+          <td class="px-4 py-2">{{ i + 1 }}</td>
+          <td class="px-4 py-2">{{ product.productSN }}</td>
+          <td class="px-4 py-2">{{ product.manufacturerId }}</td>
+          <td class="px-4 py-2">{{ product.manufacturingTime }}</td>
+          <td class="px-4 py-2">{{ product.sellerId }}</td>
+          <td class="px-4 py-2">{{ product.manufacturerToSellerTime }}</td>
+          <td class="px-4 py-2">{{ product.sellingTime }}</td>
+        </tr>
+
+        <!-- Empty State -->
+        <tr *ngIf="consumerProducts.length === 0 && !loading">
+          <td colspan="7" class="text-center py-4 text-gray-500">
+            No purchase records found for this consumer.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
