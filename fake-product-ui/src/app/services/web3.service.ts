@@ -358,4 +358,40 @@ export class Web3Service {
     }
   }
 
+  // ✅ 9. Verify Product
+  async verifyProduct(productSN: string, consumerId: string): Promise<{ isVerified: boolean; actualConsumer: string }> {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+
+      // Encode inputs to bytes32
+      const encodedProductSN = ethers.encodeBytes32String(productSN);
+      const encodedConsumerId = ethers.encodeBytes32String(consumerId);
+
+      // Call the smart contract function
+      const [isVerified, actualConsumerBytes] = await this.contract['verifyProduct'](
+        encodedProductSN,
+        encodedConsumerId
+      );
+
+      // Decode the returned consumer ID
+      let actualConsumer = '';
+      try {
+        actualConsumer = ethers.toUtf8String(actualConsumerBytes).replace(/\u0000/g, '');
+      } catch {
+        actualConsumer = actualConsumerBytes; // fallback: raw hex
+      }
+
+      console.log('✅ Product verification result:', {isVerified, actualConsumer});
+
+      return {
+        isVerified,
+        actualConsumer,
+      };
+    } catch (error) {
+      console.error('❌ Error verifying product:', error);
+      return {isVerified: false, actualConsumer: ''};
+    }
+  }
+
+
 }
