@@ -30,14 +30,13 @@ export class CheckInventoryComponent implements OnInit {
   async getInventory() {
     try {
       this.loading = true;
-
-      const inventory = await this.web3.queryInventory(this.manufacturerID);
+      const inventory = await this.web3.queryManufacturerInventory(this.manufacturerID);
       this.inventory = inventory;
-      this.cdr.detectChanges();
     } catch (err) {
       console.error('Error fetching inventory:', err);
     } finally {
       this.loading = false;
+      this.cdr.detectChanges();
     }
   }
 
