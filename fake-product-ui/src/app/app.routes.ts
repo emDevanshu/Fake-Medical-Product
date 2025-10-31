@@ -11,6 +11,7 @@ import {SellProductToSellerComponent} from './manufacturer/sell-product-to-selle
 import {SellProductToConsumerComponent} from './seller/sell-product-to-consumer/sell-product-to-consumer';
 import {SellerInventoryComponent} from './seller/seller-inventory/seller-inventory';
 import {ConsumerComponent} from './consumer/consumer';
+import {PurchaseHistoryComponent} from './consumer/purchase-history/purchase-history';
 
 export const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -27,5 +28,5 @@ export const routes: Routes = [
   {path: 'seller/check-inventory', component: SellerInventoryComponent},
   {path: 'consumer', component: ConsumerComponent},
   // {path: 'consumer/product-verification', component: ConsumerComponent},
-  // {path: 'consumer/purchase-history', component: ConsumerComponent},
+  {path: 'consumer/purchase-history', component: PurchaseHistoryComponent},
 ];

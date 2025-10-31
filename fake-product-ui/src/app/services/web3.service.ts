@@ -317,5 +317,45 @@ export class Web3Service {
     }
   }
 
+  // ✅ 8. Consumer purchase history
+  async getPurchaseHistory(consumerId: string): Promise<any[]> {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+
+      // Encode consumer ID to bytes32
+      const encodedConsumerId = ethers.encodeBytes32String(consumerId);
+
+      // Call the smart contract function
+      const [
+        productSNs,
+        manufacturerIDs,
+        manufacturingTimes,
+        sellerIDs,
+        manufacToSellerTimes,
+        sellingTimes
+      ] = await this.contract['getPurchaseHistory'](encodedConsumerId);
+
+      const formatTime = (bytes32Time: string) => {
+        const decoded = ethers.decodeBytes32String(bytes32Time);
+        return decoded ? new Date(decoded).toLocaleString() : '-';
+      };
+
+      // Map and decode each product entry
+      const history = productSNs.map((sn: any, i: number) => ({
+        productSN: ethers.decodeBytes32String(sn),
+        manufacturerId: ethers.decodeBytes32String(manufacturerIDs[i]),
+        manufacturingTime: formatTime(manufacturingTimes[i]),
+        sellerId: ethers.decodeBytes32String(sellerIDs[i]),
+        manufacturerToSellerTime: formatTime(manufacToSellerTimes[i]),
+        sellingTime: ethers.decodeBytes32String(sellingTimes[i])
+      }));
+
+      console.log('✅ Purchase history fetched:', history);
+      return history;
+    } catch (error) {
+      console.error('❌ Error querying purchase history:', error);
+      return [];
+    }
+  }
 
 }
