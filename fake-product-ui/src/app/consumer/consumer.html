@@ -1,0 +1,66 @@
+<section class="min-h-screen relative px-6 py-10 bg-transparent">
+
+  <!-- Background Overlay (behind everything) -->
+  <div class="absolute inset-0 bg-black/20 -z-10"></div>
+
+  <!-- Header: Welcome + Profile -->
+  <div class="flex justify-between items-center mb-12 z-10 relative">
+    <!-- Welcome -->
+    <div>
+      <h1 class="text-5xl font-extrabold text-white mb-2">Welcome
+<!--        <span class="text-yellow-200">{{ companyName }}</span>-->
+      </h1>
+      <p class="text-lg text-gray-300">Manage and verify your purchases</p>
+    </div>
+
+    <!-- Profile Dropdown -->
+    <div class="relative" x-data="{ open: false }">
+<!--      <button (click)="toggleDropdown()"-->
+<!--              class="flex items-center gap-2 bg-[#3E2723]/80 text-white px-4 py-2 rounded-xl hover:bg-[#8B5E34]/80 transition-all duration-300">-->
+<!--        &lt;!&ndash;        <img src="assets/profile-icon.png" alt="profile" class="w-8 h-8 rounded-full">&ndash;&gt;-->
+<!--        <span>{{ companyName }}</span>-->
+<!--        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+<!--                d="M19 9l-7 7-7-7"></path>-->
+<!--        </svg>-->
+<!--      </button>-->
+
+      <!-- Dropdown Menu -->
+<!--      <ul *ngIf="dropdownOpen" class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg text-white">-->
+<!--        <li>-->
+<!--          <a routerLink="/change-password" class="block px-4 py-2 hover:bg-gray-700 transition">Change Password</a>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--          <button (click)="logout()" class="w-full text-left px-4 py-2 hover:bg-gray-700 transition">Logout</button>-->
+<!--        </li>-->
+<!--      </ul>-->
+    </div>
+  </div>
+
+  <!-- Action Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 z-10">
+
+    <!-- Card Example -->
+    <a routerLink="/consumer/purchase-history"
+       class="flex flex-col items-center justify-center p-8 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-transform duration-300 transform hover:scale-105">
+      <span class="text-2xl text-center sm:text-3xl font-bold mb-3">Consumer Purchase History</span>
+      <p class="text-gray-200 text-center">See your purchase history</p>
+    </a>
+
+    <a routerLink="/consumer/product-verification"
+       class="flex flex-col items-center justify-center p-8 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-transform duration-300 transform hover:scale-105">
+      <span class="text-2xl sm:text-3xl font-bold mb-3">Product Verification</span>
+      <p class="text-gray-200 text-center">Verify your purchase products</p>
+    </a>
+
+    <div
+      routerLink="/home"
+      class="cursor-pointer flex flex-col items-center justify-center p-8 rounded-2xl bg-[#3E2723]/80 hover:bg-[#8B5E34]/80 text-white shadow-lg transition-transform duration-300 transform hover:scale-105"
+    >
+      <span class="text-2xl sm:text-3xl font-bold mb-3">Home</span>
+      <p class="text-gray-200 text-center">Return to the main dashboard</p>
+    </div>
+
+  </div>
+
+</section>

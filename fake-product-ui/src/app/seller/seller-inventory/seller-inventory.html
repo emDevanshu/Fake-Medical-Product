@@ -1,0 +1,68 @@
+<section class="min-h-screen flex flex-col items-center justify-start px-6 py-10 bg-transparent">
+
+  <!-- Header with Go Back and Centered Heading -->
+  <div class="flex items-center mt-6 mb-8 w-full max-w-5xl mx-auto">
+    <!-- Left: Go Back button -->
+    <div class="flex-1">
+      <button
+        (click)="goBack()"
+        class="px-6 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition-transform duration-200 hover:scale-105">
+        ← Go Back
+      </button>
+    </div>
+
+    <!-- Center: Heading -->
+    <div class="flex-1 text-center">
+      <h2 class="text-4xl font-bold text-shadow-white">Product Details</h2>
+    </div>
+
+    <!-- Right: Spacer -->
+    <div class="flex-1"></div>
+  </div>
+
+  <!-- Product Details Table -->
+  <div class="w-full max-w-6xl bg-[#FFFDF7] rounded-2xl shadow-lg p-8">
+    <h2 class="text-2xl font-semibold text-[#3E2723] mb-6 text-center">Products for Sale</h2>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full border border-gray-200 divide-y divide-gray-200 rounded-lg">
+        <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">S. No.</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Manufacturer ID</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Product Serial Number</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Product Name</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Product Brand</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Product Price</th>
+          <th class="px-4 py-2 text-left text-gray-700 font-semibold">Product Status</th>
+        </tr>
+        </thead>
+
+        <tbody class="text-black divide-y divide-gray-100">
+        <tr *ngFor="let product of inventory; let i = index" class="hover:bg-gray-50">
+          <td class="px-4 py-2">{{ i + 1 }}</td>
+          <td class="px-4 py-2">{{ product.manufacturerId }}</td>
+          <td class="px-4 py-2">{{ product.serialNumber }}</td>
+          <td class="px-4 py-2">{{ product.name }}</td>
+          <td class="px-4 py-2">{{ product.brand }}</td>
+          <td class="px-4 py-2">{{ product.price }}</td>
+          <td class="px-4 py-2">{{ product.status }}</td>
+        </tr>
+
+        <!-- Empty State -->
+        <tr *ngIf="inventory.length === 0 && !loading">
+          <td colspan="7" class="text-center py-4 text-gray-500">
+            No products available for sale.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Address Info -->
+    <p class="text-center text-[#3E2723] mt-6">
+      Your address is <b class="font-semibold text-[#3E2723]">{{ userAddress }}</b>
+    </p>
+  </div>
+
+</section>
