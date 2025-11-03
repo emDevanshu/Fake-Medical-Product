@@ -42,18 +42,6 @@
       Learn More About Us
     </a>
   </div>
-
-  <!-- MetaMask Connection -->
-  <div class="mt-12 flex flex-col items-center gap-3 z-10">
-    <button
-      (click)="connectWallet()"
-      class="px-6 py-2 rounded-lg [background-color:#8B5E34] hover:[background-color:#3E2723] text-white font-medium shadow-md transition-all duration-300">
-      Connect MetaMask
-    </button>
-
-    <p class="text-white font-medium mt-2">Connected: {{ account || 'Not connected' }}</p>
-    <p class="text-white font-medium">Balance: {{ balance || 0 }} ETH</p>
-  </div>
 </section>
 
 
