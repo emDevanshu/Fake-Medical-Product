@@ -12,3 +12,6 @@ body {
   @apply bg-black text-white relative font-sans;
 }
 
+html, body {
+  overflow-y: hidden;
+}
