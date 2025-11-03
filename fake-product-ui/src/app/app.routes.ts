@@ -13,6 +13,7 @@ import {SellerInventoryComponent} from './seller/seller-inventory/seller-invento
 import {ConsumerComponent} from './consumer/consumer';
 import {PurchaseHistoryComponent} from './consumer/purchase-history/purchase-history';
 import {ProductVerificationComponent} from './consumer/product-verification/product-verification';
+import {AboutComponent} from './home/about/about';
 
 export const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -30,4 +31,5 @@ export const routes: Routes = [
   {path: 'consumer', component: ConsumerComponent},
   {path: 'consumer/product-verification', component: ProductVerificationComponent},
   {path: 'consumer/purchase-history', component: PurchaseHistoryComponent},
+  {path: 'about', component: AboutComponent},
 ];
