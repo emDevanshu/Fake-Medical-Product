@@ -17,6 +17,6 @@ export class ConsumerComponent implements OnInit{
   constructor(private web3: Web3Service) {}
 
   async ngOnInit() {
-    await this.web3.loadContract();
+    await this.web3.loadContract(false);
   }
 }

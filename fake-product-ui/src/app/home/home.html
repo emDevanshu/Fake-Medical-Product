@@ -1,47 +1,172 @@
-<section class="min-h-screen flex flex-col items-center justify-start py-10 px-4 relative">
+<!--<section class="min-h-screen flex flex-col items-center justify-start py-10 px-4 relative">-->
 
-<!--  heading-->
-  <h1
-    class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-    Fake Medical Product Identification</h1>
-  <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">through Blockchain
-    and QR Code</p>
+<!--&lt;!&ndash;  heading&ndash;&gt;-->
+<!--  <h1-->
+<!--    class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">-->
+<!--    Fake Medical Product Identification</h1>-->
+<!--  <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">through Blockchain-->
+<!--    and QR Code</p>-->
+
+<!--  &lt;!&ndash; Navbar &ndash;&gt;-->
+<!--  <nav class="block w-full max-w-screen-xl px-4 py-2 mx-auto text-white bg-[#3E2723]/90 shadow-md rounded-md lg:px-8 lg:py-3 mt-10">-->
+<!--    <div class="container flex flex-wrap items-center justify-center mx-auto text-gray-100 gap-x-6">-->
+<!--      <a routerLink="/home" routerLinkActive="active"-->
+<!--         class="text-[#FFF8E7] hover:[color:#C49E6C] font-normal transition duration-300">Home</a>-->
+<!--      <a routerLink="/login/manufacturer" routerLinkActive="active"-->
+<!--         class="text-[#FFF8E7] hover:[color:#C49E6C] font-normal transition duration-300">Manufacturer</a>-->
+<!--      <a routerLink="/login/seller" routerLinkActive="active"-->
+<!--         class="text-[#FFF8E7] hover:[color:#C49E6C] font-normal transition duration-300">Seller</a>-->
+<!--      <a routerLink="/consumer" routerLinkActive="active"-->
+<!--         class="text-[#FFF8E7] hover:[color:#C49E6C] font-normal transition duration-300">Consumer</a>-->
+<!--      <a routerLink="/about" routerLinkActive="active"-->
+<!--         class="text-[#FFF8E7] hover:[color:#C49E6C] font-normal transition duration-300">About Us</a>-->
+<!--    </div>-->
+<!--  </nav>-->
+
+<!--  &lt;!&ndash; Welcome Section &ndash;&gt;-->
+<!--  <div class="text-center my-6 z-10">-->
+<!--    <h2 class="text-3xl font-semibold text-white mb-4">Welcome</h2>-->
+<!--    <img-->
+<!--      src="assets/img.jpg"-->
+<!--      alt="Verification illustration"-->
+<!--      class="w-64 h-64 object-cover rounded-2xl border-4 border-[#C49E6C] shadow-lg mx-auto"-->
+<!--    />-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; About Us Button &ndash;&gt;-->
+<!--  <div class="text-center mt-8 z-10">-->
+<!--    <a-->
+<!--      routerLink="/about"-->
+<!--      class="inline-block px-6 py-3 rounded-lg [background-color:#C49E6C] text-white font-medium text-lg hover:[background-color:#8B5E34] transition-all duration-300 shadow-md"-->
+<!--    >-->
+<!--      Learn More About Us-->
+<!--    </a>-->
+<!--  </div>-->
+<!--</section>-->
+
+
+<section
+  class="min-h-screen flex flex-col items-center justify-start py-20 px-4 relative overflow-hidden z-10 backdrop-blur-[1px]">
+
+  <!-- Decorative Glows -->
+  <div class="absolute top-10 left-10 w-40 h-40 bg-[#C49E6C]/20 rounded-full blur-3xl animate-pulseSlow"></div>
+  <div class="absolute bottom-10 right-10 w-56 h-56 bg-yellow-200/10 rounded-full blur-3xl animate-pulseSlow delay-500"></div>
 
   <!-- Navbar -->
-  <nav class="block w-full max-w-screen-xl px-4 py-2 mx-auto text-white bg-[#3E2723]/90 shadow-md rounded-md lg:px-8 lg:py-3 mt-10">
-    <div class="container flex flex-wrap items-center justify-center mx-auto text-gray-100 gap-x-6">
-      <a routerLink="/home" routerLinkActive="active"
-         class="text-[#FFF8E7] hover:[color:#C49E6C] font-normal transition duration-300">Home</a>
-      <a routerLink="/login/manufacturer" routerLinkActive="active"
-         class="text-[#FFF8E7] hover:[color:#C49E6C] font-normal transition duration-300">Manufacturer</a>
-      <a routerLink="/login/seller" routerLinkActive="active"
-         class="text-[#FFF8E7] hover:[color:#C49E6C] font-normal transition duration-300">Seller</a>
-      <a routerLink="/consumer" routerLinkActive="active"
-         class="text-[#FFF8E7] hover:[color:#C49E6C] font-normal transition duration-300">Consumer</a>
-      <a routerLink="/about" routerLinkActive="active"
-         class="text-[#FFF8E7] hover:[color:#C49E6C] font-normal transition duration-300">About Us</a>
+  <nav class="fixed top-4 w-[92%] max-w-5xl bg-[#3E2723]/80 backdrop-blur-md shadow-lg rounded-2xl border border-[#8B5E34]/40 z-50 hover:bg-[#3E2723]/50 transition-colors duration-400">
+    <div class="flex items-center justify-center gap-6 py-3 text-md sm:text-lg">
+      <a routerLink="/home" class="hover:text-[#C49E6C] hover:scale-110 transition-all duration-300">Home</a>
+      <a routerLink="/login/manufacturer" class="hover:text-[#C49E6C] hover:scale-110 transition-all duration-300">Manufacturer</a>
+      <a routerLink="/login/seller" class="hover:text-[#C49E6C] hover:scale-110 transition-all duration-300">Seller</a>
+      <a routerLink="/consumer" class="hover:text-[#C49E6C] hover:scale-110 transition-all duration-300">Consumer</a>
+      <a routerLink="/about" class="hover:text-[#C49E6C] hover:scale-110 transition-all duration-300">About Us</a>
     </div>
   </nav>
 
-  <!-- Welcome Section -->
-  <div class="text-center my-6 z-10">
-    <h2 class="text-3xl font-semibold text-white mb-4">Welcome</h2>
-    <img
-      src="assets/img.jpg"
-      alt="Verification illustration"
-      class="w-64 h-64 object-cover rounded-2xl border-4 border-[#C49E6C] shadow-lg mx-auto"
-    />
+  <!-- Hero Section -->
+  <div class="mt-8 sm:mt-12 text-center animate-fadeInUp px-6">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
+      Fake Medical Product Identification
+    </h1>
+    <p class="text-lg sm:text-xl text-gray-300 mb-8 tracking-wide">
+      powered by <span class="text-[#C49E6C] font-semibold">Blockchain</span> &amp; <span
+      class="text-[#C49E6C] font-semibold">QR Technology</span>
+    </p>
   </div>
 
-  <!-- About Us Button -->
-  <div class="text-center mt-8 z-10">
-    <a
-      routerLink="/about"
-      class="inline-block px-6 py-3 rounded-lg [background-color:#C49E6C] text-white font-medium text-lg hover:[background-color:#8B5E34] transition-all duration-300 shadow-md"
-    >
-      Learn More About Us
-    </a>
+  <!-- Illustration / Image -->
+  <div class="mt-8 sm:mt-12 animate-fadeIn delay-200">
+    <div class="relative">
+      <img
+        src="assets/img.jpg"
+        alt="Product verification illustration"
+        class="w-60 sm:w-80 h-60 sm:h-80 object-cover rounded-3xl border-4 border-[#C49E6C]/70 shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-500"
+      />
+      <!-- Glowing Ring Animation -->
+      <div class="absolute inset-0 rounded-3xl border-4 border-[#C49E6C]/30 animate-glowRing"></div>
+    </div>
   </div>
+
+  <!-- Features Section -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-20 px-6 max-w-6xl animate-fadeInUp delay-300">
+    <div
+      class="bg-[#3E2723]/80 border border-[#8B5E34]/40 p-6 rounded-2xl shadow-lg hover:shadow-[#8B5E34]/30 transform hover:-translate-y-2 transition-all duration-300">
+      <h3 class="text-xl font-semibold mb-2 text-[#C49E6C]">Blockchain Verification</h3>
+      <p class="text-gray-300 text-sm">Ensures tamper-proof authenticity and tracks product origins securely.</p>
+    </div>
+    <div
+      class="bg-[#3E2723]/80 border border-[#8B5E34]/40 p-6 rounded-2xl shadow-lg hover:shadow-[#8B5E34]/30 transform hover:-translate-y-2 transition-all duration-300">
+      <h3 class="text-xl font-semibold mb-2 text-[#C49E6C]">QR-Based Tracking</h3>
+      <p class="text-gray-300 text-sm">Scan products instantly to verify legitimacy via linked blockchain data.</p>
+    </div>
+    <div
+      class="bg-[#3E2723]/80 border border-[#8B5E34]/40 p-6 rounded-2xl shadow-lg hover:shadow-[#8B5E34]/30 transform hover:-translate-y-2 transition-all duration-300">
+      <h3 class="text-xl font-semibold mb-2 text-[#C49E6C]">User Empowerment</h3>
+      <p class="text-gray-300 text-sm">Gives customers the ability to detect counterfeit goods in real time.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-20 mb-6 text-gray-400 text-sm text-center animate-fadeIn delay-500">
+    © 2025 Fake Medical Product Identification | Built with 💛 Blockchain + QR
+  </footer>
 </section>
 
+<!-- Custom Animations -->
+<style>
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulseSlow {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes glowRing {
+    0%, 100% {
+      box-shadow: 0 0 20px #C49E6C55, inset 0 0 10px #C49E6C33;
+    }
+    50% {
+      box-shadow: 0 0 35px #C49E6C99, inset 0 0 15px #C49E6C66;
+    }
+  }
+
+  .animate-fadeInUp {
+    animation: fadeInUp 1.2s ease-out forwards;
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 1.5s ease-in forwards;
+  }
+
+  .animate-pulseSlow {
+    animation: pulseSlow 6s ease-in-out infinite;
+  }
+
+  .animate-glowRing {
+    animation: glowRing 3s ease-in-out infinite;
+  }
+</style>
