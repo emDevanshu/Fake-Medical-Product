@@ -142,6 +142,15 @@
 
 <section
   class="min-h-screen flex flex-col items-center justify-center [background:linear-gradient(to_bottom_right,#fff8e7,#c49e6c)]">
+
+  <div class="absolute top-8 left-8 z-20">
+    <button
+      (click)="goBack()"
+      class="px-6 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition-transform duration-200 hover:scale-105">
+      ← Go Back
+    </button>
+  </div>
+
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
     <a href="#" class="flex items-center mb-6 text-3xl font-semibold [color:#3E2723]">
       <img class="w-10 h-10 mr-2 rounded" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
