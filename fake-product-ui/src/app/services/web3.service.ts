@@ -63,7 +63,7 @@ export class Web3Service {
   //  Load smart contract
   // -------------------------
 
-  async loadContract(): Promise<void> {
+  async loadContract(requireSigner: boolean = true): Promise<void> {
     try {
       if (!this.provider) throw new Error('Provider not initialized');
 
@@ -71,9 +71,23 @@ export class Web3Service {
 
       const abi = contractJson.abi;
       const CONTRACT_ADDRESS = contractJson.address;
-      const signer = await this.provider.getSigner();
 
-      this.contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+      let contract;
+      if (requireSigner) {
+        const signer = await this.provider.getSigner();
+        contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+        console.log('✅ Contract loaded with signer (MetaMask)');
+      } else {
+        contract = new ethers.Contract(CONTRACT_ADDRESS, abi, this.provider);
+        console.log('✅ Contract loaded in read-only mode');
+      }
+
+
+
+      // const signer = await this.provider.getSigner();
+
+      // this.contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+      this.contract = contract;
       console.log('✅ Contract loaded at:', CONTRACT_ADDRESS);
     } catch (error) {
       console.error('Error loading contract:', error);
