@@ -16,8 +16,8 @@ export class AuthService {
     return this.http.get<{ nonce: string }>(`${this.apiUrl}/nonce/${walletAddress}`);
   }
 
-  verifySignature(walletAddress: string, signature: string) {
-    return this.http.post<any>(`${this.apiUrl}/verify`, {walletAddress, signature});
+  verifySignature(walletAddress: string, signature: string, role : string) {
+    return this.http.post<any>(`${this.apiUrl}/verify`, {walletAddress, signature, role});
   }
 
   registerUser(username: string, walletAddress: string, role: string) {

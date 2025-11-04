@@ -179,34 +179,34 @@
         </div>
 
         <!-- Password -->
-        <div>
-          <label for="password" class="block mb-2 text-sm font-medium [color:#3E2723]">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            [(ngModel)]="password"
-            placeholder="Enter your password"
-            class="[background-color:#FFF8E7] border border-[#C49E6C] [color:#3E2723] rounded-lg focus:ring-[#C49E6C] focus:border-[#C49E6C] block w-full p-2.5"
-            required
-          />
-        </div>
+<!--        <div>-->
+<!--          <label for="password" class="block mb-2 text-sm font-medium [color:#3E2723]">Password</label>-->
+<!--          <input-->
+<!--            type="password"-->
+<!--            id="password"-->
+<!--            name="password"-->
+<!--            [(ngModel)]="password"-->
+<!--            placeholder="Enter your password"-->
+<!--            class="[background-color:#FFF8E7] border border-[#C49E6C] [color:#3E2723] rounded-lg focus:ring-[#C49E6C] focus:border-[#C49E6C] block w-full p-2.5"-->
+<!--            required-->
+<!--          />-->
+<!--        </div>-->
 
         <!-- MID / SID -->
-        <div>
-          <label for="extraId" class="block mb-2 text-sm font-medium [color:#3E2723]">
-            {{ userType === 'manufacturer' ? 'MID' : 'SID' }}
-          </label>
-          <input
-            type="text"
-            id="extraId"
-            name="extraId"
-            [(ngModel)]="extraId"
-            [placeholder]="userType === 'manufacturer' ? 'Enter MID' : 'Enter SID'"
-            class="[background-color:#FFF8E7] border border-[#C49E6C] [color:#3E2723] rounded-lg focus:ring-[#C49E6C] focus:border-[#C49E6C] block w-full p-2.5"
-            required
-          />
-        </div>
+<!--        <div>-->
+<!--          <label for="extraId" class="block mb-2 text-sm font-medium [color:#3E2723]">-->
+<!--            {{ userType === 'manufacturer' ? 'MID' : 'SID' }}-->
+<!--          </label>-->
+<!--          <input-->
+<!--            type="text"-->
+<!--            id="extraId"-->
+<!--            name="extraId"-->
+<!--            [(ngModel)]="extraId"-->
+<!--            [placeholder]="userType === 'manufacturer' ? 'Enter MID' : 'Enter SID'"-->
+<!--            class="[background-color:#FFF8E7] border border-[#C49E6C] [color:#3E2723] rounded-lg focus:ring-[#C49E6C] focus:border-[#C49E6C] block w-full p-2.5"-->
+<!--            required-->
+<!--          />-->
+<!--        </div>-->
 
         <!-- Submit Button -->
         <button
@@ -214,6 +214,7 @@
           class="w-full text-white [background-color:#C49E6C] hover:[background-color:#8B5E34] focus:ring-4 focus:ring-[#C49E6C] font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300">
           Sign in
         </button>
+        <p>{{ loading ? 'Connecting to MetaMask...' : 'Login with MetaMask' }}</p>
 
         <!-- Message -->
         <p *ngIf="message" class="text-center text-sm font-medium mt-4"
