@@ -59,6 +59,10 @@ export class Web3Service {
     return this.accountAddress;
   }
 
+  getProvider() {
+    return this.provider;
+  }
+
   // -------------------------
   //  Load smart contract
   // -------------------------
