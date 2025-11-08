@@ -95,7 +95,9 @@
       <div class="md:col-span-2 flex justify-center mt-4">
         <button
           type="submit"
+          [ngClass]="{'hover:bg-[#8B5E34]': !productAdded }"
           class="px-6 py-3 rounded-xl bg-[#C49E6C] hover:bg-[#8B5E34] text-white font-bold text-lg transition-all duration-300 shadow-md"
+          [disabled]="productAdded"
         >
           Add Product
         </button>
