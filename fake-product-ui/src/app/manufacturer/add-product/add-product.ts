@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {saveAs} from 'file-saver';
-import {NgIf} from '@angular/common';
+import {NgClass, NgIf} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {Web3Service} from '../../services/web3.service';
 import {AuthService} from '../../services/auth.service';
@@ -11,7 +11,8 @@ import {AuthService} from '../../services/auth.service';
   imports: [
     FormsModule,
     NgIf,
-    RouterModule
+    RouterModule,
+    NgClass
   ],
   templateUrl: './add-product.html',
   styleUrl: './add-product.css',
@@ -22,11 +23,12 @@ export class AddProductComponent implements OnInit{
   productID! : number;
   productBrand = '';
   productPrice! : number;
+  productAdded : boolean = false;
 
   qrValue: string | null = null;
   qrImageSrc: string | null = null;
 
-  constructor(private web3Service : Web3Service, private authService : AuthService) {}
+  constructor(private web3Service : Web3Service, private authService : AuthService, private cdr : ChangeDetectorRef) {}
 
   ngOnInit() {
     const mid = this.authService.getManufacturerId();
@@ -35,18 +37,26 @@ export class AddProductComponent implements OnInit{
   }
 
   async addProduct() {
-    // Generate random number for QR
-    const randomNo = Math.floor(Math.random() * 1000) + 1;
+    try {
+      // Generate random number for QR
+      const randomNo = Math.floor(Math.random() * 1000) + 1;
 
-    // Construct QR value
-    this.qrValue = `${this.manufacturerID}@${this.productID}@${randomNo}`;
+      // Construct QR value
+      this.qrValue = `${this.manufacturerID}@${this.productID}@${randomNo}`;
+      console.log('QR Value:', this.qrValue);
 
-    // Generate QR image URL using API
-    this.qrImageSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${this.qrValue}`;
-
-    console.log('QR Value:', this.qrValue);
-
-    await this.web3Service.addProduct(this.manufacturerID, this.productName, this.qrValue, this.productBrand, this.productPrice, this.productID, new Date().toISOString());
+      const receipt = await this.web3Service.addProduct(this.manufacturerID, this.productName, this.qrValue, this.productBrand, this.productPrice, this.productID, new Date().toISOString());
+      if (receipt?.status === 1) {
+        this.qrImageSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${this.qrValue}`;
+        this.productAdded = true;
+        this.cdr.detectChanges();
+      } else {
+        console.log("❌Transaction Failed : status 0", receipt);
+      }
+    }
+     catch (err) {
+       console.error("Error while adding product:", err);
+     }
   }
 
   downloadQR() {

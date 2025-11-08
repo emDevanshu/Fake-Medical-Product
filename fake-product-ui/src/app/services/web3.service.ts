@@ -112,7 +112,7 @@ export class Web3Service {
     productPrice: number,
     productId: number,
     productTime: string
-  ): Promise<void> {
+  ): Promise<any> {
     try {
       if (!this.contract) throw new Error('Contract not loaded.');
 
@@ -135,8 +135,10 @@ export class Web3Service {
 
       // await tx.wait();
       console.log('✅ Product added successfully!');
+      return receipt;
     } catch (error) {
       console.error('Error in addProduct:', error);
+      throw error;
     }
   }
 

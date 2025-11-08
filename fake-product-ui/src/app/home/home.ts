@@ -6,7 +6,7 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.html',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink],
   styleUrl: './home.css',
 })
 export class Home {
