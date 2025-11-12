@@ -11,6 +11,7 @@ contract MedicalProduct {
 
     struct Manufac {
         bytes32 manufacturerId;
+        bytes32 manufacturerName;
         bytes32 productBrand;
         uint256[] productIds;
         mapping(uint256 => Medicine) products; // pid=>Medicine
