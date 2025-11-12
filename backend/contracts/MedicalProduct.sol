@@ -105,19 +105,22 @@ contract MedicalProduct {
 
     //PRODUCT SECTION
     //✅
-    function addProduct(bytes32 _manufactuerID, bytes32 _productName, bytes32 _productSN, bytes32 _productBrand,
+    function addProduct(bytes32 _manufacturerID, bytes32 _productName, bytes32 _productSN, bytes32 _productBrand,
         uint256 _productPrice, uint256 _productID, bytes32 _productTime) public {
-        productItems[_productSN] = productItem(_manufactuerID, _productID, _productSN, _productName, _productBrand, _productPrice, "Available", _productTime);
-        productsManufactured[_productSN] = _manufactuerID;
+        // Ensure manufacturer exists
+        // require(manufacturers[_manufacturerID].manufacturerId != 0, "Manufacturer not registered");
+
+        productItems[_productSN] = productItem(_manufacturerID, _productID, _productSN, _productName, _productBrand, _productPrice, "Available", _productTime);
+        productsManufactured[_productSN] = _manufacturerID;
         manufacturedTime[_productSN] = _productTime;
 
-        if (manufacturers[_manufactuerID].manufacturerId == 0) {
-            manufacturers[_manufactuerID].manufacturerId = _manufactuerID;
-            manufacturers[_manufactuerID].productBrand = _productBrand;
+        if (manufacturers[_manufacturerID].manufacturerId == 0) {
+            manufacturers[_manufacturerID].manufacturerId = _manufacturerID;
+            manufacturers[_manufacturerID].productBrand = _productBrand;
         }
 
         // increasing the medcount
-        Manufac storage manufacturer = manufacturers[_manufactuerID];
+        Manufac storage manufacturer = manufacturers[_manufacturerID];
         Medicine storage medicine = manufacturer.products[_productID];
         if (medicine.productId == 0) {
             medicine.productId = _productID;
@@ -125,6 +128,8 @@ contract MedicalProduct {
             manufacturer.productIds.push(_productID);
         }
         medicine.medcount++;
+
+        emit ProductAdded(_manufacturerID, _productID, _productSN, _productName);
     }
 
     //✅
@@ -142,9 +147,9 @@ contract MedicalProduct {
             pcounts[i] = medicine.medcount;
         }
 
-        bytes32 pbrands = manufacturers[_manufacturerId].productBrand;
+        bytes32 pbrand = manufacturers[_manufacturerId].productBrand;
 
-        return (pids, pnames, pbrands, pcounts, countOfProducts);
+        return (pids, pnames, pbrand, pcounts, countOfProducts);
     }
 
 /*
