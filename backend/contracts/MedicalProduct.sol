@@ -14,6 +14,11 @@ contract MedicalProduct {
         bytes32 productBrand;
         uint256[] productIds;
         mapping(uint256 => Medicine) products; // pid=>Medicine
+        // Example: "Novartis", "Roche", "Sun Pharma", "Dr. Reddy’s" etc.
+        // To be added later
+        // bytes32 manufacturerLocation;
+        // uint256 registrationTime;
+        // address owner;                // Only this address can add products
     }
 
     mapping(bytes32 => Manufac) manufacturers; // mid=>Manufac
@@ -51,6 +56,10 @@ contract MedicalProduct {
     mapping(bytes32 => bytes32) public manufacturerToSellerTime; // PSN => time of manufac selling to seller
     mapping(bytes32 => bytes32) public sellingTime; // PSN => time of selling item to consumer
 
+    // ✅ EVENTS
+    event ManufacturerRegistered(bytes32 manufacturerId, bytes32 manufacturerName, bytes32 productBrand);
+    event ProductAdded(bytes32 manufacturerId, uint256 productId, bytes32 productSN, bytes32 productName);
+
     //SELLER SECTION
     //✅
     function addSeller(bytes32 _manufacturerId, bytes32 _sellerName, bytes32 _sellerBrand, bytes32 _sellerID,
@@ -83,21 +92,35 @@ contract MedicalProduct {
         return(ids, snames, sbrands, scodes, snums, smanagers, saddress);
     }
 */
+
+    function registerManufacturer(bytes32 _manufacturerID, bytes32 _manufacturerName, bytes32 _productBrand) public {
+        require(manufacturers[_manufacturerID].manufacturerId == 0, "Manufacturer already registered");
+
+        manufacturers[_manufacturerID].manufacturerId = _manufacturerID;
+        manufacturers[_manufacturerID].manufacturerName = _manufacturerName;
+        manufacturers[_manufacturerID].productBrand = _productBrand;
+
+        emit ManufacturerRegistered(_manufacturerID, _manufacturerName, _productBrand);
+    }
+
     //PRODUCT SECTION
     //✅
-    function addProduct(bytes32 _manufactuerID, bytes32 _productName, bytes32 _productSN, bytes32 _productBrand,
+    function addProduct(bytes32 _manufacturerID, bytes32 _productName, bytes32 _productSN, bytes32 _productBrand,
         uint256 _productPrice, uint256 _productID, bytes32 _productTime) public {
-        productItems[_productSN] = productItem(_manufactuerID, _productID, _productSN, _productName, _productBrand, _productPrice, "Available", _productTime);
-        productsManufactured[_productSN] = _manufactuerID;
+        // Ensure manufacturer exists
+        // require(manufacturers[_manufacturerID].manufacturerId != 0, "Manufacturer not registered");
+
+        productItems[_productSN] = productItem(_manufacturerID, _productID, _productSN, _productName, _productBrand, _productPrice, "Available", _productTime);
+        productsManufactured[_productSN] = _manufacturerID;
         manufacturedTime[_productSN] = _productTime;
 
-        if (manufacturers[_manufactuerID].manufacturerId == 0) {
-            manufacturers[_manufactuerID].manufacturerId = _manufactuerID;
-            manufacturers[_manufactuerID].productBrand = _productBrand;
+        if (manufacturers[_manufacturerID].manufacturerId == 0) {
+            manufacturers[_manufacturerID].manufacturerId = _manufacturerID;
+            manufacturers[_manufacturerID].productBrand = _productBrand;
         }
 
         // increasing the medcount
-        Manufac storage manufacturer = manufacturers[_manufactuerID];
+        Manufac storage manufacturer = manufacturers[_manufacturerID];
         Medicine storage medicine = manufacturer.products[_productID];
         if (medicine.productId == 0) {
             medicine.productId = _productID;
@@ -105,6 +128,8 @@ contract MedicalProduct {
             manufacturer.productIds.push(_productID);
         }
         medicine.medcount++;
+
+        emit ProductAdded(_manufacturerID, _productID, _productSN, _productName);
     }
 
     //✅
@@ -122,9 +147,9 @@ contract MedicalProduct {
             pcounts[i] = medicine.medcount;
         }
 
-        bytes32 pbrands = manufacturers[_manufacturerId].productBrand;
+        bytes32 pbrand = manufacturers[_manufacturerId].productBrand;
 
-        return (pids, pnames, pbrands, pcounts, countOfProducts);
+        return (pids, pnames, pbrand, pcounts, countOfProducts);
     }
 
 /*
