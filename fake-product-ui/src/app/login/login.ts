@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
@@ -11,7 +11,7 @@ import {AuthService} from '../services/auth.service';
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   userType: 'manufacturer' | 'seller' = 'manufacturer';
   title = '';
   username = '';
@@ -40,6 +40,15 @@ export class LoginComponent {
       }
     });
   }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['error'] === 'wallet-connection-failed') {
+        alert("Wallet connection failed. Please try again.");
+      }
+    });
+  }
+
 
   login() {
     if (this.userType === 'manufacturer') {
@@ -78,6 +87,6 @@ export class LoginComponent {
   }
 
   goBack() {
-    window.history.back();
+    this.router.navigate(['/']);
   }
 }

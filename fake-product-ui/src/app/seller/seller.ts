@@ -21,7 +21,13 @@ export class SellerComponent implements OnInit{
   constructor(private web3: Web3Service, private router : Router, private authService: AuthService) {}
 
   async ngOnInit() {
-    await this.web3.connectWallet();
+    const isConnected = await this.web3.connectWallet();
+    if (!isConnected) {
+      this.router.navigate(['/login', 'seller'], {
+        queryParams: {error: 'wallet-connection-failed'}
+      });
+      return;
+    }
     await this.web3.loadContract();
   }
 
