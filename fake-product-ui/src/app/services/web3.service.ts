@@ -33,19 +33,29 @@ export class Web3Service {
     }
   }
 
-  async connectWallet(): Promise<void> {
-    if (!this.provider) return;
+  async connectWallet(): Promise<boolean> {
+    try {
+      if (!this.provider) {
+        console.error("No provider found");
+        return false;
+      }
 
-    // Request account access
-    await (window as any).ethereum.request({method: 'eth_requestAccounts'});
+      // Request account access
+      await (window as any).ethereum.request({method: 'eth_requestAccounts'});
 
-    const signer = await this.provider.getSigner();
-    this.accountAddress = await signer.getAddress();
-    console.log("the account address is : " , this.accountAddress);
+      const signer = await this.provider.getSigner();
+      this.accountAddress = await signer.getAddress();
+      console.log("the account address is : ", this.accountAddress);
 
-    const balance = await this.provider.getBalance(this.accountAddress);
-    console.log("the balance is : ", balance);
-    this.accountBalance = ethers.formatEther(balance);
+      const balance = await this.provider.getBalance(this.accountAddress);
+      console.log("the balance is : ", balance);
+      this.accountBalance = ethers.formatEther(balance);
+
+      return true;
+    } catch (error) {
+      console.error("Wallet connection failed:", error);
+      return false; // failed
+    }
   }
 
   async getBalance() : Promise<string | null> {

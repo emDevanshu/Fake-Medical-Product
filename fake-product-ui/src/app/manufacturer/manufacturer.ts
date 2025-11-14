@@ -21,7 +21,13 @@ export class ManufacturerComponent implements OnInit{
   }
 
   async ngOnInit() {
-    await this.web3.connectWallet();
+    const isConnected = await this.web3.connectWallet();
+    if(!isConnected) {
+      this.router.navigate(['/login', 'manufacturer'], {
+        queryParams: {error: 'wallet-connection-failed'}
+      });
+      return;
+    }
     await this.web3.loadContract();
   }
 
