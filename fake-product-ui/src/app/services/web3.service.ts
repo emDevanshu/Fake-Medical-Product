@@ -257,6 +257,16 @@ export class Web3Service {
       const encodedSellerID = ethers.encodeBytes32String(sellerID);
       const encodedProductTime = ethers.encodeBytes32String(Date.now().toString());
 
+      // Making a static call to the contract to get the error if any
+      try {
+        await this.contract['manufacturerSellProduct'].staticCall(encodedProductSN, encodedSellerID, encodedProductTime);
+      } catch (staticError: any) {
+        let message = "Transaction failed";
+        if (staticError.reason) message = staticError.reason;
+        console.log(message);
+        throw new Error(message);
+      }
+
       // Call the smart contract function
       const tx = await this.contract['manufacturerSellProduct'](
           encodedProductSN,
@@ -267,12 +277,15 @@ export class Web3Service {
       console.log('📦 Transaction sent:', tx.hash);
 
       const receipt = await tx.wait();
+      if(receipt.status !== 1) {
+        console.log("transaction reverted")
+        return false;
+      }
       console.log('✅ Product sold successfully! Tx confirmed:', receipt.transactionHash);
-
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Error selling product to seller:', error);
-      return false;
+      throw error;
     }
   }
 

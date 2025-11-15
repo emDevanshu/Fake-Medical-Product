@@ -10,6 +10,7 @@ import {FormsModule} from '@angular/forms';
   imports: [
     NgIf,
     FormsModule,
+    NgClass,
   ],
   templateUrl: './sell-product-to-seller.html',
   styleUrl: './sell-product-to-seller.css',
@@ -27,7 +28,12 @@ export class SellProductToSellerComponent implements OnInit{
   uploading = false;
   previewImage: string | null = null;
   qrScanned = false;
-  showSuccessPopup = false;
+
+  // Popup state
+  showPopup = false;
+  popupTitle = '';
+  popupMessage = '';
+  popupSuccess = false;
 
   ngOnInit() {
     const mid = this.authService.getManufacturerId();
@@ -51,20 +57,31 @@ export class SellProductToSellerComponent implements OnInit{
 
       if (success) {
         console.log('✅ Showing success popup');
-        this.showSuccessPopup = true; // ✅ Show popup on success
-        this.cdr.detectChanges();
-      } else {
+        this.openPopup(true, "Product has been sold to the seller.");
+      }
+      else {
         alert('Transaction failed. Please try again.');
       }
-    } catch (error) {
-      console.error('❌ Error selling product:', error);
-      alert('Transaction failed. Check console for details.');
+    } catch (error: any) {
+      if (error.message) {
+        this.openPopup(false, error.message);
+      } else {
+        alert("Transaction failed. Check console.");
+      }
     }
   }
 
-  closeSuccessPopup(): void {
-    this.showSuccessPopup = false;
-    this.goBack(); // ✅ Redirect one page back
+  openPopup(success:boolean, message:string) {
+    this.popupSuccess = success;
+    this.popupTitle = success ? "Transaction Successful!" : "Transaction Unsuccessful!";
+    this.popupMessage = message;
+    this.showPopup = true;
+    this.cdr.detectChanges();
+  }
+
+  closePopup(): void {
+    this.showPopup = false;
+    this.goBack();
   }
 
 
