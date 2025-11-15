@@ -33,7 +33,7 @@ export class SellerInventoryComponent implements OnInit{
   async querySellerInventory() {
     this.loading = true;
     try {
-      this.inventory = await this.web3Service.querySellerInventory("13");
+      this.inventory = await this.web3Service.querySellerInventory(this.sellerId);
     } catch (err) {
       console.error('Failed to fetch inventory', err);
     } finally {
