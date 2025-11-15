@@ -17,6 +17,7 @@ export class CheckInventoryComponent implements OnInit {
   loading = false;
   manufacturerID! : string;
   manufacturerName! : string;
+  totalUnits: number = 0;
 
   constructor(private web3: Web3Service, private authService : AuthService, private cdr : ChangeDetectorRef) {
   }
@@ -33,8 +34,9 @@ export class CheckInventoryComponent implements OnInit {
   async getInventory() {
     try {
       this.loading = true;
-      const inventory = await this.web3.queryManufacturerInventory(this.manufacturerID);
-      this.inventory = inventory;
+      const result = await this.web3.queryManufacturerInventory(this.manufacturerID);
+      this.inventory = result?.inventory;
+      this.totalUnits = result?.totalUnits;
     } catch (err) {
       console.error('Error fetching inventory:', err);
     } finally {
