@@ -155,7 +155,7 @@ export class Web3Service {
   }
 
   // ✅ 2. Query Manufacturer Inventory
-  async queryManufacturerInventory(manufacturerId: string) : Promise<any[]> {
+  async queryManufacturerInventory(manufacturerId: string) : Promise<{inventory: any[], totalUnits: number}> {
     try {
       if (!this.contract) throw new Error('Contract not loaded.');
 
@@ -167,15 +167,17 @@ export class Web3Service {
         productId: pid.toString(),
         name: ethers.decodeBytes32String(pnames[i]),
         brand: ethers.decodeBytes32String(pbrand[i]),
-        units: Number(pcounts[i])
+        units: Number(pcounts[i]),
       }));
+      const totalUnits = Number(count);
 
       console.log('✅ Inventory fetched:', inventory);
-      return inventory;
+      console.log('✅ totalUnits fetched:', totalUnits);
+      return {inventory, totalUnits};
     }
     catch (error) {
       console.error('Error querying inventory:', error);
-      return [];
+      return {inventory: [], totalUnits: 0};
     }
   }
 
