@@ -16,6 +16,7 @@ export class CheckInventoryComponent implements OnInit {
   inventory: any[] = [];
   loading = false;
   manufacturerID! : string;
+  manufacturerName! : string;
 
   constructor(private web3: Web3Service, private authService : AuthService, private cdr : ChangeDetectorRef) {
   }
@@ -23,7 +24,9 @@ export class CheckInventoryComponent implements OnInit {
   async ngOnInit() {
     this.manufacturerAddress = this.web3.getAccount() || '';
     const mid = this.authService.getManufacturerId();
+    const name = this.authService.getManufacturerName();
     if (mid) this.manufacturerID = mid;
+    if (name) this.manufacturerName = name;
     await this.getInventory();
   }
 

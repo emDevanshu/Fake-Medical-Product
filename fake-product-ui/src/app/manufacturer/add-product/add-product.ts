@@ -19,6 +19,7 @@ import {AuthService} from '../../services/auth.service';
 })
 export class AddProductComponent implements OnInit{
   manufacturerID! : string;
+  manufacturerName! : string;
   productName = '';
   productID! : number;
   productBrand = '';
@@ -32,7 +33,9 @@ export class AddProductComponent implements OnInit{
 
   ngOnInit() {
     const mid = this.authService.getManufacturerId();
+    const name = this.authService.getManufacturerName();
     if(mid) this.manufacturerID = mid;
+    if(name) this.manufacturerName = name;
     else alert('Manufacturer ID not found! Please log in again.');
   }
 
@@ -45,7 +48,7 @@ export class AddProductComponent implements OnInit{
       this.qrValue = `${this.manufacturerID}@${this.productID}@${randomNo}`;
       console.log('QR Value:', this.qrValue);
 
-      const receipt = await this.web3Service.addProduct(this.manufacturerID, this.productName, this.qrValue, this.productBrand, this.productPrice, this.productID, new Date().toISOString());
+      const receipt = await this.web3Service.addProduct(this.manufacturerID, this.manufacturerName, this.productName, this.qrValue, this.productBrand, this.productPrice, this.productID, new Date().toISOString());
       if (receipt?.status === 1) {
         this.qrImageSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${this.qrValue}`;
         this.productAdded = true;

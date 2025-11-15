@@ -5,14 +5,16 @@ contract MedicalProduct {
 
     struct Medicine {
         uint256 productId;
+        bytes32 productSN;
         bytes32 medName;
         uint256 medcount;
+        bytes32 brand;
     }
 
     struct Manufac {
         bytes32 manufacturerId;
         bytes32 manufacturerName;
-        bytes32 productBrand;
+        bytes32[] productBrand;
         uint256[] productIds;
         mapping(uint256 => Medicine) products; // pid=>Medicine
         // Example: "Novartis", "Roche", "Sun Pharma", "Dr. Reddy’s" etc.
@@ -95,37 +97,54 @@ contract MedicalProduct {
 */
 
     function registerManufacturer(bytes32 _manufacturerID, bytes32 _manufacturerName, bytes32 _productBrand) public {
-        require(manufacturers[_manufacturerID].manufacturerId == 0, "Manufacturer already registered");
+        require(manufacturers[_manufacturerID].manufacturerId == bytes32(0) , "Manufacturer already registered");
 
-        manufacturers[_manufacturerID].manufacturerId = _manufacturerID;
-        manufacturers[_manufacturerID].manufacturerName = _manufacturerName;
-        manufacturers[_manufacturerID].productBrand = _productBrand;
+        Manufac storage m = manufacturers[_manufacturerID];
+
+        m.manufacturerId = _manufacturerID;
+        m.manufacturerName = _manufacturerName;
+//        m.productBrand = _productBrand;
+        m.productBrand.push(_productBrand);
 
         emit ManufacturerRegistered(_manufacturerID, _manufacturerName, _productBrand);
     }
 
     //PRODUCT SECTION
     //✅
-    function addProduct(bytes32 _manufacturerID, bytes32 _productName, bytes32 _productSN, bytes32 _productBrand,
+    function addProduct(bytes32 _manufacturerID, bytes32 _manufacturerName, bytes32 _productName, bytes32 _productSN, bytes32 _productBrand,
         uint256 _productPrice, uint256 _productID, bytes32 _productTime) public {
-        // Ensure manufacturer exists
-        // require(manufacturers[_manufacturerID].manufacturerId != 0, "Manufacturer not registered");
 
         productItems[_productSN] = productItem(_manufacturerID, _productID, _productSN, _productName, _productBrand, _productPrice, "Available", _productTime);
         productsManufactured[_productSN] = _manufacturerID;
         manufacturedTime[_productSN] = _productTime;
 
-        if (manufacturers[_manufacturerID].manufacturerId == 0) {
-            manufacturers[_manufacturerID].manufacturerId = _manufacturerID;
-            manufacturers[_manufacturerID].productBrand = _productBrand;
+        Manufac storage manufacturer = manufacturers[_manufacturerID];
+
+        // If new manufacturer, initialize
+        if (manufacturer.manufacturerId == 0) {
+            manufacturer.manufacturerId = _manufacturerID;
+            manufacturer.manufacturerName = _manufacturerName;
+        }
+
+        // Add brand only if not already present
+        bool brandExists = false;
+        for (uint i = 0; i < manufacturer.productBrand.length; i++) {
+            if (manufacturer.productBrand[i] == _productBrand) {
+                brandExists = true;
+                break;
+            }
+        }
+        if (!brandExists) {
+            manufacturer.productBrand.push(_productBrand);
         }
 
         // increasing the medcount
-        Manufac storage manufacturer = manufacturers[_manufacturerID];
         Medicine storage medicine = manufacturer.products[_productID];
         if (medicine.productId == 0) {
             medicine.productId = _productID;
             medicine.medName = _productName;
+            medicine.productSN = _productSN;
+            medicine.brand = _productBrand;
             manufacturer.productIds.push(_productID);
         }
         medicine.medcount++;
@@ -134,23 +153,25 @@ contract MedicalProduct {
     }
 
     //✅
-    function queryInventory(bytes32 _manufacturerId) public view returns (uint256[] memory, bytes32[] memory, bytes32, uint256[] memory, uint256) {
+    function queryInventory(bytes32 _manufacturerId) public view returns (uint256[] memory, bytes32[] memory, bytes32[] memory, uint256[] memory, uint256) {
         uint256 countOfProducts = manufacturers[_manufacturerId].productIds.length;
         uint256[] memory pids = manufacturers[_manufacturerId].productIds;
 
         bytes32[] memory pnames = new bytes32[](countOfProducts);
+        bytes32[] memory pbrands = new bytes32[](countOfProducts);
         uint256[] memory pcounts = new uint256[](countOfProducts);
 
 
         for (uint256 i = 0; i < countOfProducts; i++) {
             Medicine storage medicine = manufacturers[_manufacturerId].products[pids[i]];
             pnames[i] = medicine.medName;
+            pbrands[i] = medicine.brand;
             pcounts[i] = medicine.medcount;
         }
 
-        bytes32 pbrand = manufacturers[_manufacturerId].productBrand;
+//        bytes32 pbrand = manufacturers[_manufacturerId].productBrand;
 
-        return (pids, pnames, pbrand, pcounts, countOfProducts);
+        return (pids, pnames, pbrands, pcounts, countOfProducts);
     }
 
 /*

@@ -116,6 +116,7 @@ export class Web3Service {
   // ✅ 1. Add Product
   async addProduct(
     manufacturerId: string,
+    manufacturerName: string,
     productName: string,
     productSN: string,
     productBrand: string,
@@ -128,6 +129,7 @@ export class Web3Service {
 
       const tx = await this.contract['addProduct'](
         ethers.encodeBytes32String(manufacturerId),
+        ethers.encodeBytes32String(manufacturerName),
         ethers.encodeBytes32String(productName),
         ethers.encodeBytes32String(productSN),
         ethers.encodeBytes32String(productBrand),
@@ -164,7 +166,7 @@ export class Web3Service {
       const inventory = pids.map((pid: any, i: number) => ({
         productId: pid.toString(),
         name: ethers.decodeBytes32String(pnames[i]),
-        brand: ethers.decodeBytes32String(pbrand),
+        brand: ethers.decodeBytes32String(pbrand[i]),
         units: Number(pcounts[i])
       }));
 

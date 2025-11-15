@@ -22,15 +22,28 @@
 
   <!-- Manufacturer Info -->
   <div class="w-full max-w-4xl bg-[#FFFDF7] rounded-2xl shadow-lg p-8 mb-10">
-    <div class="flex flex-col">
-      <label for="manufacturerID" class="mb-2 font-medium text-[#3E2723]">Manufacturer ID</label>
-      <input
-        type="text"
-        id="manufacturerID"
-        [value]="manufacturerID"
-        disabled
-        class="p-2 rounded-lg border border-[#C49E6C] focus:ring-[#C49E6C] focus:border-[#C49E6C] text-black bg-gray-100"
-      />
+    <div class="flex">
+      <div class="flex flex-col w-1/2">
+        <label for="manufacturerID" class="mb-2 font-medium text-[#3E2723]">Manufacturer ID</label>
+        <input
+          type="text"
+          id="manufacturerID"
+          [value]="manufacturerID"
+          disabled
+          class="p-2 rounded-lg border border-[#C49E6C] focus:ring-[#C49E6C] focus:border-[#C49E6C] text-black bg-gray-100"
+        />
+      </div>
+
+      <div class="flex flex-col w-1/2">
+        <label for="manufacturerName" class="mb-2 font-medium text-[#3E2723]">Manufacturer Name</label>
+        <input
+          type="text"
+          id="manufacturerName"
+          [value]="manufacturerName"
+          disabled
+          class="p-2 rounded-lg border border-[#C49E6C] focus:ring-[#C49E6C] focus:border-[#C49E6C] text-black bg-gray-100"
+        />
+      </div>
     </div>
   </div>
 
