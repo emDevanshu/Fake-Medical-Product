@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit{
   message = '';
 
   private readonly manufacturerUsers = [
-    {username: 'user1', password: 'password1', mid: '01'},
+    {username: 'Cipla', password: 'password1', mid: '01'},
     {username: 'user2', password: 'password2', mid: '02'},
     {username: 'user3', password: 'password3', mid: '03'}
   ];
@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit{
       if (user) {
         this.message = '✅ Manufacturer logged in successfully!';
         this.authService.setManufacturerId(user.mid);
+        this.authService.setManufacturerName(user.username);
         setTimeout(() => this.router.navigate(['/manufacturer']), 500);
       } else {
         this.message = '❌ Invalid credentials or MID';
