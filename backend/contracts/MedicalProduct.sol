@@ -48,9 +48,9 @@ contract MedicalProduct {
         bytes32 productTime;
     }
 
-    mapping(bytes32 => productItem) public productItems;
+    mapping(bytes32 => productItem) public productItems; // PSN => ProductItem, stores the details of the product based on the PSN
     mapping(bytes32 => bytes32) public productsManufactured; // PSN => MID
-    mapping(bytes32 => bytes32) public productsForSale; // yeh medicines available h seller pe, PSN=>SID
+    mapping(bytes32 => bytes32) public productsForSale; // PSN=>SID Mapping PSN to SID, to keep track that what belongs to which seller, and prevent double selling
     mapping(bytes32 => bytes32) public productsSold; // PSN => CID
     mapping(bytes32 => bytes32[]) public productsWithSeller; // iss seller pe SID => yeh falana medicines h
     mapping(bytes32 => bytes32[]) public productsWithConsumer; // iss consumer pe CID => yeh falana medicines h
@@ -199,10 +199,15 @@ contract MedicalProduct {
     //SELL Product
     //✅
     function manufacturerSellProduct(bytes32 _productSN, bytes32 _sellerID, bytes32 _productTime) public {
+        // Prevent double selling, by checking whether the PSN hasn't been already sold to some seller.
+        require(productsForSale[_productSN] == bytes32(0), "Double selling is not allowed. Product is already sold to some other seller!");
+
+        // Check if the product exists.
+        require(productItems[_productSN].productId != 0,"Product doesn't exist");
+
         productsWithSeller[_sellerID].push(_productSN);
         productsForSale[_productSN] = _sellerID;
         manufacturerToSellerTime[_productSN] = _productTime;
-
     }
 
     //✅

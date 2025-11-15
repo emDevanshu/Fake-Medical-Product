@@ -26,8 +26,8 @@ export class LoginComponent implements OnInit{
   ];
 
   private readonly sellerUsers = [
-    {username: 'seller1', password: 'pass1', sid: '13'},
-    {username: 'seller2', password: 'pass2', sid: '10'},
+    {username: 'Aryan', password: 'pass1', sid: '13'},
+    {username: 'Dev', password: 'pass2', sid: '10'},
     {username: 'seller3', password: 'pass3', sid: '20'}
   ];
 

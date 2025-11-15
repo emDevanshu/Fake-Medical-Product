@@ -16,7 +16,7 @@ export class AddSellerComponent implements OnInit{
   SellerName: string = '';
   SellerBrand: string = '';
   SellerID: string ='';
-  SellerPhoneNumber: number = 0;
+  SellerPhoneNumber!: number;
   SellerManager: string ='';
   SellerAddress: string ='';
 
