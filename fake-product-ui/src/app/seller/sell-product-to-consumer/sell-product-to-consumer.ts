@@ -69,6 +69,7 @@ export class SellProductToConsumerComponent {
       this.html5QrCode = new Html5Qrcode(qrRegionId);
 
       const qrCodeSuccessCallback = (decodedText: string) => {
+        this.playBeepSound();
         this.productSN = decodedText;
         this.stopCamera(true);
       };
@@ -121,5 +122,10 @@ export class SellProductToConsumerComponent {
   closeSuccessPopup(): void {
     this.showSuccessPopup = false;
     this.goBack(); // ✅ Redirect one page back
+  }
+
+  playBeepSound() {
+    var beepSound = new Audio('../../../assets/beep.wav');
+    beepSound.play();
   }
 }
