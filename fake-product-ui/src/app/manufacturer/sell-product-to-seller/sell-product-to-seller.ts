@@ -1,16 +1,17 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {Web3Service} from '../../services/web3.service';
 import {AuthService} from '../../services/auth.service';
 import {Html5Qrcode} from 'html5-qrcode';
 import {NgClass, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {PopupDialogComponent} from '../../shared/popup-dialog/popup-dialog';
 
 @Component({
   selector: 'app-sell-product-to-seller',
   imports: [
     NgIf,
     FormsModule,
-    NgClass,
+    PopupDialogComponent,
   ],
   templateUrl: './sell-product-to-seller.html',
   styleUrl: './sell-product-to-seller.css',
@@ -29,11 +30,7 @@ export class SellProductToSellerComponent implements OnInit{
   previewImage: string | null = null;
   qrScanned = false;
 
-  // Popup state
-  showPopup = false;
-  popupTitle = '';
-  popupMessage = '';
-  popupSuccess = false;
+  @ViewChild('popup') popup!: PopupDialogComponent;
 
   ngOnInit() {
     const mid = this.authService.getManufacturerId();
@@ -57,33 +54,25 @@ export class SellProductToSellerComponent implements OnInit{
 
       if (success) {
         console.log('✅ Showing success popup');
-        this.openPopup(true, "Product has been sold to the seller.");
+        this.popup.open({
+          success: true,
+          message: "Product has been sold to the seller."
+        });
       }
       else {
         alert('Transaction failed. Please try again.');
       }
     } catch (error: any) {
       if (error.message) {
-        this.openPopup(false, error.message);
+        this.popup.open({
+          success: false,
+          message: error.message || "Something went wrong"
+        });
       } else {
         alert("Transaction failed. Check console.");
       }
     }
   }
-
-  openPopup(success:boolean, message:string) {
-    this.popupSuccess = success;
-    this.popupTitle = success ? "Transaction Successful!" : "Transaction Unsuccessful!";
-    this.popupMessage = message;
-    this.showPopup = true;
-    this.cdr.detectChanges();
-  }
-
-  closePopup(): void {
-    this.showPopup = false;
-    this.goBack();
-  }
-
 
   startCameraScan(): void {
     this.cameraRunning = true;

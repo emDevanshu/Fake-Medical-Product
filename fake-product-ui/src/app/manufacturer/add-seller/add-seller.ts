@@ -1,15 +1,14 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {Web3Service} from '../../services/web3.service';
-import {NgClass, NgIf} from '@angular/common';
+import {PopupDialogComponent} from '../../shared/popup-dialog/popup-dialog';
 
 @Component({
   selector: 'app-add-seller',
   imports: [
     FormsModule,
-    NgIf,
-    NgClass
+    PopupDialogComponent
   ],
   templateUrl: './add-seller.html',
   styleUrl: './add-seller.css',
@@ -23,11 +22,7 @@ export class AddSellerComponent implements OnInit{
   SellerManager: string ='';
   SellerAddress: string ='';
 
-  // Popup state
-  showPopup = false;
-  popupTitle = '';
-  popupMessage = '';
-  popupSuccess = false;
+  @ViewChild('popup') popup!: PopupDialogComponent;
 
   constructor(private authService : AuthService, private web3Service : Web3Service, private cdr : ChangeDetectorRef) {
   }
@@ -52,14 +47,20 @@ export class AddSellerComponent implements OnInit{
 
       if (success) {
         console.log('✅ Showing success popup');
-        this.openPopup(true, "Seller added successfully.");
+        this.popup.open({
+          success: true,
+          message: "Seller added successfully."
+        });
       } else {
         alert('Transaction failed. Please try again.');
       }
     }
     catch (error : any) {
       if (error.message) {
-        this.openPopup(false, error.message);
+        this.popup.open({
+          success: false,
+          message: error.message || "Something went wrong"
+        });
       } else {
         alert("Transaction failed. Check console.");
       }
@@ -68,18 +69,5 @@ export class AddSellerComponent implements OnInit{
 
   goBack() {
     window.history.back();
-  }
-
-  openPopup(success: boolean, message: string) {
-    this.popupSuccess = success;
-    this.popupTitle = success ? "Transaction Successful!" : "Transaction Unsuccessful!";
-    this.popupMessage = message;
-    this.showPopup = true;
-    this.cdr.detectChanges();
-  }
-
-  closePopup(): void {
-    this.showPopup = false;
-    this.goBack();
   }
 }
