@@ -190,7 +190,7 @@ export class Web3Service {
       sellerNum: number,
       sellerManager: string,
       sellerAddress: string
-  ): Promise<void> {
+  ): Promise<boolean> {
     try {
       if (!this.contract) throw new Error('Contract not loaded.');
 
@@ -202,22 +202,28 @@ export class Web3Service {
       const encodedSellerManager = ethers.encodeBytes32String(sellerManager);
       const encodedSellerAddress = ethers.encodeBytes32String(sellerAddress);
 
+      try {
+        await this.contract['addSeller'].staticCall(encodedManufacturerId, encodedSellerName, encodedSellerBrand, encodedSellerID, sellerNum, encodedSellerManager, encodedSellerAddress);
+      } catch (staticError: any) {
+        let message = "Transaction failed";
+        if (staticError.reason) message = staticError.reason;
+        throw new Error(message);
+      }
+
       // Send the transaction
-      const tx = await this.contract['addSeller'](
-          encodedManufacturerId,
-          encodedSellerName,
-          encodedSellerBrand,
-          encodedSellerID,
-          sellerNum,
-          encodedSellerManager,
-          encodedSellerAddress
-      );
+      const tx = await this.contract['addSeller'](encodedManufacturerId,encodedSellerName,encodedSellerBrand,encodedSellerID,sellerNum, encodedSellerManager, encodedSellerAddress);
 
       console.log('⏳ Transaction submitted:', tx);
-      await tx.wait();
+      const receipt = await tx.wait();
+      if (receipt.status !== 1) {
+        console.log("transaction reverted")
+        return false;
+      }
       console.log('✅ Seller successfully added!');
-    } catch (error) {
+      return true;
+    } catch (error: any) {
       console.error('❌ Error adding seller:', error);
+      throw error;
     }
   }
 
