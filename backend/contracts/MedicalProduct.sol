@@ -67,6 +67,9 @@ contract MedicalProduct {
     //✅
     function addSeller(bytes32 _manufacturerId, bytes32 _sellerName, bytes32 _sellerBrand, bytes32 _sellerID,
         uint256 _sellerNum, bytes32 _sellerManager, bytes32 _sellerAddress) public {
+        // Block duplicate sellers to be added
+        require(sellers[_sellerID].sellerId == bytes32(0), "Seller already exists");
+
         sellers[_sellerID] = seller(_sellerID, _sellerName, _sellerBrand,
             _sellerNum, _sellerManager, _sellerAddress);
 
