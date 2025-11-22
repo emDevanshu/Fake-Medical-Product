@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit{
   extraId = '';
   message = '';
 
+  showPassword: boolean = false;
+
   private readonly manufacturerUsers = [
     {username: 'Cipla', password: 'password1', mid: '01'},
     {username: 'user2', password: 'password2', mid: '02'},
