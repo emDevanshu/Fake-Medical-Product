@@ -309,18 +309,19 @@ export class Web3Service {
   }
 
   // ✅ 5. Manufacturer → Sell Product to Seller
-  async manufacturerSellProduct(productSN: string, sellerID: string): Promise<boolean> {
+  async manufacturerSellProduct(productSN: string, sellerID: string, manufacturerID: string): Promise<boolean> {
     try {
       if (!this.contract) throw new Error('Contract not loaded.');
 
       // Encode inputs to bytes32
       const encodedProductSN = ethers.encodeBytes32String(productSN);
       const encodedSellerID = ethers.encodeBytes32String(sellerID);
+      const encodedmanufacturerID = ethers.encodeBytes32String(manufacturerID);
       const encodedProductTime = ethers.encodeBytes32String(Date.now().toString());
 
       // Making a static call to the contract to get the error if any
       try {
-        await this.contract['manufacturerSellProduct'].staticCall(encodedProductSN, encodedSellerID, encodedProductTime);
+        await this.contract['manufacturerSellProduct'].staticCall(encodedProductSN, encodedSellerID, encodedmanufacturerID, encodedProductTime);
       } catch (staticError: any) {
         let message = "Transaction failed";
         if (staticError.reason) message = staticError.reason;
@@ -332,6 +333,7 @@ export class Web3Service {
       const tx = await this.contract['manufacturerSellProduct'](
           encodedProductSN,
           encodedSellerID,
+          encodedmanufacturerID,
           encodedProductTime
       );
 

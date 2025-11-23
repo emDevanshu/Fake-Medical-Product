@@ -243,12 +243,16 @@ contract MedicalProduct {
 */
     //SELL Product
     //✅
-    function manufacturerSellProduct(bytes32 _productSN, bytes32 _sellerID, bytes32 _productTime) public {
+    function manufacturerSellProduct(bytes32 _productSN, bytes32 _sellerID, bytes32 _manufacturerID, bytes32 _productTime) public {
         // Prevent double selling, by checking whether the PSN hasn't been already sold to some seller.
         require(productsForSale[_productSN] == bytes32(0), "Double selling is not allowed. Product is already sold to some other seller!");
 
         // Check if the product exists.
         require(productItems[_productSN].productId != 0,"Product doesn't exist");
+
+        require(sellers[_sellerID].sellerId != 0, "Seller does not exist");
+
+        require(isSellerAssociated[_manufacturerID][_sellerID] == true, "Seller is not associated with this manufacturer");
 
         productsWithSeller[_sellerID].push(_productSN);
         productsForSale[_productSN] = _sellerID;

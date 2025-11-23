@@ -49,8 +49,7 @@ export class SellProductToSellerComponent implements OnInit{
         alert('Please enter a seller code.');
         return;
       }
-
-      const success = await this.web3Service.manufacturerSellProduct(this.productSN, this.sellerCode);
+      const success = await this.web3Service.manufacturerSellProduct(this.productSN, this.sellerCode, this.manufacturerID);
 
       if (success) {
         console.log('✅ Showing success popup');
