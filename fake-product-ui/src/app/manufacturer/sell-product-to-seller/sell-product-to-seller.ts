@@ -55,7 +55,7 @@ export class SellProductToSellerComponent implements OnInit{
         console.log('✅ Showing success popup');
         this.popup.open({
           success: true,
-          message: "Product has been sold to the seller."
+          message: "Product has been sold to the consumer."
         });
       }
       else {
