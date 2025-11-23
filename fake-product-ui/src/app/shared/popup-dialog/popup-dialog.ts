@@ -25,7 +25,6 @@ export class PopupDialogComponent {
     this.title = data.success ? "Transaction Successful!" : "Transaction Failed!";
     this.message = data.message;
     this.show = true;
-    console.log("inside open");
     this.cdr.detectChanges();
   }
 
