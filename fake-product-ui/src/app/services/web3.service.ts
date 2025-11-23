@@ -181,7 +181,62 @@ export class Web3Service {
     }
   }
 
-  // ✅ 3. Add Seller
+  // ✅ 3A. Add Seller first check conflict
+  async checkSellerConflict(
+    sellerID: string,
+    sellerName: string,
+    sellerBrand: string,
+    sellerNum: number,
+    sellerManager: string,
+    sellerAddress: string
+  ) {
+    if (!this.contract) throw new Error('Contract not loaded.');
+
+    const encodedSellerID = ethers.encodeBytes32String(sellerID);
+    const encodedSellerName = ethers.encodeBytes32String(sellerName);
+    const encodedSellerBrand = ethers.encodeBytes32String(sellerBrand);
+    const encodedSellerManager = ethers.encodeBytes32String(sellerManager);
+    const encodedSellerAddress = ethers.encodeBytes32String(sellerAddress);
+
+    const [exists, hasConflict, existingSeller] =
+      await this.contract['checkSellerConflict'](
+        encodedSellerID,
+        encodedSellerName,
+        encodedSellerBrand,
+        sellerNum,
+        encodedSellerManager,
+        encodedSellerAddress
+      );
+
+    let decodedExisting: any = null;
+
+    if (exists) {
+      decodedExisting = {
+        sellerId: sellerID,
+        sellerName: ethers.decodeBytes32String(existingSeller.sellerName),
+        sellerBrand: ethers.decodeBytes32String(existingSeller.sellerBrand),
+        sellerNum: existingSeller.sellerNum,
+        sellerManager: ethers.decodeBytes32String(existingSeller.sellerManager),
+        sellerAddress: ethers.decodeBytes32String(existingSeller.sellerAddress)
+      }
+    }
+
+    return {
+      exists,
+      hasConflict,
+      existingSeller: decodedExisting,
+      enteredSeller: {
+        sellerId: sellerID,
+        sellerName,
+        sellerBrand,
+        sellerNum,
+        sellerManager,
+        sellerAddress
+      }
+    };
+  }
+
+  // ✅ 3B. Add Seller
   async addSeller(
       manufacturerId: string,
       sellerName: string,

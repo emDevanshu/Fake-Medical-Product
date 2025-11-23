@@ -3,12 +3,14 @@ import {FormsModule} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {Web3Service} from '../../services/web3.service';
 import {PopupDialogComponent} from '../../shared/popup-dialog/popup-dialog';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-add-seller',
   imports: [
     FormsModule,
-    PopupDialogComponent
+    PopupDialogComponent,
+    NgIf
   ],
   templateUrl: './add-seller.html',
   styleUrl: './add-seller.css',
@@ -24,6 +26,10 @@ export class AddSellerComponent implements OnInit{
 
   @ViewChild('popup') popup!: PopupDialogComponent;
 
+  duplicatePopup = false;
+  duplicateData: any = {};
+  existingSellerToAdd: any = null;
+
   constructor(private authService : AuthService, private web3Service : Web3Service, private cdr : ChangeDetectorRef) {
   }
 
@@ -34,6 +40,43 @@ export class AddSellerComponent implements OnInit{
   }
 
   async addSeller() {
+    try {
+      const conflictInfo = await this.web3Service.checkSellerConflict(
+        this.SellerID,
+        this.SellerName,
+        this.SellerBrand,
+        this.SellerPhoneNumber,
+        this.SellerManager,
+        this.SellerAddress
+      );
+
+      console.log("Conflict Info → ", conflictInfo);
+
+      // 2️⃣ If conflict exists → Show modal
+      if (conflictInfo.hasConflict) {
+        this.duplicateData = {
+          existing: conflictInfo.existingSeller,
+          entered: conflictInfo.enteredSeller
+        };
+        this.existingSellerToAdd = conflictInfo.existingSeller;
+
+        this.duplicatePopup = true;
+        this.cdr.detectChanges();
+        return; // ❗ STOP the addSeller flow here
+      }
+
+      // No conflict → directly add
+      await this.proceedAddSeller();
+    }
+    catch (error : any) {
+      this.popup.open({
+        success: false,
+        message: error.message || "Something went wrong"
+      });
+    }
+  }
+
+  async proceedAddSeller() {
     try {
       const success = await this.web3Service.addSeller(
         this.manufacturerID,
@@ -46,25 +89,59 @@ export class AddSellerComponent implements OnInit{
       );
 
       if (success) {
-        console.log('✅ Showing success popup');
         this.popup.open({
           success: true,
           message: "Seller added successfully."
         });
       } else {
-        alert('Transaction failed. Please try again.');
-      }
-    }
-    catch (error : any) {
-      if (error.message) {
         this.popup.open({
           success: false,
-          message: error.message || "Something went wrong"
+          message: "Transaction failed. Try again."
         });
-      } else {
-        alert("Transaction failed. Check console.");
       }
+
+    } catch (error: any) {
+      this.popup.open({
+        success: false,
+        message: error.message || "Something went wrong"
+      });
     }
+  }
+
+  async addExistingSeller() {
+    this.duplicatePopup = false;
+
+    try {
+      const s = this.existingSellerToAdd;
+
+      const success = await this.web3Service.addSeller(
+        this.manufacturerID,
+        s.sellerName,
+        s.sellerBrand,
+        s.sellerId,
+        s.sellerNum,
+        s.sellerManager,
+        s.sellerAddress
+      );
+
+      if (success) {
+        this.popup.open({
+          success: true,
+          message: "Existing seller added successfully."
+        });
+      }
+
+    } catch (err: any) {
+      this.popup.open({
+        success: false,
+        message: err.message || "Failed to add existing seller"
+      });
+    }
+  }
+
+  cancelAdd() {
+    this.duplicatePopup = false;
+    this.cdr.detectChanges();
   }
 
   goBack() {

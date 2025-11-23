@@ -134,4 +134,61 @@
     </form>
   </div>
   <app-popup-dialog #popup (closed)="this.goBack()"></app-popup-dialog>
+
+  <!-- Duplicate Seller Popup -->
+  <div *ngIf="duplicatePopup"
+       class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+
+    <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-xl">
+
+      <h3 class="text-xl font-bold mb-4 text-red-700">
+        ⚠️ Potential Duplicate Seller Found
+      </h3>
+
+      <p class="text-gray-700 mb-4">
+        A seller with ID <strong>{{ duplicateData.existing.sellerId }}</strong> already exists.
+        Details differ from what you entered.
+      </p>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Existing Seller -->
+        <div class="border rounded-lg p-4 bg-gray-50 text-gray-800">
+          <h4 class="font-semibold mb-2 text-lg">Existing Seller</h4>
+          <p><strong>Name:</strong> {{ duplicateData.existing.sellerName }}</p>
+          <p><strong>Brand:</strong> {{ duplicateData.existing.sellerBrand }}</p>
+          <p><strong>Phone:</strong> {{ duplicateData.existing.sellerNum }}</p>
+          <p><strong>Manager:</strong> {{ duplicateData.existing.sellerManager }}</p>
+          <p><strong>Address:</strong> {{ duplicateData.existing.sellerAddress }}</p>
+        </div>
+
+        <!-- Entered Seller -->
+        <div class="border rounded-lg p-4 bg-gray-50 text-gray-800">
+          <h4 class="font-semibold mb-2 text-lg">Entered Seller</h4>
+          <p><strong>Name:</strong> {{ duplicateData.entered.sellerName }}</p>
+          <p><strong>Brand:</strong> {{ duplicateData.entered.sellerBrand }}</p>
+          <p><strong>Phone:</strong> {{ duplicateData.entered.sellerNum }}</p>
+          <p><strong>Manager:</strong> {{ duplicateData.entered.sellerManager }}</p>
+          <p><strong>Address:</strong> {{ duplicateData.entered.sellerAddress }}</p>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="mt-6 flex justify-end gap-4">
+
+        <button
+          class="px-5 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded-lg"
+          (click)="cancelAdd()">
+          Cancel
+        </button>
+
+        <button
+          class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium"
+          (click)="addExistingSeller()">
+          Use Existing Seller
+        </button>
+
+      </div>
+    </div>
+  </div>
+
 </section>

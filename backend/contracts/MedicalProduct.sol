@@ -55,6 +55,8 @@ contract MedicalProduct {
     mapping(bytes32 => bytes32[]) public productsWithSeller; // iss seller pe SID => yeh falana medicines h
     mapping(bytes32 => bytes32[]) public productsWithConsumer; // iss consumer pe CID => yeh falana medicines h
     mapping(bytes32 => bytes32[]) public sellersWithManufacturer; // is manufac pe MID => yeh falana seller SID h
+    // Fast lookup to check whether a seller is already associated with a manufacturer
+    mapping(bytes32 => mapping(bytes32 => bool)) public isSellerAssociated; // manufacturerId => sellerId => bool
     mapping(bytes32 => bytes32) public manufacturedTime; // PSN => time of manufacturing
     mapping(bytes32 => bytes32) public manufacturerToSellerTime; // PSN => time of manufac selling to seller
     mapping(bytes32 => bytes32) public sellingTime; // PSN => time of selling item to consumer
@@ -62,18 +64,58 @@ contract MedicalProduct {
     // ✅ EVENTS
     event ManufacturerRegistered(bytes32 manufacturerId, bytes32 manufacturerName, bytes32 productBrand);
     event ProductAdded(bytes32 manufacturerId, uint256 productId, bytes32 productSN, bytes32 productName);
+    event SellerAdded(bytes32 indexed manufacturerId, bytes32 indexed sellerId);
 
     //SELLER SECTION
     //✅
     function addSeller(bytes32 _manufacturerId, bytes32 _sellerName, bytes32 _sellerBrand, bytes32 _sellerID,
         uint256 _sellerNum, bytes32 _sellerManager, bytes32 _sellerAddress) public {
-        // Block duplicate sellers to be added
-        require(sellers[_sellerID].sellerId == bytes32(0), "Seller already exists");
 
-        sellers[_sellerID] = seller(_sellerID, _sellerName, _sellerBrand,
-            _sellerNum, _sellerManager, _sellerAddress);
+        require(!isSellerAssociated[_manufacturerId][_sellerID], "Seller already associated with this manufacturer");
 
+        // 2) If this seller does not exist globally yet, create the global seller record
+        if (sellers[_sellerID].sellerId == bytes32(0)) {
+            sellers[_sellerID] = seller(
+                _sellerID,
+                _sellerName,
+                _sellerBrand,
+                _sellerNum,
+                _sellerManager,
+                _sellerAddress
+            );
+        }
+
+        // 3) Associate seller with this manufacturer
         sellersWithManufacturer[_manufacturerId].push(_sellerID);
+        isSellerAssociated[_manufacturerId][_sellerID] = true;
+
+        emit SellerAdded(_manufacturerId, _sellerID);
+    }
+
+    function checkSellerConflict(
+        bytes32 _sellerID,
+        bytes32 _sellerName,
+        bytes32 _sellerBrand,
+        uint256 _sellerNum,
+        bytes32 _sellerManager,
+        bytes32 _sellerAddress
+    )
+    public view returns (bool exists, bool hasConflict, seller memory existingSeller)
+    {
+        seller memory s = sellers[_sellerID];
+
+        // Case 1: Seller does not exist at all
+        if (s.sellerId == bytes32(0)) { return (false, false, s); }
+
+        // Case 2: Seller exists → check mismatch
+        bool conflict =
+            (s.sellerName != _sellerName) ||
+            (s.sellerBrand != _sellerBrand) ||
+            (s.sellerNum != _sellerNum) ||
+            (s.sellerManager != _sellerManager) ||
+            (s.sellerAddress != _sellerAddress);
+
+        return (true, conflict, s);
     }
 
 /*
