@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
+import {Web3Service} from '../services/web3.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import {AuthService} from '../services/auth.service';
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent {
   userType: 'manufacturer' | 'seller' = 'manufacturer';
   title = '';
   username = '';
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit{
     {username: 'seller3', password: 'pass3', sid: '20'}
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService) {
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private web3: Web3Service) {
     this.route.paramMap.subscribe(params => {
       const type = params.get('userType');
       if (type === 'seller' || type === 'manufacturer') {
@@ -43,16 +44,8 @@ export class LoginComponent implements OnInit{
     });
   }
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      if (params['error'] === 'wallet-connection-failed') {
-        alert("Wallet connection failed. Please try again.");
-      }
-    });
-  }
-
-
-  login() {
+  async login() {
+    this.message = '';
     if (this.userType === 'manufacturer') {
       const user = this.manufacturerUsers.find(u =>
         u.username === this.username &&
@@ -61,10 +54,15 @@ export class LoginComponent implements OnInit{
       );
 
       if (user) {
-        this.message = '✅ Manufacturer logged in successfully!';
-        this.authService.setManufacturerId(user.mid);
-        this.authService.setManufacturerName(user.username);
-        setTimeout(() => this.router.navigate(['/manufacturer']), 500);
+        const isConnected = await this.web3.connectWallet();
+        if (isConnected) {
+          this.message = '✅ Manufacturer logged in successfully!';
+          this.authService.setManufacturerId(user.mid);
+          this.authService.setManufacturerName(user.username);
+          setTimeout(() => this.router.navigate(['/manufacturer']), 500);
+        } else {
+          alert('Wallet connection failed. Please try again.');
+        }
       } else {
         this.message = '❌ Invalid credentials or MID';
       }
