@@ -498,5 +498,93 @@ export class Web3Service {
     }
   }
 
+  // acknowledge delivery (write)
+  async acknowledgeDelivery(productSN: string, sellerID: string): Promise<boolean> {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+
+      const encodedSN = ethers.encodeBytes32String(productSN);
+      const encodedSeller = ethers.encodeBytes32String(sellerID);
+      const encodedTime = ethers.encodeBytes32String(new Date().toISOString());
+
+      // staticCall to get revert reason early (optional)
+      try {
+        await this.contract['sellerAcknowledgeDelivery'].staticCall(encodedSN, encodedSeller, encodedTime);
+      } catch (staticErr: any) {
+        const reason = staticErr?.reason || staticErr?.error?.message || staticErr?.message || 'Validation failed';
+        throw new Error(reason);
+      }
+
+      // send tx
+      const tx = await this.contract['sellerAcknowledgeDelivery'](encodedSN, encodedSeller, encodedTime);
+      const receipt = await tx.wait();
+      return receipt.status === 1;
+    } catch (err: any) {
+      throw err;
+    }
+  }
+
+  async getProductsForSeller(sellerID: string): Promise<string[]> {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+
+      const encodedSeller = ethers.encodeBytes32String(sellerID);
+      const productSNs: string[] = await this.contract['getProductsForSeller'](encodedSeller);
+      return productSNs.map((sn: any) => ethers.decodeBytes32String(sn));
+    } catch (error) {
+      console.error('❌ Error verifying product:', error);
+      return [];
+    }
+  }
+
+  async verifyProductForSeller(productSN: string) {
+    try {
+      if (!this.contract) throw new Error('Contract not loaded.');
+
+      const encodedSN = ethers.encodeBytes32String(productSN);
+
+      const [
+        exists,
+        manufacturerId,
+        productId,
+        productName,
+        productBrand,
+        productPrice,
+        productStatus,
+        productTime,
+        currentOwner,
+        acknowledged,
+        acknowledgedOn
+      ] = await this.contract['verifyProductForSeller'](encodedSN); // should return name instead of MID
+
+      if (!exists) {
+        return null;
+      }
+
+      const formatTime = (bytes32Time: string) => {
+        const decoded = ethers.decodeBytes32String(bytes32Time);
+        return decoded ? new Date(decoded).toLocaleString() : '-';
+      };
+
+      return {
+        productSN,
+        manufacturerId: ethers.decodeBytes32String(manufacturerId),
+        productId: Number(productId),
+        productName: ethers.decodeBytes32String(productName),
+        productBrand: ethers.decodeBytes32String(productBrand),
+        productPrice: Number(productPrice),
+        productStatus: ethers.decodeBytes32String(productStatus),
+        productTime: formatTime(productTime),
+        currentOwner: currentOwner && currentOwner !== '0x0000000000000000000000000000000000000000'
+          ? ethers.decodeBytes32String(currentOwner)
+          : null,
+        acknowledged: Boolean(acknowledged),
+        acknowledgedOn: acknowledgedOn ? formatTime(acknowledgedOn) : null
+      };
+    } catch (error) {
+      console.error('❌ Error verifying product:', error);
+      return [];
+    }
+  }
 
 }

@@ -61,10 +61,16 @@ contract MedicalProduct {
     mapping(bytes32 => bytes32) public manufacturerToSellerTime; // PSN => time of manufac selling to seller
     mapping(bytes32 => bytes32) public sellingTime; // PSN => time of selling item to consumer
 
+    mapping(bytes32 => bool) public isAcknowledged;            // productSN => acknowledged flag
+    mapping(bytes32 => bytes32) public acknowledgedBy;         // productSN => sellerId
+    mapping(bytes32 => bytes32) public acknowledgedTime;       // productSN => time (bytes32)
+
     // ✅ EVENTS
     event ManufacturerRegistered(bytes32 manufacturerId, bytes32 manufacturerName, bytes32 productBrand);
     event ProductAdded(bytes32 manufacturerId, uint256 productId, bytes32 productSN, bytes32 productName);
     event SellerAdded(bytes32 indexed manufacturerId, bytes32 indexed sellerId);
+    event ProductVerified(bytes32 indexed productSN, bytes32 manufacturerId, uint256 productId, bytes32 productName, bytes32 productBrand, uint256 productPrice, bytes32 productStatus, bytes32 productTime, bytes32 currentOwner);
+    event DeliveryAcknowledged(bytes32 indexed productSN, bytes32 indexed sellerId, bytes32 time);
 
     //SELLER SECTION
     //✅
@@ -117,29 +123,6 @@ contract MedicalProduct {
 
         return (true, conflict, s);
     }
-
-/*
-    function viewSellers () public view returns(uint256[] memory, bytes32[] memory, bytes32[] memory, bytes32[] memory, uint256[] memory, bytes32[] memory, bytes32[] memory) {
-        uint256[] memory ids = new uint256[](sellerCount);
-        bytes32[] memory snames = new bytes32[](sellerCount);
-        bytes32[] memory sbrands = new bytes32[](sellerCount);
-        bytes32[] memory scodes = new bytes32[](sellerCount);
-        uint256[] memory snums = new uint256[](sellerCount);
-        bytes32[] memory smanagers = new bytes32[](sellerCount);
-        bytes32[] memory saddress = new bytes32[](sellerCount);
-
-        for(uint i=0; i<sellerCount; i++){
-            ids[i] = sellers[i].sellerId;
-            snames[i] = sellers[i].sellerName;
-            sbrands[i] = sellers[i].sellerBrand;
-            scodes[i] = sellers[i].sellerID;
-            snums[i] = sellers[i].sellerNum;
-            smanagers[i] = sellers[i].sellerManager;
-            saddress[i] = sellers[i].sellerAddress;
-        }
-        return(ids, snames, sbrands, scodes, snums, smanagers, saddress);
-    }
-*/
 
     function registerManufacturer(bytes32 _manufacturerID, bytes32 _manufacturerName, bytes32 _productBrand) public {
         require(manufacturers[_manufacturerID].manufacturerId == bytes32(0) , "Manufacturer already registered");
@@ -219,28 +202,6 @@ contract MedicalProduct {
         return (pids, pnames, pbrands, pcounts, countOfProducts);
     }
 
-/*
-    function viewProductItems () public view returns(uint256[] memory, bytes32[] memory, bytes32[] memory, bytes32[] memory, uint256[] memory, bytes32[] memory) {
-        uint256[] memory pids = new uint256[](productCount);
-        bytes32[] memory pSNs = new bytes32[](productCount);
-        bytes32[] memory pnames = new bytes32[](productCount);
-        bytes32[] memory pbrands = new bytes32[](productCount);
-        uint256[] memory pprices = new uint256[](productCount);
-        bytes32[] memory pstatus = new bytes32[](productCount);
-
-        for(uint i=0; i<productCount; i++){
-            pids[i] = productItems[i].productId;
-            pSNs[i] = productItems[i].productSN;
-            pnames[i] = productItems[i].productName;
-            pbrands[i] = productItems[i].productBrand;
-            pprices[i] = productItems[i].productPrice;
-            pstatus[i] = productItems[i].productStatus;
-        }
-        return(pids, pSNs, pnames, pbrands, pprices, pstatus);
-    }
-
-
-*/
     //SELL Product
     //✅
     function manufacturerSellProduct(bytes32 _productSN, bytes32 _sellerID, bytes32 _manufacturerID, bytes32 _productTime) public {
@@ -383,5 +344,76 @@ contract MedicalProduct {
         return string(byteArray);
     }
 
+    // ===== View function: return product + owner + acknowledgement info =====
+    function verifyProductForSeller(bytes32 _productSN)
+    public
+    view
+    returns (
+        bool exists,
+        bytes32 manufacturerId,
+        uint256 productId,
+        bytes32 productName,
+        bytes32 productBrand,
+        uint256 productPrice,
+        bytes32 productStatus,
+        bytes32 productTime,
+        bytes32 currentOwner,
+        bool acknowledged,
+        bytes32 acknowledgedAt
+    )
+    {
+        // check existence
+        if (productItems[_productSN].productId == 0) {
+            return (false, bytes32(0), 0, bytes32(0), bytes32(0), 0, bytes32(0), bytes32(0), bytes32(0), false, bytes32(0));
+        }
+
+        productItem memory p = productItems[_productSN];
+        bytes32 owner = productsForSale[_productSN]; // seller id if sold, else 0
+
+        bool ack = isAcknowledged[_productSN];
+        bytes32 ackt = acknowledgedTime[_productSN];
+
+        return (
+            true,
+            p.manufacturerId,
+            p.productId,
+            p.productName,
+            p.productBrand,
+            p.productPrice,
+            p.productStatus,
+            p.productTime,
+            owner,
+            ack,
+            ackt
+        );
+    }
+
+    // ===== Read helper: get list of products dispatched to a seller =====
+    function getProductsForSeller(bytes32 _sellerId) public view returns (bytes32[] memory) {
+        return productsWithSeller[_sellerId];
+    }
+
+    // ===== Seller acknowledges delivery of a product =====
+    function sellerAcknowledgeDelivery(bytes32 _productSN, bytes32 _sellerID, bytes32 _ackTime) public {
+        // 1) product must exist
+        require(productItems[_productSN].productId != 0, "Product doesn't exist");
+
+        // 2) it must have been sold to this seller
+        require(productsForSale[_productSN] == _sellerID, "Product not sold to this seller");
+
+        // 3) seller must be associated with the product's manufacturer
+        bytes32 manufacturerId = productsManufactured[_productSN];
+        require(isSellerAssociated[manufacturerId][_sellerID], "Seller not associated with manufacturer");
+
+        // 4) ensure not acknowledged already
+        require(!isAcknowledged[_productSN], "Already acknowledged");
+
+        // mark ack
+        isAcknowledged[_productSN] = true;
+        acknowledgedBy[_productSN] = _sellerID;
+        acknowledgedTime[_productSN] = _ackTime;
+
+        emit DeliveryAcknowledged(_productSN, _sellerID, _ackTime);
+    }
 
 }
