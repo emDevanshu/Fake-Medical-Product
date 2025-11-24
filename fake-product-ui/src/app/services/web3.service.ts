@@ -362,10 +362,7 @@ export class Web3Service {
       // Encode to bytes32
       const encodedProductSN = ethers.encodeBytes32String(productSN);
       const encodedConsumerID = ethers.encodeBytes32String(consumerID);
-
-      // Current timestamp as bytes32
-      const currentTime = Math.floor(Date.now() / 1000).toString(); // seconds
-      const encodedProductTime = ethers.encodeBytes32String(currentTime);
+      const encodedProductTime = ethers.encodeBytes32String(new Date().toISOString());
 
       console.log('🧾 Selling product:', {
         productSN,
@@ -455,7 +452,7 @@ export class Web3Service {
         manufacturingTime: formatTime(manufacturingTimes[i]),
         sellerId: ethers.decodeBytes32String(sellerIDs[i]),
         manufacturerToSellerTime: formatTime(manufacToSellerTimes[i]),
-        sellingTime: ethers.decodeBytes32String(sellingTimes[i])
+        sellingTime: formatTime(sellingTimes[i])
       }));
 
       console.log('✅ Purchase history fetched:', history);
