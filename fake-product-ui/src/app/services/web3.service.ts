@@ -137,6 +137,8 @@ export class Web3Service {
         productId,
         ethers.encodeBytes32String(productTime)
       );
+      console.log("time = ", productTime);
+      console.log("time = ", ethers.encodeBytes32String(productTime));
       console.log(`🚀 Transaction sent! Hash: ${tx.hash}`);
 
       // Wait for the transaction to be mined (1 confirmation)
@@ -317,7 +319,7 @@ export class Web3Service {
       const encodedProductSN = ethers.encodeBytes32String(productSN);
       const encodedSellerID = ethers.encodeBytes32String(sellerID);
       const encodedmanufacturerID = ethers.encodeBytes32String(manufacturerID);
-      const encodedProductTime = ethers.encodeBytes32String(Date.now().toString());
+      const encodedProductTime = ethers.encodeBytes32String(new Date().toISOString());
 
       // Making a static call to the contract to get the error if any
       try {
@@ -360,10 +362,7 @@ export class Web3Service {
       // Encode to bytes32
       const encodedProductSN = ethers.encodeBytes32String(productSN);
       const encodedConsumerID = ethers.encodeBytes32String(consumerID);
-
-      // Current timestamp as bytes32
-      const currentTime = Math.floor(Date.now() / 1000).toString(); // seconds
-      const encodedProductTime = ethers.encodeBytes32String(currentTime);
+      const encodedProductTime = ethers.encodeBytes32String(new Date().toISOString());
 
       console.log('🧾 Selling product:', {
         productSN,
@@ -453,7 +452,7 @@ export class Web3Service {
         manufacturingTime: formatTime(manufacturingTimes[i]),
         sellerId: ethers.decodeBytes32String(sellerIDs[i]),
         manufacturerToSellerTime: formatTime(manufacToSellerTimes[i]),
-        sellingTime: ethers.decodeBytes32String(sellingTimes[i])
+        sellingTime: formatTime(sellingTimes[i])
       }));
 
       console.log('✅ Purchase history fetched:', history);
