@@ -137,6 +137,8 @@ export class Web3Service {
         productId,
         ethers.encodeBytes32String(productTime)
       );
+      console.log("time = ", productTime);
+      console.log("time = ", ethers.encodeBytes32String(productTime));
       console.log(`🚀 Transaction sent! Hash: ${tx.hash}`);
 
       // Wait for the transaction to be mined (1 confirmation)
@@ -317,7 +319,7 @@ export class Web3Service {
       const encodedProductSN = ethers.encodeBytes32String(productSN);
       const encodedSellerID = ethers.encodeBytes32String(sellerID);
       const encodedmanufacturerID = ethers.encodeBytes32String(manufacturerID);
-      const encodedProductTime = ethers.encodeBytes32String(Date.now().toString());
+      const encodedProductTime = ethers.encodeBytes32String(new Date().toISOString());
 
       // Making a static call to the contract to get the error if any
       try {
