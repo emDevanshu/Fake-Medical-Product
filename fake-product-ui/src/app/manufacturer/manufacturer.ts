@@ -16,9 +16,7 @@ export class ManufacturerComponent implements OnInit{
   companyName : string = "Devanshu";
   dropdownOpen = false;
 
-  constructor(private router : Router, private web3 : Web3Service, private authService : AuthService) {
-    console.log("manufacturer is working !!!");
-  }
+  constructor(private router : Router, private web3 : Web3Service, private authService : AuthService) {}
 
   async ngOnInit() {
     await this.web3.loadContract();

@@ -29,6 +29,7 @@ export class CheckInventoryComponent implements OnInit {
     if (mid) this.manufacturerID = mid;
     if (name) this.manufacturerName = name;
     await this.getInventory();
+    this.cdr.detectChanges();
   }
 
   async getInventory() {
