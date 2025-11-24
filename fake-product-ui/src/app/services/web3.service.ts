@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {ethers} from 'ethers';
 import {HttpClient} from '@angular/common/http';
 import {firstValueFrom} from 'rxjs';
-import {CheckMetaMask} from './check-metamask.decorator';
 
 
 declare global {
@@ -19,6 +18,7 @@ export class Web3Service {
   private accountAddress: string | null = null;
   private accountBalance: string | null = null;
   private contract: ethers.Contract | null = null;
+  // private readonly CONTRACT_ADDRESS = '0x68deb564C861439EbaD08f3d07eF78D19230071b';
   private readonly ABI_PATH = 'assets/contracts/MedicalProduct.json';
 
   constructor( private http : HttpClient) {
@@ -27,23 +27,7 @@ export class Web3Service {
 
   private async checkMetaMask() {
     if (typeof window !== 'undefined' && (window as any).ethereum) {
-      if (!this.provider) {
-        this.provider = new ethers.BrowserProvider((window as any).ethereum);
-      }
-      // Check if wallet is connected by checking for selected address
-      const accounts = await (window as any).ethereum.request({ method: 'eth_accounts' });
-      if (!accounts || accounts.length === 0) {
-        // Wallet not connected, so connect
-        alert("Wallet not connected. Please connect the wallet");
-        const ok = await this.connectWallet();
-        if(!ok) {
-          this.contract = null;
-          throw new Error("Wallet not connected");
-        }
-        await this.loadContract();
-        return;
-      }
-      await this.loadContract();
+      this.provider = new ethers.BrowserProvider((window as any).ethereum);
     } else {
       alert('MetaMask not detected! Please install MetaMask extension.');
     }
@@ -56,18 +40,8 @@ export class Web3Service {
         return false;
       }
 
-      // Check if already connected
-      const accounts = await (window as any).ethereum.request({method: 'eth_accounts'});
-
-      if(!accounts || accounts.length === 0) {
-        try {
-          // Request account access
-          await (window as any).ethereum.request({method: 'eth_requestAccounts'});
-        } catch (err: any) {
-          this.contract = null;
-          return false;
-        }
-      }
+      // Request account access
+      await (window as any).ethereum.request({method: 'eth_requestAccounts'});
 
       const signer = await this.provider.getSigner();
       this.accountAddress = await signer.getAddress();
@@ -79,7 +53,6 @@ export class Web3Service {
 
       return true;
     } catch (error) {
-      this.contract=null;
       console.error("Wallet connection failed:", error);
       return false; // failed
     }
@@ -119,6 +92,8 @@ export class Web3Service {
         console.log('✅ Contract loaded in read-only mode');
       }
 
+
+
       // const signer = await this.provider.getSigner();
 
       // this.contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
@@ -126,14 +101,10 @@ export class Web3Service {
       console.log('✅ Contract loaded at:', CONTRACT_ADDRESS);
     } catch (error) {
       console.error('Error loading contract:', error);
-      throw error;
     }
   }
 
-  async getContract() {
-    if(!this.contract) {
-      await this.loadContract();
-    }
+  getContract(): ethers.Contract | null {
     return this.contract;
   }
 
@@ -143,7 +114,6 @@ export class Web3Service {
   // -------------------------
 
   // ✅ 1. Add Product
-  @CheckMetaMask()
   async addProduct(
     manufacturerId: string,
     manufacturerName: string,
@@ -155,10 +125,7 @@ export class Web3Service {
     productTime: string
   ): Promise<any> {
     try {
-      if (!this.contract) {
-        console.log("Contract not working metamask is down add product");
-        throw new Error('Contract not loaded.');
-      }
+      if (!this.contract) throw new Error('Contract not loaded.');
 
       const tx = await this.contract['addProduct'](
         ethers.encodeBytes32String(manufacturerId),
@@ -190,10 +157,8 @@ export class Web3Service {
   }
 
   // ✅ 2. Query Manufacturer Inventory
-  @CheckMetaMask()
   async queryManufacturerInventory(manufacturerId: string) : Promise<{inventory: any[], totalUnits: number}> {
     try {
-      const contract = await this.getContract();
       if (!this.contract) throw new Error('Contract not loaded.');
 
       const encodedId = ethers.encodeBytes32String(manufacturerId);
@@ -348,10 +313,7 @@ export class Web3Service {
   // ✅ 5. Manufacturer → Sell Product to Seller
   async manufacturerSellProduct(productSN: string, sellerID: string, manufacturerID: string): Promise<boolean> {
     try {
-      if (!this.contract) {
-        console.log("Contract not working metamask is down");
-        throw new Error('Contract not loaded.');
-      }
+      if (!this.contract) throw new Error('Contract not loaded.');
 
       // Encode inputs to bytes32
       const encodedProductSN = ethers.encodeBytes32String(productSN);
