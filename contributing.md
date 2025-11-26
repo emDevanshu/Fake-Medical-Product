@@ -29,7 +29,7 @@ Before contributing, please read and follow our **Code of Conduct** in
 ## 🛠️ Getting Started
 
 ``` bash
-git clone https://github.com/YOUR-USERNAME/Fake-Medical-Product.git
+git clone https://github.com/emDevanshu/Fake-Medical-Product.git
 cd Fake-Medical-Product
 
 cd backend
