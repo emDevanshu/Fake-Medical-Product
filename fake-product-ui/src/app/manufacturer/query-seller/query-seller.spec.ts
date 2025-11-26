@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 import { QuerySellerComponent } from './query-seller';
+import {provideHttpClient} from '@angular/common/http';
 
 describe('QuerySellerComponent', () => {
   let component: QuerySellerComponent;
@@ -8,7 +10,8 @@ describe('QuerySellerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuerySellerComponent]
+      imports: [QuerySellerComponent],
+      providers: [provideZonelessChangeDetection(), provideHttpClient()]
     })
     .compileComponents();
 

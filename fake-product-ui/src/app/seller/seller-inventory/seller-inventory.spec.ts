@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 import { SellerInventoryComponent } from './seller-inventory';
+import {provideHttpClient} from '@angular/common/http';
 
 describe('SellerInventoryComponent', () => {
   let component: SellerInventoryComponent;
@@ -8,7 +10,8 @@ describe('SellerInventoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SellerInventoryComponent]
+      imports: [SellerInventoryComponent],
+      providers: [provideZonelessChangeDetection(), provideHttpClient()]
     })
     .compileComponents();
 

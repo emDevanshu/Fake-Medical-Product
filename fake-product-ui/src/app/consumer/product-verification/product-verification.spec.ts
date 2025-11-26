@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 import { ProductVerificationComponent } from './product-verification';
+import {provideHttpClient} from '@angular/common/http';
 
 describe('ProductVerificationComponent', () => {
   let component: ProductVerificationComponent;
@@ -8,7 +10,8 @@ describe('ProductVerificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductVerificationComponent]
+      imports: [ProductVerificationComponent],
+      providers: [provideZonelessChangeDetection(), provideHttpClient()]
     })
     .compileComponents();
 

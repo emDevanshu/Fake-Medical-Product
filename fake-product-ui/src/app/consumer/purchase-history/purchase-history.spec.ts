@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 import { PurchaseHistoryComponent } from './purchase-history';
+import {provideHttpClient} from '@angular/common/http';
 
 describe('PurchaseHistoryComponent', () => {
   let component: PurchaseHistoryComponent;
@@ -8,7 +10,8 @@ describe('PurchaseHistoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PurchaseHistoryComponent]
+      imports: [PurchaseHistoryComponent],
+      providers: [provideZonelessChangeDetection(), provideHttpClient()]
     })
     .compileComponents();
 

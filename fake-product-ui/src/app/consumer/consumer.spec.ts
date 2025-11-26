@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 import { ConsumerComponent } from './consumer';
 
@@ -8,7 +11,12 @@ describe('ConsumerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConsumerComponent]
+      imports: [ConsumerComponent],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideHttpClient(),
+        { provide: ActivatedRoute, useValue: {} }
+      ]
     })
     .compileComponents();
 

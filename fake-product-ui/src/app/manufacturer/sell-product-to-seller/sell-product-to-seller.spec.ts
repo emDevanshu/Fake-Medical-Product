@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 import { SellProductToSellerComponent } from './sell-product-to-seller';
+import {provideHttpClient} from '@angular/common/http';
 
 describe('SellProductToSellerComponent', () => {
   let component: SellProductToSellerComponent;
@@ -8,7 +10,8 @@ describe('SellProductToSellerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SellProductToSellerComponent]
+      imports: [SellProductToSellerComponent],
+      providers: [provideZonelessChangeDetection(), provideHttpClient()]
     })
     .compileComponents();
 
