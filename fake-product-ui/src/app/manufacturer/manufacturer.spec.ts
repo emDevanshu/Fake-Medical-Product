@@ -18,7 +18,6 @@ describe('ManufacturerComponent', () => {
     mockWeb3Service = jasmine.createSpyObj('Web3Service', ['loadContract']);
     mockAuthService = jasmine.createSpyObj('AuthService', ['logout']);
 
-    // Configure loadContract to return a resolved promise
     mockWeb3Service.loadContract.and.returnValue(Promise.resolve());
 
     await TestBed.configureTestingModule({
