@@ -15,12 +15,12 @@ const config: HardhatUserConfig = {
       viaIR: true,
     },
   },
-  networks: {
+  networks: process.env.GANACHE_PRIVATE_KEY ? {
     ganache: {
       url: "http://127.0.0.1:7545",
-      accounts: [process.env.GANACHE_PRIVATE_KEY!],
+      accounts: [process.env.GANACHE_PRIVATE_KEY],
     }
-  },
+  } : {},
 };
 
 export default config;
