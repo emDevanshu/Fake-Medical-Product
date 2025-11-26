@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductVerification } from './product-verification';
+import { ProductVerificationComponent } from './product-verification';
 
-describe('ProductVerification', () => {
-  let component: ProductVerification;
-  let fixture: ComponentFixture<ProductVerification>;
+describe('ProductVerificationComponent', () => {
+  let component: ProductVerificationComponent;
+  let fixture: ComponentFixture<ProductVerificationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductVerification]
+      imports: [ProductVerificationComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProductVerification);
+    fixture = TestBed.createComponent(ProductVerificationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
