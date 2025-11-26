@@ -24,14 +24,15 @@ export class LoginComponent {
 
   private readonly manufacturerUsers = [
     {username: 'Cipla', password: 'password1', mid: '01'},
-    {username: 'user2', password: 'password2', mid: '02'},
-    {username: 'user3', password: 'password3', mid: '03'}
+    {username: 'Roche', password: 'password2', mid: '02'},
+    {username: 'Dendreon', password: 'password3', mid: '03'},
+    {username: 'Micro Labs', password: 'password4', mid: '04'}
   ];
 
   private readonly sellerUsers = [
     {username: 'Aryan', password: 'pass1', sid: '13'},
     {username: 'Dev', password: 'pass2', sid: '10'},
-    {username: 'seller3', password: 'pass3', sid: '20'}
+    {username: 'Soumik', password: 'pass3', sid: '20'}
   ];
 
   constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private web3: Web3Service) {
