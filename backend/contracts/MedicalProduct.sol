@@ -215,6 +215,8 @@ contract MedicalProduct {
 
         require(isSellerAssociated[_manufacturerID][_sellerID] == true, "Seller is not associated with this manufacturer");
 
+        require(productItems[_productSN].manufacturerId == _manufacturerID, "Unauthorized sale attempt: Product belongs to another manufacturer");
+
         productsWithSeller[_sellerID].push(_productSN);
         productsForSale[_productSN] = _sellerID;
         manufacturerToSellerTime[_productSN] = _productTime;
