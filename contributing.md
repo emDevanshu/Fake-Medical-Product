@@ -1,10 +1,10 @@
 Contributing to Fake-Medical-Product 🚀
 
-Thank you for considering contributing to Fake-Medical-Product! Whether you're reporting bugs, improving documentation, or adding new features—your help is greatly appreciated.
+Thank you for considering contributing to Fake-Medical-Product! Whether you're reporting bugs, improving documentation, or adding new features — your help is greatly appreciated.
 
 We expect contributors to follow these guidelines to make collaboration smooth and effective for everyone.
 
-Table of Contents
+📑 Table of Contents
 
 Code of Conduct
 
@@ -18,220 +18,248 @@ Code Standards & Style Guidelines
 
 Commit Message Guidelines
 
-Testing & Validation (if applicable)
+Testing & Validation
 
 Documentation & README Updates
 
 Attribution & Licensing
 
-Code of Conduct
+Maintainer Notes
+
+Example Contributing Workflow
+
+🧭 Code of Conduct
 
 Before contributing, please read and follow our Code of Conduct in CODE_OF_CONDUCT.md. All contributors should adhere to respectful and collaborative behavior.
 
-If you spot behavior that violates the Code of Conduct, please report it to the maintainers privately (or via a designated channel).
+If you spot behavior that violates the Code of Conduct, please report it privately to the maintainers.
 
-Getting Started
+🛠️ Getting Started
 
 These instructions will help you get a copy of the project running locally for development and testing.
 
 # 1. Fork this repository  
+
 # 2. Clone your fork  
 git clone https://github.com/YOUR-USERNAME/Fake-Medical-Product.git  
 cd Fake-Medical-Product
 
 # 3. Install dependencies (backend + UI)  
-# Depending on project setup (assumed Node.js + other tools)
+# Depending on project structure
 cd backend   # if there's a backend folder  
 npm install  
 
-cd ../fake-product-ui   # if there is separate UI folder  
+cd ../fake-product-ui   # if there's a UI folder  
 npm install  
 
 # 4. Build / compile (if needed)  
 npm run compile  
 
-# 5. (Optional) Deploy locally / run dev server  
-npm run start   # or equivalent command  
+# 5. (Optional) Run dev server  
+npm run start   # or project's start script  
 
-# 6. Before committing or creating a PR:  
-#   - Make sure your code works  
-#   - Lint / format (if applicable)  
-#   - Run any tests / checks  
+# 6. Before committing or creating a PR:
+#  - Ensure code works
+#  - Lint/format code
+#  - Run tests or checks
 
 
-Make sure you're working with the latest version of the default branch — pull or rebase before starting new work.
+Make sure you're working with the latest version of the main branch — pull or rebase before starting new work.
 
-How to Report Issues
+🐛 How to Report Issues
 
-We use GitHub Issues to track bugs, feature requests, or enhancements.
+We use GitHub Issues to track bugs, feature requests, and enhancements.
 
 Before opening a new issue:
 
 Search existing issues to avoid duplicates.
 
-Confirm you are using the latest version — the bug might already be fixed.
+Confirm you're using the latest version.
 
-Try to isolate the problem — ensure it's reproducible.
+Try to reproduce the issue consistently.
 
-When you create an issue, please include:
+When creating an issue, include:
 
-A clear and descriptive title.
+A clear and descriptive title
 
-A summary of the expected behavior vs actual behavior.
+Expected behavior vs actual behavior
 
-Steps to reproduce the issue.
+Steps to reproduce
 
-Environment details: OS, Node.js version (or relevant runtime), browser (if UI), etc.
+Environment details (OS, Node.js version, browser, etc.)
 
-Any error messages or stack traces, screenshot (if UI-related), and relevant logs.
+Screenshots, logs, or stack traces
 
-For feature requests / enhancements:
+Feature Requests
 
-Provide a clear description of what you propose.
+For enhancement ideas:
 
-Explain why the enhancement is useful, and how it benefits most users (not just a niche case).
+Provide a clear description of the feature
 
-Optionally, describe alternative approaches you considered.
+Explain why it's beneficial
 
-How to Submit a Pull Request (PR)
+Include alternatives considered
 
-We follow a standard Git flow using PRs. To submit your changes:
+🔀 How to Submit a Pull Request
 
-Fork the repo (if you haven’t already) and clone your fork locally.
+We follow a typical Git workflow using pull requests (PRs):
 
-Pull the latest changes from main (or default branch).
+Fork the repo and clone it locally.
 
-Create a new branch for your work, with a descriptive name — e.g., bugfix/typo-in-readme, feature/add-qr-code, refactor/auth-module.
+Pull the latest changes from main.
+
+Create a new feature or fix branch:
 
 git checkout -b feature/your-feature-name
 
 
-Make your changes. If you add new functionality or modify behavior, ensure appropriate tests are added/updated.
+Implement your changes (with tests if applicable).
 
-Run any build / compile / lint / tests to make sure everything works.
+Run linting, build, and tests.
 
-Commit your changes with a clear commit message. (See Commit Message Guidelines
- below)
+Commit your changes using good commit messages (see below).
 
-Push your branch to your fork on GitHub.
+Push your branch to your fork:
 
 git push origin feature/your-feature-name
 
 
-Open a Pull Request against the main branch in the original repository. In the PR description:
+Open a Pull Request into the main repository.
 
-Summarize what you changed and why.
+In the PR description:
 
-Reference the issue number if applicable (e.g., “Fixes #123”).
+Explain what you changed and why
 
-Include any relevant screenshots, logs, or context.
+Reference related issues (Fixes #123)
 
-Wait for review. You may be asked to make changes — please respond constructively.
+Include screenshots or logs if useful
 
-Once approved, your PR can be merged. Depending on project policy, maintainers may squash or merge commits to keep history clean.
+Respond constructively to review feedback.
 
-Code Standards & Style Guidelines
+Once approved, your PR will be merged.
 
-To keep the codebase consistent and readable — please follow these guidelines:
+🎨 Code Standards & Style Guidelines
 
-Follow the existing code style (indentation, naming conventions, spacing, etc.). Mirror patterns already present in similar modules/files.
+To keep the project consistent:
 
-Keep changes small and focused. A PR should ideally address a single concern (one bug fix, one feature, or one refactor).
+Follow existing code style (indentation, naming, formatting).
 
-Wherever possible, avoid introducing breaking changes. If a breaking change is unavoidable, clearly document it in the PR description.
+Keep PRs small and focused on a single problem.
 
-Remove unused code, comments, or debug statements before submitting.
+Avoid breaking changes unless discussed.
 
-For UI/frontend code: ensure proper formatting (HTML/JSX/TSX), styles, and accessibility considerations.
+Remove debug logs or unused code before commit.
 
-For backend / smart contract / Solidity code (if any): follow best practices relevant to those domains (e.g., secure coding for contracts, proper error handling, safe defaults).
+Frontend/UI: follow best practices for JSX/TSX, structure, and accessibility.
 
-Commit Message Guidelines
+Backend/Smart contracts: ensure error handling, secure patterns, validation, and safe defaults.
 
-Good commit messages help maintainers and future contributors understand the history of changes. Here's a recommended format:
+📝 Commit Message Guidelines
+
+Good commit messages help maintainers understand the history.
+
+Format:
 
 <type>(<scope>): <short summary>
 
-<More detailed description, if needed>
+<Optional detailed description>
 
-Issue: #<issue-number>  # if the commit addresses an issue
+Issue: #<related-issue-number>
 
+Allowed commit types:
 
-Where type could be:
+feat — new feature
 
-feat — a new feature
+fix — bug fix
 
-fix — a bug fix
+docs — documentation updates
 
-docs — documentation only changes
+style — code style changes (no logic changes)
 
-style — formatting, missing semi-colons, etc (does not affect code meaning)
+refactor — code restructuring
 
-refactor — code changes that neither fixes a bug nor adds a feature
+test — test additions/updates
 
-test — adding missing tests or correcting existing tests
+chore — tooling, configs, build scripts
 
-chore — build process, auxiliary tools, etc
+Tip: Keep the summary ≤ 50 characters.
 
-Commit messages should be concise (first line ≤ 50 chars), and detailed explanation should go in the body if needed.
+🧪 Testing & Validation
 
-Testing & Validation (if applicable)
+Before submitting a PR:
 
-If you are adding new functionality or modifying existing behavior, please ensure the following before submitting a PR:
+Add or update automated tests if applicable
 
-Add or update automated tests if the project has a test suite.
+Manually test changes locally
 
-Manually test the change locally (or in a dev environment) to ensure no regressions.
+For UI changes:
 
-For UI changes — verify in multiple browsers / screen sizes if relevant.
+Test across screen sizes or browsers if relevant
 
-For backend or smart-contract changes — ensure correct behavior, error handling, and security considerations.
+For backend or contract changes:
 
-If you update dependencies or configs — make sure everything builds and runs as before.
+Check error handling, validation, and security
 
-Documentation & README Updates
+After dependency changes:
 
-If your changes add new features, change existing functionality, or modify setup steps:
+Ensure build and runtime behavior are unchanged
 
-Update README.md (or relevant documentation) accordingly.
+📚 Documentation & README Updates
 
-Provide usage examples, updated instructions, or configuration changes.
+If your changes:
 
-Ensure documentation remains clear, concise, and easy to follow.
+Add new features
 
-Attribution & Licensing
+Modify behavior
 
-By contributing to this project, you declare that:
+Change setup steps
 
-You have written the contribution yourself (or it’s under a license compatible with this project).
+…then update:
 
-You agree to license your contribution under this project’s license (MIT, as seen in repository). 
-GitHub
+README.md
 
-If your contribution includes content under a different license or from third-party sources, please discuss it in an issue before submitting.
+Any related documentation or comments
 
-Maintainer Notes (for project owners / future maintainers)
+Keep documentation clear and easy to follow.
 
-Consider adding issue templates (e.g., bug_report.md, feature_request.md) under .github/ISSUE_TEMPLATE/ to help standardize issue submissions. 
-Creative Commons
-+1
+🧾 Attribution & Licensing
 
-Optionally add a Pull Request template .github/PULL_REQUEST_TEMPLATE.md to make PR submissions more consistent. 
-Creative Commons
-+1
+By contributing, you confirm that:
 
-Add a CODE_OF_CONDUCT.md if not already present to define expected community behavior.
+The contribution is your own work (or compatible with the project license).
 
-Example Contributing Workflow
+You agree to license your work under the project license (MIT).
 
-You find a bug or improvement opportunity → open an issue with clear reproduction steps / rationale
+If contributing third-party code, open an issue before submitting.
 
-Add a comment like “I’d like to work on this” if you intend to submit a fix or enhancement
+🛠️ Maintainer Notes
 
-Fork the repo → create a new feature/fix branch → make changes → test locally → update documentation (if needed)
+For repository owners:
 
-Commit with meaningful message → push your branch → open PR referencing the issue
+Add issue templates (bug_report.md, feature_request.md)
 
-Maintainers review → may request changes → once approved, PR gets merged
+Add a PR template (PULL_REQUEST_TEMPLATE.md)
 
-Thank you again for helping make Fake-Medical-Product better
+Maintain a clear Code of Conduct
+
+Consider enabling automated CI checks (linting, tests)
+
+🔄 Example Contributing Workflow
+
+Find a bug or improvement → open an issue
+
+Comment: “I’d like to work on this”
+
+Fork + create branch
+
+Implement + test locally
+
+Commit with proper message
+
+Push branch + open PR
+
+Respond to review
+
+Merge after approval
+
+Thank you again for helping make Fake-Medical-Product better ❤️
