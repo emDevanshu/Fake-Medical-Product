@@ -14,6 +14,8 @@ export class PopupDialogComponent {
   title = '';
   message = '';
   success = false;
+  isLoading = false;
+  loadingMessage = '';
 
   @Output() closed = new EventEmitter<void>();
 
@@ -21,6 +23,7 @@ export class PopupDialogComponent {
   }
 
   open(data: { success: boolean, message: string }) {
+    this.isLoading = false;
     this.success = data.success;
     this.title = data.success ? "Transaction Successful!" : "Transaction Failed!";
     this.message = data.message;
@@ -31,5 +34,12 @@ export class PopupDialogComponent {
   close() {
     this.show = false;
     this.closed.emit();
+  }
+
+  openLoading(message: string) {
+    this.isLoading = true;
+    this.loadingMessage = message;
+    this.show = true;
+    this.cdr.detectChanges();
   }
 }
