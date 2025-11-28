@@ -15,12 +15,16 @@ const config: HardhatUserConfig = {
       viaIR: true,
     },
   },
-  networks: process.env.GANACHE_PRIVATE_KEY ? {
+  networks: {
     ganache: {
       url: "http://127.0.0.1:7545",
       accounts: [process.env.GANACHE_PRIVATE_KEY],
+    },
+    sepolia: {
+      url: process.env.SEPOLIA_RPC_URL,
+      accounts: [process.env.SEPOLIA_PRIVATE_KEY],
     }
-  } : {},
+  },
 };
 
 export default config;
