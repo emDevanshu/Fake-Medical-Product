@@ -32,6 +32,13 @@ async function main() {
     // 7️⃣ Write back to artifact
     writeFileSync(artifactPath, JSON.stringify(artifact, null, 2));
     console.log("📝 Contract address saved inside artifact JSON.");
+
+    const tx = medicalProduct.deploymentTransaction();
+    const receipt = await tx!.wait();
+
+    console.log(`Gas Used: ${receipt?.gasUsed.toString()}`);
+    console.log("Gas Price used:", tx!.gasPrice?.toString());
+    console.log(`Transaction Cost (ETH): ${ethers.formatEther(receipt!.gasUsed * tx!.gasPrice!)}`);
 }
 
 // Recommended pattern to handle async errors
