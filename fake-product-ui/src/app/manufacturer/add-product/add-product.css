@@ -1,0 +1,29 @@
+/* loader — robust CSS spinner */
+.loader {
+  display: block;
+  box-sizing: border-box; /* prevents border from changing size */
+  width: 48px; /* fixed square dimensions */
+  height: 48px;
+  border-radius: 50%; /* makes it circular */
+  border: 5px solid transparent; /* base border */
+  border-top-color: #8B5E34; /* visible segment */
+  border-right-color: #C49E6C; /* subtle second color (optional) */
+  animation: spin 0.85s linear infinite;
+  margin: 0 auto;
+}
+
+/* ensure the animation rotates smoothly */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* for svg fallback centering */
+.svg-spinner {
+  display: block;
+  margin: 0 auto;
+}
