@@ -15,6 +15,7 @@ export class QuerySellerComponent implements OnInit{
   manufacturerID!: string;
   userAddress: string = '';
   sellers: any[] = [];
+  loading: boolean = true;
 
   constructor(private authService : AuthService, private web3Service : Web3Service, private cdr : ChangeDetectorRef) {}
 
@@ -27,9 +28,16 @@ export class QuerySellerComponent implements OnInit{
   }
 
   async QuerySellers() {
-    const result = await this.web3Service.querySellersList(this.manufacturerID);
-    this.sellers = result;
-    this.cdr.detectChanges();
+    try {
+      this.loading = true
+      const result = await this.web3Service.querySellersList(this.manufacturerID);
+      this.sellers = result;
+    } catch (err) {
+      console.error('Error fetching seller list', err);
+    } finally {
+      this.loading = false;
+      this.cdr.detectChanges();
+    }
   }
 
   goBack() {
