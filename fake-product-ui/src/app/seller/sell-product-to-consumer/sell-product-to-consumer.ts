@@ -21,10 +21,12 @@ export class SellProductToConsumerComponent {
   consumerID! : string;
   qrScanned = false;
   showSuccessPopup = false;
+  loadingQR: boolean = false;
 
   constructor(private web3Service : Web3Service, private cdr: ChangeDetectorRef) {
   }
   async sellToConsumer(): Promise<void> {
+    this.loadingQR = true;
     try {
       if (!this.productSN) {
         alert('Please scan a product QR first.');
@@ -48,6 +50,9 @@ export class SellProductToConsumerComponent {
     } catch (error) {
       console.error('❌ Error selling product:', error);
       alert('Transaction failed. Check console for details.');
+    } finally {
+      this.loadingQR = false;
+      this.cdr.detectChanges();
     }
   }
 

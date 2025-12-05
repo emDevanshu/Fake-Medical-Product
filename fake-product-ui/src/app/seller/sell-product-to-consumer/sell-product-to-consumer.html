@@ -117,6 +117,33 @@
       </div>
     </form>
 
+    <!-- 1️⃣ Loading State -->
+    <ng-container *ngIf="loadingQR">
+      <div
+        class="block inset-0 flex flex-col items-center justify-center bg-white bg-opacity-80 backdrop-blur-sm rounded-xl z-20 p-6">
+
+        <!-- Circular loader -->
+        <svg class="svg-spinner" width="48" height="48" viewBox="0 0 50 50" aria-hidden="true">
+          <circle cx="25" cy="25" r="20" fill="none" stroke="#e6e1d7" stroke-width="6"></circle>
+          <path d="M45 25a20 20 0 0 1-20 20"
+                stroke="#8B5E34"
+                stroke-width="6"
+                stroke-linecap="round"
+                fill="none">
+            <animateTransform attributeName="transform"
+                              type="rotate"
+                              from="0 25 25"
+                              to="360 25 25"
+                              dur="0.9s"
+                              repeatCount="indefinite"/>
+          </path>
+        </svg>
+
+        <p class="text-lg text-[#3E2723] mt-3 font-medium">Processing transaction...</p>
+        <p class="text-sm text-gray-600">Selling product to consumer</p>
+      </div>
+    </ng-container>
+
   </div>
 
   <!-- ✅ Success Popup Modal -->
