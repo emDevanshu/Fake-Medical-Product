@@ -326,9 +326,15 @@ contract MedicalProduct {
 
     //✅
     function verifyProduct(bytes32 _productSN, bytes32 _consumerID) public view returns (bool, string memory){
-        string memory actualConsumer = bytes32ToString(productsSold[_productSN]);
+        bytes32 storedConsumer = productsSold[_productSN];
 
-        if (productsSold[_productSN] == _consumerID) {
+        if (storedConsumer == bytes32(0)) {
+            return (false, "NA");
+        }
+
+        string memory actualConsumer = bytes32ToString(storedConsumer);
+
+        if (storedConsumer == _consumerID) {
             return (true, actualConsumer);
         }
         else {
