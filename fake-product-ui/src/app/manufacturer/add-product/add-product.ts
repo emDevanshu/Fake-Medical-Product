@@ -29,6 +29,9 @@ export class AddProductComponent implements OnInit{
   qrValue: string | null = null;
   qrImageSrc: string | null = null;
 
+  loadingQR = false;
+  qrBoxVisible = false;
+
   constructor(private web3Service : Web3Service, private authService : AuthService, private cdr : ChangeDetectorRef) {}
 
   ngOnInit() {
@@ -40,6 +43,8 @@ export class AddProductComponent implements OnInit{
   }
 
   async addProduct() {
+    this.qrBoxVisible = true
+    this.loadingQR = true;
     try {
       // Generate random number for QR
       const randomNo = Math.floor(Math.random() * 1000) + 1;
@@ -59,7 +64,12 @@ export class AddProductComponent implements OnInit{
     }
      catch (err) {
        console.error("Error while adding product:", err);
+       this.qrImageSrc = null;
      }
+     finally {
+      this.loadingQR = false;
+      this.cdr.detectChanges();
+    }
   }
 
   downloadQR() {

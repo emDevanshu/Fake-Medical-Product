@@ -1,18 +1,39 @@
 <div *ngIf="show"
      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+
   <div class="bg-white rounded-2xl shadow-2xl p-8 text-center max-w-sm w-full">
 
-    <h3 class="text-2xl font-semibold mb-4"
-        [ngClass]="success ? 'text-green-700' : 'text-red-700'">
-      {{ success ? '✅' : '❌' }} {{ title }}
-    </h3>
+    <!-- 🔄 LOADING MODE -->
+    <ng-container *ngIf="isLoading; else normalPopup">
+      <div class="flex flex-col items-center justify-center">
 
-    <p class="text-gray-700 mb-6">{{ message }}</p>
+        <!-- Loader Spinner -->
+        <div class="loader mb-4"></div>
 
-    <button (click)="close()"
-            class="px-6 py-2 bg-[#C49E6C] hover:bg-[#8B5E34] text-white rounded-lg font-semibold shadow-md transition-all duration-300">
-      OK
-    </button>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">
+          Processing Transaction...
+        </h3>
 
+        <p class="text-gray-600">{{ loadingMessage }}</p>
+
+      </div>
+    </ng-container>
+
+    <!-- NORMAL POPUP -->
+    <ng-template #normalPopup>
+
+      <h3 class="text-2xl font-semibold mb-4"
+          [ngClass]="success ? 'text-green-700' : 'text-red-700'">
+        {{ success ? '✅' : '❌' }} {{ title }}
+      </h3>
+
+      <p class="text-gray-700 mb-6">{{ message }}</p>
+
+      <button (click)="close()"
+              class="px-6 py-2 bg-[#C49E6C] hover:bg-[#8B5E34] text-white rounded-lg font-semibold shadow-md transition-all duration-300">
+        OK
+      </button>
+
+    </ng-template>
   </div>
 </div>

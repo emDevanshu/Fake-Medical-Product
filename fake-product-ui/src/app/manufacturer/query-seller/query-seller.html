@@ -38,38 +38,46 @@
   </div>
 
   <!-- Sellers Table -->
-  <div *ngIf="sellers && sellers.length > 0"
-       class="w-full max-w-6xl mt-12 bg-[#FFFDF7] rounded-2xl shadow-lg p-8 overflow-x-auto">
+  <div class="w-full max-w-6xl mt-12 bg-[#FFFDF7] rounded-2xl shadow-lg p-8 overflow-x-auto">
     <h3 class="text-2xl font-semibold text-[#3E2723] mb-4 text-center">Registered Sellers</h3>
     <p class="text-center text-gray-600 mb-6">Following are the sellers registered through Blockchain Network</p>
 
-    <table class="min-w-full border border-[#C49E6C] rounded-lg overflow-hidden">
-      <thead class="bg-[#C49E6C] text-white">
-      <tr>
-        <th class="py-3 px-4 text-left">S. No.</th>
-        <th class="py-3 px-4 text-left">Seller ID</th>
-        <th class="py-3 px-4 text-left">Name</th>
-        <th class="py-3 px-4 text-left">Brand</th>
-        <th class="py-3 px-4 text-left">Number</th>
-        <th class="py-3 px-4 text-left">Manager</th>
-        <th class="py-3 px-4 text-left">Address</th>
-      </tr>
-      </thead>
-      <tbody class="text-black">
-      <tr
-        *ngFor="let seller of sellers; let i = index"
-        class=" hover:bg-[#FAF4E8] transition"
-      >
-        <td class="py-3 px-4">{{ i + 1 }}</td>
-        <td class="py-3 px-4">{{ seller.sellerId }}</td>
-        <td class="py-3 px-4">{{ seller.sellerName }}</td>
-        <td class="py-3 px-4">{{ seller.sellerBrand }}</td>
-        <td class="py-3 px-4">{{ seller.sellerNum }}</td>
-        <td class="py-3 px-4">{{ seller.sellerManager }}</td>
-        <td class="py-3 px-4">{{ seller.sellerAddress }}</td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="overflow-x-auto relative min-h-[100px]">
+      <div *ngIf="loading"
+           class="absolute inset-0 bg-white bg-opacity-70 backdrop-blur-sm flex justify-center items-center z-10">
+        <div class="flex flex-col items-center">
+          <div class="loader mb-3"></div>
+          <p class="text-gray-700 font-medium">Fetching Seller list...</p>
+        </div>
+      </div>
+      <table class="min-w-full border border-[#C49E6C] rounded-lg overflow-hidden">
+        <thead class="bg-[#C49E6C] text-white">
+        <tr>
+          <th class="py-3 px-4 text-left">S. No.</th>
+          <th class="py-3 px-4 text-left">Seller ID</th>
+          <th class="py-3 px-4 text-left">Name</th>
+          <th class="py-3 px-4 text-left">Brand</th>
+          <th class="py-3 px-4 text-left">Number</th>
+          <th class="py-3 px-4 text-left">Manager</th>
+          <th class="py-3 px-4 text-left">Address</th>
+        </tr>
+        </thead>
+        <tbody class="text-black">
+        <tr
+          *ngFor="let seller of sellers; let i = index"
+          class=" hover:bg-[#FAF4E8] transition"
+        >
+          <td class="py-3 px-4">{{ i + 1 }}</td>
+          <td class="py-3 px-4">{{ seller.sellerId }}</td>
+          <td class="py-3 px-4">{{ seller.sellerName }}</td>
+          <td class="py-3 px-4">{{ seller.sellerBrand }}</td>
+          <td class="py-3 px-4">{{ seller.sellerNum }}</td>
+          <td class="py-3 px-4">{{ seller.sellerManager }}</td>
+          <td class="py-3 px-4">{{ seller.sellerAddress }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="text-center mt-6">
       <p>Your address is <b class="text-[#8B5E34]">{{ userAddress }}</b></p>

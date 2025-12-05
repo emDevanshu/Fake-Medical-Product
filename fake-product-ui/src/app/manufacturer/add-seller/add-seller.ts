@@ -40,6 +40,7 @@ export class AddSellerComponent implements OnInit{
   }
 
   async addSeller() {
+    this.popup.openLoading("Checking seller details...");
     try {
       const conflictInfo = await this.web3Service.checkSellerConflict(
         this.SellerID,
@@ -54,6 +55,7 @@ export class AddSellerComponent implements OnInit{
 
       // 2️⃣ If conflict exists → Show modal
       if (conflictInfo.hasConflict) {
+        this.popup.close();
         this.duplicateData = {
           existing: conflictInfo.existingSeller,
           entered: conflictInfo.enteredSeller
@@ -66,6 +68,7 @@ export class AddSellerComponent implements OnInit{
       }
 
       // No conflict → directly add
+      this.popup.openLoading("Creating blockchain transaction...");
       await this.proceedAddSeller();
     }
     catch (error : any) {
@@ -77,6 +80,7 @@ export class AddSellerComponent implements OnInit{
   }
 
   async proceedAddSeller() {
+    this.popup.openLoading("Creating blockchain transaction...");
     try {
       const success = await this.web3Service.addSeller(
         this.manufacturerID,
@@ -110,7 +114,7 @@ export class AddSellerComponent implements OnInit{
 
   async addExistingSeller() {
     this.duplicatePopup = false;
-
+    this.popup.openLoading("Adding existing seller from records...");
     try {
       const s = this.existingSellerToAdd;
 

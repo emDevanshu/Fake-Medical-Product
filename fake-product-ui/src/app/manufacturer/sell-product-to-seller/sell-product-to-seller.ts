@@ -29,6 +29,7 @@ export class SellProductToSellerComponent implements OnInit{
   uploading = false;
   previewImage: string | null = null;
   qrScanned = false;
+  loadingQR: boolean = false;
 
   @ViewChild('popup') popup!: PopupDialogComponent;
 
@@ -39,6 +40,7 @@ export class SellProductToSellerComponent implements OnInit{
   }
 
   async sellToSeller(): Promise<void> {
+    this.loadingQR = true;
     try {
       if (!this.productSN) {
         alert('Please scan a product QR first.');
@@ -70,6 +72,9 @@ export class SellProductToSellerComponent implements OnInit{
       } else {
         alert("Transaction failed. Check console.");
       }
+    } finally {
+      this.loadingQR = false;
+      this.cdr.detectChanges();
     }
   }
 
