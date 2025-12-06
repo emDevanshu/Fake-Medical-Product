@@ -1,15 +1,17 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {Web3Service} from '../../services/web3.service';
 import {Html5Qrcode} from 'html5-qrcode';
+import {PopupDialogComponent} from '../../shared/popup-dialog/popup-dialog';
 
 @Component({
   selector: 'app-sell-product-to-consumer',
   imports: [
     FormsModule,
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PopupDialogComponent
   ],
   templateUrl: './sell-product-to-consumer.html',
   styleUrl: './sell-product-to-consumer.css',
@@ -22,6 +24,8 @@ export class SellProductToConsumerComponent {
   qrScanned = false;
   showSuccessPopup = false;
   loadingQR: boolean = false;
+
+  @ViewChild('popup') popup!: PopupDialogComponent;
 
   constructor(private web3Service : Web3Service, private cdr: ChangeDetectorRef) {
   }
@@ -47,9 +51,16 @@ export class SellProductToConsumerComponent {
       } else {
         alert('Transaction failed. Please try again.');
       }
-    } catch (error) {
-      console.error('❌ Error selling product:', error);
-      alert('Transaction failed. Check console for details.');
+    } catch (error: any) {
+      if (error.message) {
+        this.popup.open({
+          success: false,
+          message: error.message || "Something went wrong"
+        });
+      } else {
+        console.error('❌ Error selling product:', error);
+        alert('Transaction failed. Check console for details.');
+      }
     } finally {
       this.loadingQR = false;
       this.cdr.detectChanges();
