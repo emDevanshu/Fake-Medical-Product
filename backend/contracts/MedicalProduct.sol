@@ -227,20 +227,21 @@ contract MedicalProduct {
 
         productItem storage item = productItems[_productSN];
 
-        bytes32 pStatus = item.productStatus;
-        if (pStatus == "Available") {
-            item.productStatus = "Sold";
-            productsWithConsumer[_consumerID].push(_productSN);
-            productsSold[_productSN] = _consumerID;
-            sellingTime[_productSN] = _productTime;
+        // Prevent double selling
+        require(item.productStatus == "Available", "Product already sold.");
 
-            //Reducing the medcount
-            bytes32 manufacturerID = item.manufacturerId;
-            uint256 productID = item.productId;
-            Manufac storage manufacturer = manufacturers[manufacturerID];
-            Medicine storage medicine = manufacturer.products[productID];
-            medicine.medcount--;
-        }
+        item.productStatus = "Sold";
+        productsWithConsumer[_consumerID].push(_productSN);
+        productsSold[_productSN] = _consumerID;
+        sellingTime[_productSN] = _productTime;
+
+        //Reducing the medcount
+        bytes32 manufacturerID = item.manufacturerId;
+        uint256 productID = item.productId;
+        Manufac storage manufacturer = manufacturers[manufacturerID];
+        Medicine storage medicine = manufacturer.products[productID];
+        medicine.medcount--;
+
     }
 
     function checkStatus(bytes32 _productSN) public view returns (bytes32) {

@@ -364,6 +364,16 @@ export class Web3Service {
       const encodedConsumerID = ethers.encodeBytes32String(consumerID);
       const encodedProductTime = ethers.encodeBytes32String(new Date().toISOString());
 
+      // Making a static call to the contract to get the error if any
+      try {
+        await this.contract['sellerSellProduct'].staticCall(encodedProductSN, encodedConsumerID, encodedProductTime);
+      } catch (staticError: any) {
+        let message = "Transaction failed";
+        if (staticError.reason) message = staticError.reason;
+        console.log(message);
+        throw new Error(message);
+      }
+
       console.log('🧾 Selling product:', {
         productSN,
         consumerID,
@@ -386,9 +396,9 @@ export class Web3Service {
       console.log('✅ Transaction confirmed:', receipt);
 
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Error selling product to consumer:', error);
-      return false;
+      throw error;
     }
   }
 
